@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JobRad 2.0 · Episode 1 · The Journey Begins</title>
+<link rel="icon" href="JobRad Favicon Pink auf Anthrazit.png" type="image/png"/>
+<script>
+  // Page-transition fade — if arriving from another page, start with overlay visible
+  if (new URLSearchParams(location.search).get('from')) {
+    document.documentElement.classList.add('fading-in');
+  }
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#9DDE4C;--green-dark:#66B216;--green-deep:#29363C;
+  --green-light:#F2FBE7;--green-mid:#C5ED82;--green-xlight:#F8FDF4;
+  --bg:#F5F5F0;--bg2:#EEEEE8;--white:#FFFFFF;
+  --border:#E2E2DB;--border2:#D4D4CC;
+  --t1:#18180F;--t2:#5A5A50;--t3:#9A9A90;
+  --amber:#FEF3C7;--amber-text:#92400E;--amber-mid:#FCD34D;
+  --r:10px;--r-sm:6px;--r-lg:16px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.07),0 2px 4px -1px rgba(0,0,0,.04);
+}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--t1);min-height:100vh;font-size:14px;line-height:1.5}
+
+/* ── Screen bar ── */
+.screen-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 40px;display:flex;align-items:center;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.screen-btn{padding:6px 14px;border-radius:var(--r-sm);border:.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;margin-left:8px;white-space:nowrap}
+.screen-btn.active{background:var(--green);color:#29363C;border-color:var(--green);font-weight:600}
+.screen-btn:hover:not(.active){background:var(--bg2)}
+.screen-bar-left{min-width:80px;display:flex;align-items:center}
+.screen-bar-nav{flex:1;display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.screen-bar-nav::-webkit-scrollbar{display:none}
+.screen-bar-right{min-width:80px;display:flex;align-items:center;justify-content:flex-end}
+.screen-bar-hub{font-size:9px;color:var(--t1);text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.05em;transition:opacity .15s}
+.screen-bar-hub:hover{opacity:.6}
+.screen-bar-divider{width:1px;height:22px;background:var(--border2);margin:0 20px 0 28px;flex-shrink:0}
+.screen-bar-zone{font-size:9px;color:var(--t1);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin:0 6px 0 0;align-self:center;white-space:nowrap}
+
+/* ── Scenes ── */
+.scene{display:none}
+.scene.active{display:block}
+
+/* ── Scene 1: 95% counter ── */
+.s1-wrap{position:relative;min-height:calc(100vh - 46px);display:flex;background:#29363C;cursor:default}
+.s1-phase1,.s1-phase2{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px}
+.s1-number{font-size:18vw;font-weight:700;color:var(--green);line-height:1;letter-spacing:-.06em;font-family:'DM Sans',sans-serif;text-align:center;text-shadow:0 0 80px rgba(157,222,76,.28);transition:opacity .8s ease}
+.s1-subline-slot{position:relative;margin-top:16px;max-width:540px;width:100%}
+.s1-text{font-size:clamp(14px,1.8vw,20px);color:#fff;text-align:center;line-height:1.65;opacity:0;transform:translateY(8px);transition:opacity .9s ease,transform .9s ease}
+.s1-text.visible{opacity:.72;transform:translateY(0)}
+.s1-fadeout{opacity:0!important}
+.s1-bisjetzt{position:absolute;top:0;left:0;right:0;font-size:clamp(14px,1.8vw,20px);font-weight:700;color:#fff;text-align:center;line-height:1.65;opacity:0;transition:opacity 1s ease}
+.s1-bisjetzt.visible{opacity:.72}
+.s1-hint{position:absolute;bottom:10vh;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;color:#fff;letter-spacing:.10em;opacity:0;transition:opacity .7s ease}
+.s1-hint.visible{opacity:.50}
+.kbd{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.25);border-radius:5px;padding:4px 0;font-size:12px;font-weight:600;letter-spacing:.10em;color:rgba(255,255,255,.50);min-width:210px}
+
+/* ── Scene transition overlay (Scene 1 → 2 dissolve) ── */
+#scene-fade-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#29363C;opacity:0;pointer-events:none;z-index:9999;transition:opacity 425ms ease-in-out}
+#scene-fade-overlay.in{opacity:1}
+html.fading-in #scene-fade-overlay{opacity:1}
+
+/* ── Mobile scene wrapper (scenes 2–4 and scene 6 mobile states) ── */
+.mobile-scene{min-height:calc(100vh - 46px);background:var(--bg2);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px 60px}
+.mobile-ui{width:390px;height:720px;flex-shrink:0;background:var(--bg);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.07),0 0 0 .5px rgba(0,0,0,.05);display:flex;flex-direction:column}
+
+/* ── Mobile top nav ── */
+.m-nav{background:var(--white);border-bottom:.5px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.m-logo{display:flex;align-items:center}
+.nav-wordmark{height:20px;width:auto;display:block}
+.m-hamburger{display:flex;flex-direction:column;gap:5px;padding:2px 0;cursor:default}
+.m-hamburger span{display:block;width:20px;height:2px;background:var(--t2);border-radius:1px}
+
+/* ── Mobile content ── */
+.m-content{padding:20px 16px;flex:1;overflow-y:auto}
+.m-title{font-size:18px;font-weight:600;margin-bottom:4px;color:var(--t1)}
+.m-sub{font-size:13px;color:var(--t2);margin-bottom:20px;line-height:1.5}
+
+/* ── Bike Finder ── */
+.finder-filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;-ms-overflow-style:none;scrollbar-width:none}
+.finder-filters::-webkit-scrollbar{display:none}
+.filter-pill{font-size:12px;font-weight:500;padding:7px 14px;border-radius:99px;border:1px solid var(--border2);background:var(--white);color:var(--t2);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.filter-pill.active{background:var(--t1);color:#fff;border-color:var(--t1)}
+.bike-card{border:.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;cursor:default;background:var(--white);transition:border-color .2s,box-shadow .2s,transform .15s}
+.bike-card.selectable{cursor:pointer}
+.bike-card.selectable:hover{border-color:var(--green)}
+.bike-card.highlight{border:1.5px solid var(--green);box-shadow:0 4px 12px rgba(157,222,76,.12),0 1px 3px rgba(0,0,0,.05);transform:translateY(-1px)}
+.bc-img{height:150px;background:var(--bg2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.bc-img img{width:100%;height:100%;object-fit:cover}
+.bc-body{padding:12px 14px}
+.bc-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px}
+.bc-name{font-size:15px;font-weight:600;color:var(--t1)}
+.bc-rate{font-size:17px;font-weight:700;color:var(--t1)}
+.bc-unit{font-size:10px;color:var(--t3)}
+.bc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.bc-sizes{display:none;gap:5px;margin-top:13px;align-items:center}
+.bc-sizes.visible{display:flex}
+.bc-sizes-label{font-size:10px;color:var(--t3);margin-right:2px}
+.size-chip{font-size:11px;font-weight:500;padding:3px 10px;border-radius:4px;border:.5px solid var(--border2);color:var(--t2);background:var(--white)}
+.size-chip.selected{background:var(--t1);color:#fff;border-color:var(--t1)}
+.tag{font-size:10px;color:var(--t2);background:var(--bg2);padding:3px 8px;border-radius:99px}
+.pill{display:inline-flex;align-items:center;font-size:10px;font-weight:500;padding:3px 9px;border-radius:99px}
+.pill-green{background:var(--green-light);color:var(--green-deep)}
+.pill-amber{background:var(--amber);color:var(--amber-text)}
+.finder-note{font-size:11px;color:var(--t3);text-align:center;margin-top:8px;line-height:1.5;padding:0 4px}
+
+/* ── Rate hero (mobile) ── */
+.rate-hero{background:var(--green);border-radius:var(--r-lg);padding:20px 16px;text-align:center;margin-bottom:16px}
+.rh-label{font-size:11px;color:var(--green-deep);margin-bottom:6px;font-weight:500;opacity:.8}
+.rh-rate{font-size:44px;font-weight:600;color:#29363C;line-height:1}
+.rh-unit{font-size:13px;color:var(--green-deep);margin-top:4px;opacity:.7}
+.rh-badge{background:rgba(41,54,60,.12);padding:6px 14px;border-radius:99px;display:inline-block;margin-top:12px}
+.rh-badge-text{font-size:11px;color:#29363C}
+.rh-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.rh-cell{background:rgba(41,54,60,.12);border-radius:8px;padding:10px}
+.rh-cell-label{font-size:9px;color:rgba(41,54,60,.6);text-transform:uppercase;letter-spacing:.04em}
+.rh-cell-value{font-size:14px;color:#29363C;font-weight:600;margin-top:3px}
+
+/* ── Magic Link confirmation ── */
+@keyframes confirmCircleIn{0%{transform:scale(0);opacity:0}65%{transform:scale(1.12);opacity:1}82%{transform:scale(0.95)}100%{transform:scale(1)}}
+@keyframes checkDraw{to{stroke-dashoffset:0}}
+@keyframes confirmTextIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.confirm-circle-wrap{animation:confirmCircleIn .45s cubic-bezier(.34,1.56,.64,1) both}
+.check-stroke{animation:checkDraw .3s ease .35s both}
+.confirm-t1{animation:confirmTextIn .3s ease .42s both}
+.confirm-t2{animation:confirmTextIn .3s ease .52s both}
+.confirm-t3{animation:confirmTextIn .3s ease .60s both}
+
+/* ── Login recognition elements ── */
+.recognition-el{opacity:0;transform:translateY(-6px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
+.recognition-el.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.recognition-a{display:flex;align-items:center;gap:6px;margin-top:2px;margin-bottom:10px;font-size:12px;font-weight:500;color:var(--green-dark)}
+.recognition-b{margin-top:2px;margin-bottom:10px}
+.recognition-b-inner{display:inline-flex;align-items:center;gap:7px;background:var(--green-xlight);border:.5px solid rgba(157,222,76,.45);border-radius:99px;padding:5px 11px 5px 7px}
+.recognition-b-check{width:17px;height:17px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#29363C;flex-shrink:0}
+.recognition-b-text{font-size:11px;font-weight:600;color:var(--green-deep)}
+
+/* ── Berechtigt card ── */
+.berechtigt-card{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+.berechtigt-head{background:var(--green-light);padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:.5px solid rgba(157,222,76,.4)}
+.berechtigt-badge{width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#29363C;font-weight:700;flex-shrink:0}
+.berechtigt-title{font-size:13px;font-weight:600;color:var(--green-deep)}
+.berechtigt-body{padding:12px 14px}
+.berechtigt-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid var(--border)}
+.berechtigt-row:last-child{border-bottom:none}
+.berechtigt-check{width:18px;height:18px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green-deep);font-weight:700;flex-shrink:0}
+.berechtigt-text{font-size:12px;color:var(--t2)}
+.berechtigt-value{font-size:12px;font-weight:600;color:var(--t1);margin-left:auto;white-space:nowrap}
+
+/* ── OTP display ── */
+.otp-wrap{display:flex;gap:8px;justify-content:center;margin:20px 0}
+.otp-digit{width:44px;height:52px;border:1.5px solid var(--border2);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600;color:var(--t1);font-family:'DM Mono',monospace;background:var(--bg)}
+.otp-digit.filled{border-color:var(--green);background:var(--white)}
+
+/* ── Card ── */
+.card{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+.card-header{padding:9px 14px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;justify-content:space-between}
+.card-body{padding:14px}
+
+/* ── Cart bike ── */
+.cart-bike-img{width:100%;height:200px;background:var(--bg2);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.cart-bike-img img{width:100%;height:100%;object-fit:contain;object-position:center center;padding:10px}
+.cart-bike-name{font-size:15px;font-weight:600;color:var(--t1)}
+.cart-bike-meta{font-size:12px;color:var(--t2);margin-top:3px}
+.cart-bike-tags{display:flex;gap:6px;margin-top:13px;flex-wrap:wrap}
+
+/* ── Accessory ── */
+.acc-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid var(--border)}
+.acc-item:last-child{border-bottom:none}
+.acc-icon{width:32px;height:32px;background:var(--bg2);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.acc-info{flex:1}
+.acc-name{font-size:12px;font-weight:500;color:var(--t1)}
+.acc-price{font-size:11px;color:var(--t3)}
+.acc-check{width:20px;height:20px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green-deep);font-weight:700;flex-shrink:0}
+.acc-cb{width:18px;height:18px;border:1.5px solid var(--border2);border-radius:3px;flex-shrink:0}
+.acc-cb.checked{background:var(--green);border-color:var(--green);display:flex;align-items:center;justify-content:center}
+.acc-cb.checked::after{content:'✓';font-size:10px;color:#29363C;font-weight:700}
+
+/* ── Rate mini ── */
+.rate-mini{background:var(--green-deep);border-radius:var(--r);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.rm-label{font-size:11px;color:rgba(255,255,255,.5)}
+.rm-rate{font-size:18px;font-weight:600;color:var(--green)}
+
+/* ── Rate summary (Warenkorb compact) ── */
+.rate-summary{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.rs-label{font-size:10px;color:var(--t3)}
+.rs-rate{font-size:17px;font-weight:700;color:var(--t1)}
+
+/* ── Service packages (mobile, 2×2 grid) ── */
+.pkg-stack{display:flex;flex-direction:column;gap:14px;padding:4px 0 2px}
+.pkg{border:.5px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;position:relative;background:var(--white);transition:all .15s}
+.pkg:hover{border-color:var(--green)}
+.pkg.selected{border:1.5px solid var(--green);box-shadow:0 4px 12px rgba(157,222,76,.12),0 1px 3px rgba(0,0,0,.05);transform:translateY(-1px)}
+.pkg.recommended{padding-top:24px}
+.pkg-rec-badge{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--green);color:#29363C;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pkg-name{font-size:15px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.pkg-rate{font-size:12px;color:var(--green-deep);font-weight:500}
+.pkg-items{font-size:10px;color:var(--t3);margin-top:5px;line-height:1.4}
+
+/* ── Cart sticky footer ── */
+.cart-footer{background:#fff;border-top:.5px solid var(--border);padding:14px 16px 16px;flex-shrink:0}
+.cf-label{font-size:10px;color:var(--t3);display:block;margin-bottom:4px}
+.cf-rate{font-size:20px;font-weight:700;color:var(--t1);display:block;margin-bottom:15px;line-height:1.1}
+
+/* ── Rate update animation ── */
+@keyframes rateFlash{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
+.rate-flash{animation:rateFlash .35s ease-out}
+
+/* ── Dealer finder ── */
+.map-box{width:100%;height:280px;border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;position:relative}
+.map-box img{width:100%;height:100%;object-fit:cover;display:block}
+.map-pin{position:absolute;width:26px;height:26px;background:rgba(41,54,60,.80);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.28);border:2px solid #fff;transition:all .2s}
+.map-pin.active{background:var(--green);color:#29363C;width:30px;height:30px;font-size:12px}
+.dealer-row{border:.5px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;cursor:pointer;background:var(--white);transition:all .15s}
+.dealer-row:last-of-type{margin-bottom:0}
+.dealer-row.selected{border:1.5px solid var(--green);box-shadow:0 4px 12px rgba(157,222,76,.12),0 1px 3px rgba(0,0,0,.05);transform:translateY(-1px)}
+.dr-top{display:flex;justify-content:space-between;align-items:flex-start}
+.dr-name{font-size:15px;font-weight:600;color:var(--t1)}
+.dr-dist{font-size:11px;color:var(--t3)}
+.dr-addr{font-size:12px;color:var(--t2);margin-top:2px}
+.dr-tags{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.appt-slot{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;cursor:pointer;transition:all .15s;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.appt-slot.selected{border-color:var(--green);box-shadow:0 4px 12px rgba(157,222,76,.12),0 1px 3px rgba(0,0,0,.05);transform:translateY(-1px)}
+.appt-time{font-size:14px;font-weight:500;color:var(--t1)}
+.appt-avail{font-size:12px;color:var(--t3)}
+textarea.m-note{width:100%;padding:10px 12px;border:1px solid var(--border2);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--t1);resize:none;outline:none;min-height:72px;line-height:1.5;margin-top:8px}
+textarea.m-note:focus{border-color:var(--green)}
+textarea.m-note[data-locked]{opacity:.42;cursor:default}
+
+/* ── Bottom bar (mobile) ── */
+.m-bottom{background:var(--white);border-top:.5px solid var(--border);padding:14px 16px;display:flex;gap:10px;flex-shrink:0}
+.btn-primary{background:var(--green);color:#29363C;border:none;border-radius:var(--r-sm);padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;flex:1;transition:background .15s;text-align:center;line-height:1.2}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-primary:disabled{opacity:.4;cursor:default;}
+.btn-ghost{background:none;color:var(--t2);border:.5px solid var(--border2);border-radius:var(--r-sm);padding:14px 12px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .15s}
+.btn-ghost:hover{background:var(--bg2)}
+
+/* ── Sub-states ── */
+.sub-state{display:none}
+.sub-state.active{display:flex;flex-direction:column;flex:1;min-height:0}
+
+/* ── NUV overlay ── */
+@keyframes phoneBuzz{0%,100%{transform:translateY(0) rotate(0)}15%{transform:translateY(-2px) rotate(-.3deg)}35%{transform:translateY(2px) rotate(.3deg)}55%{transform:translateY(-1px) rotate(-.2deg)}75%{transform:translateY(1px) rotate(.2deg)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.cursor{display:inline-block;animation:blink .65s step-end infinite;font-weight:300;color:var(--t1);margin-left:1px}
+.rrh-welcome{margin-bottom:14px}
+.rrh-welcome-title{font-size:22px;font-weight:700;color:var(--t1);letter-spacing:-.01em;line-height:1.1}
+.rrh-welcome-sub{font-size:12px;color:var(--t2);margin-top:4px}
+.rrh-hero{background:var(--green);border-radius:var(--r-lg);padding:32px 20px 28px;text-align:center;margin-bottom:14px}
+.rrh-label{font-size:12px;color:rgba(41,54,60,.65);margin-bottom:10px;font-weight:500}
+.rrh-rate{font-size:52px;font-weight:700;color:#29363C;line-height:1;letter-spacing:-.02em}
+.rrh-savings{display:inline-block;background:var(--green-light);color:var(--green-deep);border-radius:99px;padding:7px 14px;font-size:12px;font-weight:500;margin-top:12px}
+.rrh-body{padding:20px 16px;overflow-y:auto;flex:1}
+.rrh-breakdown{margin-top:16px;border-top:1px solid rgba(41,54,60,.18);padding-top:12px;text-align:left}
+.rrh-bd-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(41,54,60,.1)}
+.rrh-bd-row:last-child{border-bottom:none;padding-bottom:0}
+.rrh-bd-label{font-size:12px;color:rgba(41,54,60,.7)}
+.rrh-bd-value{font-size:12px;font-weight:600;color:#29363C}
+.nuv-overlay{display:none;position:fixed;inset:0;background:rgba(10,16,12,.93);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+.nuv-overlay.active{display:flex}
+.nuv-phone{width:300px;border-radius:46px;background:#161616;padding:11px;box-shadow:0 0 0 1px #252525,0 60px 120px rgba(0,0,0,.85),0 0 60px rgba(157,222,76,.06);transform:translateY(50px);opacity:0;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .5s}
+.nuv-phone.visible{transform:translateY(0);opacity:1}
+.nuv-phone.buzz{animation:phoneBuzz .5s ease-out}
+.nuv-screen{border-radius:37px;overflow:hidden;background:linear-gradient(160deg,#1C2820 0%,#0D1410 100%);min-height:500px;position:relative}
+.nuv-inbox-screen{border-radius:37px;overflow:hidden;background:#fff;min-height:500px;display:none;flex-direction:column;opacity:0;transition:opacity .6s ease}
+.nuv-inbox-screen.visible{display:flex;opacity:1}
+.nuv-time-area{text-align:center;padding:48px 0 24px}
+.nuv-time-num{font-size:60px;font-weight:200;letter-spacing:-.02em;color:rgba(255,255,255,.9);font-family:'DM Sans',sans-serif;line-height:1}
+.nuv-time-date{font-size:11px;color:rgba(255,255,255,.32);margin-top:4px}
+.nuv-notif{margin:0 10px;background:rgba(255,255,255,.10);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:14px;padding:11px 13px;cursor:pointer;transform:translateY(-80px);opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1) .35s,opacity .4s ease .35s}
+.nuv-notif.visible{transform:translateY(0);opacity:1}
+.nuv-notif:hover{background:rgba(255,255,255,.16)}
+.nuv-notif:active{transform:scale(.97)}
+.nuv-notif-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.nuv-notif-icon{width:24px;height:24px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#29363C;font-family:'DM Mono',monospace;flex-shrink:0}
+.nuv-notif-app{font-size:11px;font-weight:500;color:rgba(255,255,255,.55)}
+.nuv-notif-ts{font-size:10px;color:rgba(255,255,255,.28);margin-left:auto}
+.nuv-notif-msg{font-size:13px;color:#fff;font-weight:500;line-height:1.4}
+.nuv-notif-sub{font-size:11px;color:rgba(255,255,255,.38);margin-top:3px}
+.nuv-caption{font-size:11px;color:#fff;letter-spacing:.04em;text-align:center;white-space:nowrap;opacity:0;transition:opacity .6s 1s}
+.nuv-caption.visible{opacity:.38}
+
+/* ── Scene 5: Dealer tablet (820px) ── */
+.dealer-scene{min-height:calc(100vh - 46px);background:var(--bg2)}
+.dealer-bar{background:var(--t1);display:flex;align-items:center;justify-content:flex-end;padding:0 32px;height:44px}
+.dbar-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:500}
+.dealer-nav{background:var(--white);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;padding:0 32px;gap:18px;position:sticky;top:46px;z-index:90}
+.dealer-nav-logo{display:flex;align-items:center;gap:10px}
+.dnl-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#29363C;font-family:'DM Mono',monospace;flex-shrink:0}
+.dnl-name{font-size:15px;font-weight:600;color:var(--t1)}
+.dnl-divider{width:1px;height:32px;background:var(--border);margin:0 6px;flex-shrink:0}
+.dealer-context{display:flex;flex-direction:column;gap:1px;justify-content:center}
+.dealer-context-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.dealer-context-name{font-size:13px;color:var(--t1);font-weight:500;line-height:1.1}
+.dealer-nav-spacer{flex:1}
+.nav-user-trigger{display:flex;align-items:center;gap:8px;cursor:default;padding:5px 8px;border-radius:var(--r-sm);transition:background .15s}
+.nav-user-trigger:hover{background:var(--bg2)}
+.nav-avatar{width:32px;height:32px;border-radius:50%;background:var(--bg2);color:var(--t2);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;letter-spacing:.5px}
+.nav-user-name{font-size:12px;font-weight:500;color:var(--t1)}
+.dealer-subnav{background:var(--white);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;justify-content:center;position:sticky;top:110px;z-index:88}
+.nav-step{display:flex;align-items:center;gap:8px;padding:0 16px;font-size:12px;color:var(--t3)}
+.nav-step.active{color:var(--green-dark);font-weight:500}
+.nav-step.done{color:var(--t2)}
+.nav-step-num{width:22px;height:22px;border-radius:50%;background:var(--border);color:var(--t3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.nav-step.active .nav-step-num{background:var(--green);color:#29363C;font-weight:700}
+.nav-step.done .nav-step-num{background:var(--green-light);color:var(--green-dark)}
+.nav-step-connector{width:40px;height:1px;background:var(--border);flex-shrink:0}
+.nav-step.done+.nav-step-connector,.nav-step-connector.done{background:var(--green)}
+.dealer-nav-right{min-width:160px;display:flex;justify-content:flex-end;align-items:center;font-size:12px;color:var(--t3)}
+
+.dealer-header{width:100%;max-width:820px;margin:0 auto;padding:28px 32px 24px 36px;box-sizing:border-box}
+.dh-title{font-size:22px;font-weight:600;color:var(--t1)}
+.dh-sub{font-size:13px;color:var(--t2);margin-top:4px}
+.dh-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-xlight);color:var(--green-deep);border:.5px solid rgba(157,222,76,.3);font-size:11px;font-weight:500;padding:4px 12px;border-radius:99px;margin-top:10px}
+.edit-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:.5px solid var(--border)}
+.edit-row:last-child{border-bottom:none}
+.er-info{flex:1}
+.er-name{font-size:13px;font-weight:500;color:var(--t1)}
+.er-price{font-size:12px;color:var(--t3);margin-top:2px}
+.er-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.d-action-row{display:flex;gap:8px;margin-top:12px}
+.dealer-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:24px;width:100%;max-width:820px;margin:0 auto;padding:16px 32px 60px;align-items:start;box-sizing:border-box}
+
+.d-card{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+.d-card-head{padding:10px 16px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;justify-content:space-between}
+.d-card-head.green{background:var(--green-deep);color:rgba(255,255,255,.6)}
+.d-card-body{padding:16px}
+
+.list-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:.5px solid var(--border)}
+.list-row:last-child{border-bottom:none}
+.lr-label{font-size:13px;color:var(--t2)}
+.lr-value{font-size:13px;font-weight:500;text-align:right}
+
+.service-opt{border:1.5px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;position:relative;transition:all .15s;margin-bottom:10px}
+.service-opt:last-child{margin-bottom:0}
+.service-opt:hover{border-color:var(--border2)}
+.service-opt.selected{border-color:var(--green);box-shadow:0 4px 12px rgba(157,222,76,.12),0 1px 3px rgba(0,0,0,.05);transform:translateY(-1px)}
+.so-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.so-name{font-size:14px;font-weight:600;color:var(--t1)}
+.so-price{font-size:13px;font-weight:600;color:var(--green-deep)}
+.so-tagline{font-size:12px;color:var(--t2);margin-bottom:8px;line-height:1.4}
+.so-features{font-size:11px;color:var(--t3);line-height:1.6;list-style:none}
+.so-features li::before{content:'·';color:var(--green);margin-right:6px;font-weight:600}
+.so-dealer-badge{position:absolute;top:-10px;left:14px;background:var(--green);color:#29363C;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.02em;display:none}
+.so-dealer-badge.show{display:block}
+.so-recommend-note{display:none;align-items:center;gap:6px;background:var(--amber);color:var(--amber-text);font-size:10px;font-weight:600;padding:5px 10px;border-radius:99px;margin-top:8px;width:fit-content}
+.so-recommend-note.show{display:inline-flex}
+
+.rate-sticky{position:sticky;top:96px}
+.d-rate-hero{background:var(--green);border-radius:var(--r-lg);padding:20px;text-align:center;margin-bottom:16px}
+.drh-label{font-size:11px;color:var(--green-deep);margin-bottom:6px;opacity:.8}
+.drh-rate{font-size:40px;font-weight:600;color:#29363C;line-height:1;transition:all .3s}
+.drh-unit{font-size:12px;color:var(--green-deep);margin-top:4px;opacity:.7}
+.drh-cells{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.drh-cell{background:rgba(41,54,60,.12);border-radius:8px;padding:10px}
+.drh-cell-label{font-size:9px;color:rgba(41,54,60,.6);text-transform:uppercase;letter-spacing:.04em}
+.drh-cell-value{font-size:12px;color:#29363C;font-weight:600;margin-top:3px}
+
+.note-box{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:14px}
+.nb-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;font-weight:600}
+.nb-text{font-size:12px;color:var(--t2);line-height:1.6;font-style:italic}
+
+.d-btn{width:100%;padding:13px 20px;border-radius:var(--r-sm);font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .15s;text-align:center;margin-top:12px}
+.d-btn-primary{background:var(--green);color:#29363C}
+.d-btn-primary:hover{background:var(--green-dark)}
+.d-btn-secondary{background:var(--white);color:var(--t1);border:.5px solid var(--border2)}
+.d-btn-secondary:hover{background:var(--bg2)}
+
+/* ── Scene 6 — lock screen sub-state ── */
+.lockscreen-wrap{min-height:calc(100vh - 46px);background:linear-gradient(160deg,#1C2820 0%,#0D1410 100%);display:flex;align-items:flex-start;justify-content:center;padding:60px 16px 40px}
+.lockscreen-inner{width:340px}
+.lock-time{text-align:center;padding-bottom:24px}
+.lock-time-num{font-size:60px;font-weight:200;letter-spacing:-.02em;color:rgba(255,255,255,.9);line-height:1}
+.lock-date{font-size:12px;color:rgba(255,255,255,.32);margin-top:5px}
+.push-notif{background:rgba(255,255,255,.12);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:14px;padding:13px 15px;cursor:pointer;transition:background .15s}
+.push-notif:hover{background:rgba(255,255,255,.18)}
+.push-notif:active{transform:scale(.98)}
+.pn-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.pn-icon{width:26px;height:26px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#29363C;flex-shrink:0}
+.pn-app{font-size:11px;font-weight:500;color:rgba(255,255,255,.55)}
+.pn-ts{font-size:10px;color:rgba(255,255,255,.28);margin-left:auto}
+.pn-msg{font-size:14px;color:#fff;font-weight:600;line-height:1.3}
+.pn-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;line-height:1.4}
+
+/* ── Scene 6 — cart summary & CTA (mobile) ── */
+.cart-summary-rate{background:var(--green);border-radius:var(--r-lg);padding:18px 16px;text-align:center;margin-bottom:14px}
+.csr-label{font-size:11px;color:var(--green-deep);margin-bottom:4px;opacity:.8;font-weight:500}
+.csr-rate{font-size:42px;font-weight:600;color:#29363C;line-height:1}
+.csr-unit{font-size:12px;color:var(--green-deep);margin-top:3px;opacity:.7}
+.upgrade-row{display:flex;align-items:center;gap:6px;background:var(--amber);border-radius:var(--r-sm);padding:6px 10px;margin-top:8px;font-size:10px;font-weight:600;color:var(--amber-text)}
+.dealer-rec-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-xlight);color:var(--green-deep);font-size:10px;font-weight:600;padding:4px 10px;border-radius:99px;margin-top:6px}
+
+.jetzt-leasen-section{padding:16px}
+.jl-rate-big{font-size:38px;font-weight:600;color:#29363C;line-height:1;text-align:center;margin-bottom:4px}
+.jl-duration{font-size:12px;color:var(--green-deep);text-align:center;opacity:.75;margin-bottom:20px}
+.jl-btn{width:100%;background:var(--green);color:#29363C;border:none;border-radius:var(--r-sm);padding:16px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:background .15s;text-align:center;letter-spacing:.01em}
+.jl-btn:hover{background:var(--green-dark)}
+.jl-sub{font-size:11px;color:var(--t3);text-align:center;margin-top:8px;line-height:1.5}
+.jl-legal{font-size:10px;color:var(--t3);text-align:center;margin-top:12px;line-height:1.6;padding:0 8px}
+
+/* ── Commitment overlay ── */
+.commitment-overlay{display:none;position:fixed;inset:0;z-index:9000;background:#29363C;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
+.commitment-overlay.active{display:flex}
+.co-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;opacity:0;transition:opacity .5s .1s}
+.co-title{font-size:clamp(20px,4vw,28px);font-weight:600;color:#fff;margin-bottom:14px;letter-spacing:-.02em;opacity:0;transition:opacity .5s .25s,transform .5s .25s;transform:translateY(6px);line-height:1.3}
+.co-rate{font-size:clamp(40px,8vw,64px);font-weight:700;color:var(--green);letter-spacing:-.03em;opacity:0;transition:opacity .5s .4s,transform .5s .4s;transform:translateY(6px)}
+.co-duration{font-size:14px;color:rgba(255,255,255,.45);margin-top:8px;opacity:0;transition:opacity .5s .55s}
+.co-divider{width:40px;height:1px;background:rgba(255,255,255,.15);margin:24px auto;opacity:0;transition:opacity .5s .6s}
+.co-hint{font-size:11px;color:rgba(255,255,255,.2);text-transform:uppercase;letter-spacing:.08em;opacity:0;transition:opacity .6s 1.1s}
+.commitment-overlay.show .co-label,.commitment-overlay.show .co-title,.commitment-overlay.show .co-rate,.commitment-overlay.show .co-duration,.commitment-overlay.show .co-divider,.commitment-overlay.show .co-hint{opacity:1;transform:translateY(0)}
+
+/* ── Scene 7: Bike Pass in phone shell ── */
+.bp-scene{min-height:calc(100vh - 46px);background:linear-gradient(160deg,#1C2820 0%,#0D1410 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px}
+.bp-phone{width:300px;border-radius:46px;background:#161616;padding:11px;box-shadow:0 0 0 1px #252525,0 60px 120px rgba(0,0,0,.85),0 0 80px rgba(157,222,76,.08);transition:opacity .8s,transform .8s}
+.bp-phone.fade-out{opacity:0;transform:translateY(-24px)}
+.bp-phone.hidden{opacity:0;transform:translateY(24px)}
+.bp-screen{border-radius:37px;overflow:hidden;background:var(--bg)}
+.bps-nav{background:var(--white);padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:.5px solid var(--border)}
+.bps-icon{width:22px;height:22px;background:var(--green);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#29363C}
+.bps-name{font-size:12px;font-weight:600;color:var(--t1)}
+.bps-sep{flex:1}
+.bps-status{font-size:10px;color:var(--green-deep);font-weight:600;background:var(--green-light);padding:2px 8px;border-radius:99px}
+.bps-hero{background:var(--green);padding:18px 14px 14px}
+.bph-bp-label{font-size:8px;color:var(--green-deep);text-transform:uppercase;letter-spacing:.1em;font-weight:700;opacity:.65;margin-bottom:4px}
+.bph-name{font-size:16px;font-weight:600;color:#29363C;line-height:1.2}
+.bph-sub{font-size:10px;color:rgba(41,54,60,.6);margin-top:2px}
+.bph-km-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;padding-top:12px;border-top:.5px solid rgba(41,54,60,.15)}
+.bph-km-wrap{display:flex;align-items:baseline;gap:4px}
+.bph-km{font-size:32px;font-weight:700;color:#29363C;font-family:'DM Mono',monospace;line-height:1}
+.bph-km-unit{font-size:11px;color:rgba(41,54,60,.6)}
+.bph-status-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(41,54,60,.12);color:#29363C;font-size:9px;font-weight:700;padding:4px 8px;border-radius:99px;letter-spacing:.02em}
+.bph-status-dot{width:5px;height:5px;border-radius:50%;background:#29363C}
+.bps-body{background:var(--bg);padding:12px 14px}
+.bps-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid var(--border)}
+.bps-row:last-child{border-bottom:none}
+.bps-label{font-size:11px;color:var(--t3)}
+.bps-value{font-size:11px;font-weight:500;color:var(--t1)}
+.bp-caption{font-size:11px;color:#fff;letter-spacing:.04em;text-align:center;white-space:nowrap;opacity:0;transition:opacity .8s .6s;line-height:1.6}
+.bp-caption.visible{opacity:.38}
+
+/* ── Scene 8: Bike Pass flat (387 km) ── */
+.s8-wrap{min-height:calc(100vh - 46px);background:var(--bg2);display:flex;align-items:flex-start;justify-content:center;padding:32px 16px 60px}
+.s8-inner{width:390px;flex-shrink:0;border-radius:var(--r-lg);overflow:hidden;box-shadow:0 4px 28px rgba(0,0,0,.10)}
+.s8-nav{background:var(--white);height:52px;display:flex;align-items:center;padding:0 16px;gap:10px}
+.s8-nav-icon{width:24px;height:24px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#29363C}
+.s8-nav-name{font-size:13px;font-weight:600;color:var(--t1)}
+.s8-nav-sep{width:1px;height:18px;background:var(--border)}
+.s8-nav-section{font-size:12px;color:var(--t3)}
+.s8-hero{background:var(--green);padding:20px 16px 16px}
+.s8h-top{display:flex;gap:14px;align-items:flex-start}
+.s8h-img{width:68px;height:68px;background:rgba(41,54,60,.12);border-radius:var(--r);overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s8h-img img{width:100%;height:100%;object-fit:cover}
+.s8h-info{flex:1}
+.s8h-bplabel{font-size:9px;color:var(--green-deep);text-transform:uppercase;letter-spacing:.08em;font-weight:700;opacity:.65;margin-bottom:3px}
+.s8h-name{font-size:17px;font-weight:600;color:#29363C;line-height:1.25}
+.s8h-sub{font-size:11px;color:rgba(41,54,60,.6);margin-top:2px}
+.s8h-pills{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.s8h-pill{background:rgba(41,54,60,.12);color:#29363C;font-size:10px;font-weight:500;padding:3px 9px;border-radius:99px}
+.s8h-km-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:.5px solid rgba(41,54,60,.15)}
+.s8h-km-group{display:flex;align-items:baseline;gap:5px}
+.s8h-km{font-size:34px;font-weight:700;color:#29363C;font-family:'DM Mono',monospace}
+.s8h-km-unit{font-size:12px;color:rgba(41,54,60,.6)}
+.s8h-active{display:inline-flex;align-items:center;gap:5px;background:rgba(41,54,60,.12);color:#29363C;font-size:10px;font-weight:600;padding:4px 10px;border-radius:99px}
+.s8h-active-dot{width:6px;height:6px;border-radius:50%;background:#29363C;flex-shrink:0}
+.s8-content{background:var(--bg);padding:16px}
+.s8-card{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:12px}
+.s8-card-head{padding:9px 14px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.s8-card-body{padding:14px}
+.s8-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--border)}
+.s8-row:last-child{border-bottom:none}
+.s8-rl{font-size:12px;color:var(--t2)}
+.s8-rv{font-size:12px;font-weight:500;color:var(--t1)}
+.s8-rv.green{color:var(--green-dark)}
+
+/* ── Sub-nav bar ── */
+.sub-nav-bar{background:var(--white);border-bottom:1px solid var(--border);height:64px;padding:0 40px;display:flex;align-items:center;justify-content:center;position:sticky;top:46px;z-index:99;gap:0}
+.sub-nav-bar.hidden{height:0;overflow:hidden;border-bottom:none!important;pointer-events:none}
+.nav-step{display:flex;align-items:center;gap:8px;padding:0 16px;font-size:12px;color:var(--t3);cursor:pointer;transition:color .15s;white-space:nowrap}
+.nav-step.active{color:var(--green-dark);font-weight:500}
+.nav-step.done{color:var(--t2)}
+.nav-step-num{width:22px;height:22px;border-radius:50%;background:var(--border);color:var(--t3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.nav-step.active .nav-step-num{background:var(--green);color:#29363C;font-weight:700}
+.nav-step.done .nav-step-num{background:var(--green-light);color:var(--green-dark)}
+.nav-step-connector{width:40px;height:1px;background:var(--border);flex-shrink:0}
+.nav-step.done + .nav-step-connector,.nav-step-connector.done{background:var(--green)}
+
+/* ── Unavailable appointment slot ── */
+.appt-slot.unavailable{opacity:.42;cursor:default;pointer-events:none}
+.appt-unavail-tag{font-size:10px;color:var(--t3);font-weight:500}
+
+/* ── Dealer confirm strip (Zeitauswahl) ── */
+.dealer-strip{display:flex;flex-direction:column;gap:2px;margin-bottom:14px;padding:10px 12px;background:var(--white);border:1px solid var(--border);border-radius:var(--r-sm)}
+.dealer-strip-name{font-size:13px;font-weight:600;color:var(--t1)}
+.dealer-strip-detail{font-size:11px;color:var(--t3)}
+
+/* ── Note field (Termin buchen) ── */
+.note-wrap{margin-bottom:12px}
+.note-label{font-size:11px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.note-field{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;min-height:66px;font-size:12px;line-height:1.6;color:var(--t1);cursor:text;transition:border-color .2s,background .2s,opacity .2s;position:relative}
+.note-field.disabled{background:var(--bg);opacity:.45;cursor:not-allowed;pointer-events:none}
+.note-placeholder{color:var(--t3)}
+.note-field.filled{border-color:var(--green)}
+
+/* ── Hint ring ── */
+@keyframes hintRing{0%{box-shadow:0 0 0 0 rgba(157,222,76,.35),0 0 0 0 rgba(157,222,76,.15)}50%{box-shadow:0 0 0 8px rgba(157,222,76,0),0 0 0 14px rgba(157,222,76,0)}100%{box-shadow:0 0 0 0 rgba(157,222,76,0),0 0 0 0 rgba(157,222,76,0)}}
+.hint-pulse{animation:hintRing .9s ease-out 2}
+@keyframes ctaPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(157,222,76,0)}50%{transform:scale(1.03);box-shadow:0 0 0 8px rgba(157,222,76,.2)}}
+
+/* ── Spin utility ── */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-dot 1.4s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── Phone label (shared with ep0 pattern) ── */
+.phone-label{font-size:12px;color:#fff;letter-spacing:.10em;text-transform:uppercase;text-align:center;opacity:0;transition:opacity .5s .2s}
+.phone-label.visible{opacity:.50}
+
+/* ── Inbox overlay ── */
+.inbox-overlay{display:none;position:fixed;inset:0;background:rgba(10,16,12,.93);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+.inbox-overlay.active{display:flex}
+.inbox-frame{width:300px;border-radius:46px;background:#161616;padding:11px;box-shadow:0 0 0 1px #252525,0 60px 120px rgba(0,0,0,.85),0 0 60px rgba(157,222,76,.06);transform:translateY(50px);opacity:0;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .5s}
+.inbox-frame.visible{transform:translateY(0);opacity:1}
+.inbox-screen{border-radius:37px;overflow:hidden;background:#f2f2f7;min-height:520px}
+.inbox-statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 6px;font-size:11px;font-weight:600;color:#000;letter-spacing:.01em}
+.inbox-header{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 10px;border-bottom:.5px solid #c8c8cc;background:#f2f2f7}
+.inbox-back{font-size:13px;color:#007AFF}
+.inbox-title{font-size:16px;font-weight:700;color:#000}
+.inbox-edit{font-size:13px;color:#007AFF}
+.inbox-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px 11px 16px;border-bottom:.5px solid #c8c8cc;background:#fff;cursor:default}
+.inbox-row-tappable{cursor:pointer}
+.inbox-row-tappable:active{background:#e8e8ed}
+.inbox-row-muted{opacity:.36}
+.inbox-app-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#29363C;flex-shrink:0;font-family:'DM Mono',monospace;margin-top:1px}
+.inbox-unread-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:6px}
+.inbox-empty-dot{width:8px;height:8px;flex-shrink:0;margin-top:6px}
+.inbox-meta{flex:1;min-width:0}
+.inbox-from{font-size:13px;font-weight:700;color:#000;line-height:1.3}
+.inbox-from-muted{font-size:13px;font-weight:400;color:#000;line-height:1.3}
+.inbox-subject{font-size:12px;color:#3c3c43;line-height:1.35;margin-top:1px}
+.inbox-preview{font-size:11px;color:#8e8e93;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.inbox-time{font-size:10px;color:#8e8e93;flex-shrink:0;white-space:nowrap;margin-top:2px}
+</style>
+</head>
+<body>
+
+<!-- ── Screen bar ── -->
+<div class="screen-bar">
+  <div class="screen-bar-left">
+    <a class="screen-bar-hub" href="index.html">← Episodenübersicht</a>
+  </div>
+  <div class="screen-bar-nav">
+    <span class="screen-bar-zone">Pre-Auth</span>
+    <button class="screen-btn" id="btn2" onclick="showScene(2,this)">Bike Finder</button>
+    <button class="screen-btn" id="btn3" onclick="showScene(3,this)">Login</button>
+    <button class="screen-btn" id="btnR" onclick="showScene('R',this)">Emily's Netto-Rate</button>
+    <span class="screen-bar-divider"></span>
+    <span class="screen-bar-zone">Checkout</span>
+    <button class="screen-btn" id="btn4" onclick="showScene(4,this)">Warenkorb</button>
+    <button class="screen-btn" id="btnH" onclick="showScene('H',this)">Händlersuche</button>
+    <button class="screen-btn" id="btnA" onclick="showScene('A',this)">Termin buchen</button>
+    <span class="screen-bar-divider"></span>
+    <span class="screen-bar-zone">At Dealer</span>
+    <button class="screen-btn" id="btn5" onclick="showScene(5,this)">Händler-Portal</button>
+    <button class="screen-btn" id="btn6" onclick="showScene(6,this)">Händler-Update</button>
+    <button class="screen-btn" id="btn7" onclick="showScene(7,this)">Bike Pass</button>
+    <button class="screen-btn" id="btn8" onclick="showScene(8,this)">387 km · 3 Mo.</button>
+  </div>
+  <div class="screen-bar-right"></div>
+</div>
+
+<!-- ── Sub-nav bar (contextual sub-states for active EMILY step) ── -->
+<div class="sub-nav-bar hidden" id="sub-nav-bar"></div>
+
+<!-- ══════════════════════════════════════
+     SCENE 1 — 95% counter
+══════════════════════════════════════ -->
+<div class="scene active" id="scene1">
+  <div class="s1-wrap">
+    <div class="s1-phase1" id="s1-phase1">
+      <div class="s1-number" id="s1-num">0</div>
+      <div class="s1-subline-slot">
+        <div class="s1-text" id="s1-text">der Berechtigten sind noch keine Jobradler:innen</div>
+        <div class="s1-bisjetzt" id="s1-bisjetzt">Zeit das zu ändern.</div>
+      </div>
+      <div class="s1-hint" id="s1-hint"><kbd class="kbd">SPACE</kbd><span>um fortzufahren</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE 2 — Bike Finder (anonym)
+══════════════════════════════════════ -->
+<div class="scene" id="scene2">
+  <div class="mobile-scene">
+    <div class="mobile-ui">
+      <div class="m-nav">
+        <div class="m-logo">
+          <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+        </div>
+        <div class="m-hamburger"><span></span><span></span><span></span></div>
+      </div>
+      <div class="m-content">
+        <p class="m-title">Finde dein Jobrad</p>
+        <p class="m-sub">Deine geschätzte Rate siehst du sofort.</p>
+        <div class="finder-filters">
+          <button class="filter-pill active">Alle</button>
+          <button class="filter-pill">Trekking</button>
+          <button class="filter-pill">E-Bike</button>
+          <button class="filter-pill">City</button>
+          <button class="filter-pill">Mountain</button>
+          <button class="filter-pill">Cargo</button>
+        </div>
+
+        <!-- Trek FX 2 — only selectable card -->
+        <div class="bike-card selectable" id="trek-card" onclick="selectBike(this,'Trek FX 2 Midstep Gen 4')">
+          <div class="bc-img" style="background:var(--bg2);height:200px">
+            <img src="trek-fx2-midstep-red.png" alt="Trek FX 2 Midstep Gen 4 · Rot" style="object-fit:contain;object-position:center center;padding:10px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+            <div style="display:none;align-items:center;justify-content:center;width:100%;height:100%;font-size:52px">🚲</div>
+          </div>
+          <div class="bc-body">
+            <div class="bc-row">
+              <div class="bc-name">Trek FX 2 Midstep Gen 4</div>
+              <div><div class="bc-rate">ab 49 €</div><div class="bc-unit">/Monat netto</div></div>
+            </div>
+            <div class="bc-tags">
+              <span class="tag">Trekking</span>
+              <span class="tag">3.499 €</span>
+              <span class="tag">Rot</span>
+            </div>
+            <div class="bc-sizes visible" id="trek-sizes">
+              <span class="bc-sizes-label">Größe</span>
+              <span class="size-chip">S</span>
+              <span class="size-chip" id="size-m">M</span>
+              <span class="size-chip">L</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cube placeholder -->
+        <div class="bike-card">
+          <div class="bc-img"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:52px;color:var(--t3)">🚴</div></div>
+          <div class="bc-body">
+            <div class="bc-row">
+              <div class="bc-name">Cube Touring EXC 400</div>
+              <div><div class="bc-rate">ab 53 €</div><div class="bc-unit">/Monat netto</div></div>
+            </div>
+            <div class="bc-tags">
+              <span class="tag">Trekking</span>
+              <span class="tag">3.799 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specialized placeholder -->
+        <div class="bike-card">
+          <div class="bc-img"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:52px;color:var(--t3)">🚵</div></div>
+          <div class="bc-body">
+            <div class="bc-row">
+              <div class="bc-name">Specialized Sirrus X 2.0</div>
+              <div><div class="bc-rate">ab 61 €</div><div class="bc-unit">/Monat netto</div></div>
+            </div>
+            <div class="bc-tags">
+              <span class="tag">City</span>
+              <span class="tag">4.500 €</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="finder-note">Netto-Rate nach Gehaltsumwandlung · abhängig von Bruttolohn und Arbeitgeber</p>
+      </div>
+      <div class="m-bottom">
+        <button class="btn-primary" id="scene2-btn" disabled onclick="showScene(3,document.getElementById('btn3'))">Fahrrad wählen →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE 3 — Login (sub-states 3A / 3B / 3C)
+══════════════════════════════════════ -->
+<div class="scene" id="scene3">
+  <div class="mobile-scene">
+    <div class="mobile-ui">
+      <div class="m-nav">
+        <div class="m-logo">
+          <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+        </div>
+        <div class="m-hamburger"><span></span><span></span><span></span></div>
+      </div>
+
+      <!-- 3A: Login prompt -->
+      <div class="sub-state active" id="s3a">
+        <div class="m-content">
+          <p class="m-title">Kurz anmelden</p>
+          <p class="m-sub">Keine Registrierung, kein Passwort — wir schicken dir einfach einen sicheren Anmeldelink.</p>
+          <div style="flex:1;display:flex;align-items:center;padding:24px 0 8px">
+            <div class="card" style="width:100%">
+              <div class="card-body">
+
+                <!-- Form content — fades out on send -->
+                <div id="s3a-form-content">
+                  <div style="text-align:center;padding:8px 0 16px">
+                    <svg width="44" height="34" viewBox="0 0 44 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 12px;display:block">
+                      <rect x="1" y="1" width="42" height="32" rx="4" stroke="#29363C" stroke-width="1.5"/>
+                      <path d="M1 5L22 20L43 5" stroke="#29363C" stroke-width="1.5"/>
+                      <circle cx="34" cy="25" r="4.5" fill="#29363C"/>
+                    </svg>
+                    <div style="font-size:13px;font-weight:600;color:var(--t1)">Weiter mit E-Mail</div>
+                  </div>
+                  <div id="s3a-email-field" onclick="fillEmail()" style="background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;margin-bottom:8px;cursor:text;min-height:44px;color:var(--t3);transition:border-color .15s">E-Mail-Adresse eingeben</div>
+                  <!-- Recognition: Variant A — text line -->
+                  <div id="recognition-a" class="recognition-el recognition-a">
+                    <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0"></div>
+                    <span>Als Mitarbeiterin von TechCraft GmbH bestätigt</span>
+                  </div>
+                  <!-- Recognition: Variant B — pill chip -->
+                  <div id="recognition-b" class="recognition-el recognition-b">
+                    <div class="recognition-b-inner">
+                      <div class="recognition-b-check">✓</div>
+                      <span class="recognition-b-text">TechCraft GmbH · Dienstradleasing aktiv</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Confirmation content — appears after send -->
+                <div id="s3a-confirm-content" style="display:none;text-align:center;padding:20px 8px 16px">
+                  <div class="confirm-circle-wrap" style="margin:0 auto 16px;display:inline-block">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                      <circle cx="30" cy="30" r="28" fill="var(--green)"/>
+                      <path class="check-stroke" d="M18 30 L26 38 L42 22" stroke="#29363C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="36" stroke-dashoffset="36"/>
+                    </svg>
+                  </div>
+                  <div class="confirm-t1" style="font-size:16px;font-weight:700;color:var(--t1);margin-bottom:6px">Anmeldelink gesendet</div>
+                  <div class="confirm-t2" style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:10px">Schau in dein Postfach —<br>der Link ist 15 Minuten gültig.</div>
+                  <div class="confirm-t3" style="font-size:11px;color:var(--t3)">Gesendet an emily.kaufmann@techcraft.de</div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="m-bottom">
+          <button class="btn-primary" id="s3a-btn" disabled onclick="sendMagicLink()">Magic Link senden</button>
+        </div>
+      </div>
+
+    </div><!-- /mobile-ui -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE R — Deine Netto-Rate (rate reveal)
+══════════════════════════════════════ -->
+<div class="scene" id="sceneR">
+  <div class="mobile-scene">
+    <div class="mobile-ui">
+      <div class="m-nav">
+        <div class="m-logo">
+          <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+        </div>
+        <div class="m-hamburger"><span></span><span></span><span></span></div>
+      </div>
+      <div class="m-content">
+        <p class="m-title" style="margin-bottom:40px">Willkommen, Emily!</p>
+        <div class="card" style="margin-bottom:12px">
+          <div class="berechtigt-head">
+            <div class="berechtigt-badge">✓</div>
+            <div>
+              <div class="berechtigt-title">Deine persönliche Rate</div>
+              <div style="font-size:11px;color:var(--green-deep);opacity:.7;margin-top:1px">TechCraft GmbH · Dienstradleasing aktiv</div>
+            </div>
+          </div>
+          <div style="padding:20px 16px 16px;text-align:center">
+            <div style="font-size:12px;color:var(--t2);margin-bottom:16px">Trek FX 2 Midstep Gen 4 · nach Gehaltsumwandlung</div>
+            <div class="rrh-rate">47,30</div>
+            <div style="font-size:12px;color:var(--t3);margin-top:8px">€ / Monat · 36 Monate</div>
+            <div class="rrh-savings">Du sparst gegenüber Kauf ca. 32 €/Mo.</div>
+            <div class="rrh-breakdown">
+              <div class="rrh-bd-row">
+                <span class="rrh-bd-label">Brutto-Leasingrate</span>
+                <span class="rrh-bd-value">88,90 €</span>
+              </div>
+              <div class="rrh-bd-row">
+                <span class="rrh-bd-label">Steuer- & SV-Ersparnis</span>
+                <span class="rrh-bd-value">−41,60 €</span>
+              </div>
+            </div>
+          </div>
+          <div style="height:.5px;background:var(--border);margin:0 14px"></div>
+          <div class="berechtigt-body">
+            <div class="berechtigt-row">
+              <div class="berechtigt-check">✓</div>
+              <div class="berechtigt-text">Maximaler Radwert</div>
+              <div class="berechtigt-value">11.900 €</div>
+            </div>
+            <div class="berechtigt-row">
+              <div class="berechtigt-check">✓</div>
+              <div class="berechtigt-text">Arbeitgeberzuschuss</div>
+              <div class="berechtigt-value" style="color:var(--green-dark)">20 € / Monat</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--t3);line-height:1.5;text-align:center;margin-bottom:8px">Berechnet mit deinen TechCraft-Konditionen · Exakter Wert nach Händlerbestätigung</p>
+      </div>
+      <div class="m-bottom">
+        <button class="btn-primary" onclick="showScene(4,document.getElementById('btn4'))">Zum Warenkorb →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE 4 — Warenkorb (unified, sticky footer)
+══════════════════════════════════════ -->
+<div class="scene" id="scene4">
+  <div class="mobile-scene">
+    <div class="mobile-ui">
+      <div class="m-nav">
+        <div class="m-logo">
+          <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+        </div>
+        <div class="m-hamburger"><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="m-content">
+        <p class="m-title">Dein Warenkorb</p>
+        <p class="m-sub">Rad, Zubehör und Service-Paket — alles auf einen Blick.</p>
+        <!-- Dein Rad card -->
+        <div class="card" style="margin-bottom:18px">
+          <div class="card-header">Dein Rad</div>
+          <div class="cart-bike-img">
+            <img src="trek-fx2-midstep-red.png" alt="Trek FX 2 Midstep Gen 4" onerror="this.style.display='none';this.parentNode.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:60px\'>🚲</div>'"/>
+          </div>
+          <div class="card-body" style="padding:14px">
+            <div class="cart-bike-name">Trek FX 2 Midstep Gen 4</div>
+            <div class="cart-bike-meta">Listenpreis: 3.499 € · Farbe: Rot · Größe: M</div>
+            <div class="cart-bike-tags">
+              <span class="tag">Trekking</span>
+              <span class="tag">Shimano Deore 10-fach</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zubehör card -->
+        <div class="card" style="margin-bottom:18px">
+          <div class="card-header">Zubehör <span style="color:var(--green-dark);font-size:9px">leasingfähig</span></div>
+          <div class="card-body" style="padding:16px 14px">
+            <div class="acc-item">
+              <div class="acc-icon">🔒</div>
+              <div class="acc-info">
+                <div class="acc-name">Abus Bordo Granit X 6500</div>
+                <div class="acc-price">89,95 €</div>
+              </div>
+              <div class="acc-cb checked"></div>
+            </div>
+            <div class="acc-item">
+              <div class="acc-icon">⛑</div>
+              <div class="acc-info">
+                <div class="acc-name">Specialized Align II Helm</div>
+                <div class="acc-price">59,95 €</div>
+              </div>
+              <div class="acc-cb checked"></div>
+            </div>
+            <div class="acc-item">
+              <div class="acc-icon">💡</div>
+              <div class="acc-info">
+                <div class="acc-name">Lupine SL Nano Lichtset</div>
+                <div class="acc-price">129,00 €</div>
+              </div>
+              <div class="acc-cb"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Servicepaket card -->
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-header">Servicepaket wählen</div>
+          <div class="card-body" style="padding:16px 14px 14px">
+            <div class="pkg-stack">
+              <div class="pkg" id="pkg-kein" onclick="selectPkg('kein')">
+                <div class="pkg-name">Kein Service</div>
+                <div class="pkg-rate">+0 €/Mo.</div>
+                <div class="pkg-items">Eigenverantwortung</div>
+              </div>
+              <div class="pkg" id="pkg-basis" onclick="selectPkg('basis')">
+                <div class="pkg-name">Basis</div>
+                <div class="pkg-rate">+7,50 €/Mo.</div>
+                <div class="pkg-items">1× Jahresinspektion inklusive</div>
+              </div>
+              <div class="pkg recommended" id="pkg-komfort" onclick="selectPkg('komfort')">
+                <div class="pkg-rec-badge">Empfohlen</div>
+                <div class="pkg-name">Komfort</div>
+                <div class="pkg-rate">+12,90 €/Mo.</div>
+                <div class="pkg-items">Inspektion · Verschleiß · Pannenhilfe · Reparatur bis 600 €</div>
+              </div>
+              <div class="pkg" id="pkg-unlimited" onclick="selectPkg('unlimited')">
+                <div class="pkg-name">Unlimited</div>
+                <div class="pkg-rate">+19,90 €/Mo.</div>
+                <div class="pkg-items">Alles inklusive · kein Reparaturlimit</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky cart footer: rate + CTA -->
+      <div class="cart-footer">
+        <span class="cf-label">Deine Netto-Rate</span>
+        <span class="cf-rate" id="s4-rate-display">47,30 € / Monat</span>
+        <button class="btn-primary" id="s4-cta" disabled onclick="showScene('H',document.getElementById('btnH'))" style="width:100%">Händler suchen</button>
+      </div>
+
+    </div><!-- /mobile-ui -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE H — Händlersuche
+══════════════════════════════════════ -->
+<div class="scene" id="sceneH">
+  <div class="mobile-scene">
+    <div class="mobile-ui">
+      <div class="m-nav">
+        <div class="m-logo">
+          <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+        </div>
+        <div class="m-hamburger"><span></span><span></span><span></span></div>
+      </div>
+      <div class="m-content">
+        <p class="m-title">Fachhändler in deiner Nähe</p>
+        <p class="m-sub">Wähle einen zertifizierten Händler in deiner Nähe.</p>
+        <div class="map-box">
+          <img src="freiburg-map.png" alt="Karte Freiburg im Breisgau">
+          <div class="map-pin" id="pin-meisenheimer" style="left:54%;top:52%">1</div>
+          <div class="map-pin" id="pin-velo" style="left:40%;top:34%">2</div>
+          <div class="map-pin" id="pin-zweirad" style="left:33%;top:72%">3</div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card-header">Fachhändler wählen</div>
+          <div class="card-body" style="padding:12px 14px">
+            <div class="dealer-row" id="dealer-meisenheimer" onclick="selectDealer('meisenheimer')">
+              <div class="dr-top">
+                <div>
+                  <div class="dr-name">Fahrrad Meisenheimer</div>
+                  <div class="dr-addr">Bertoldstraße 12, 79098 Freiburg · 1,2 km</div>
+                </div>
+                <span style="font-size:11px;color:var(--t3)">⭐ 4,8</span>
+              </div>
+              <div class="dr-tags">
+                <span class="pill pill-green">Zertifiziert</span>
+                <span class="tag">Trek</span>
+                <span class="tag">Specialized</span>
+              </div>
+            </div>
+            <div class="dealer-row" id="dealer-velo" onclick="selectDealer('velo')">
+              <div class="dr-top">
+                <div>
+                  <div class="dr-name">Velo Concept Freiburg</div>
+                  <div class="dr-addr">Habsburgerstraße 43, 79104 Freiburg · 2,4 km</div>
+                </div>
+                <span style="font-size:11px;color:var(--t3)">⭐ 4,6</span>
+              </div>
+              <div class="dr-tags">
+                <span class="pill pill-green">Zertifiziert</span>
+                <span class="tag">Cube</span>
+                <span class="tag">Giant</span>
+              </div>
+            </div>
+            <div class="dealer-row" id="dealer-zweirad" onclick="selectDealer('zweirad')">
+              <div class="dr-top">
+                <div>
+                  <div class="dr-name">Zweirad Profi Freiburg</div>
+                  <div class="dr-addr">Basler Straße 52, 79100 Freiburg · 3,1 km</div>
+                </div>
+                <span style="font-size:11px;color:var(--t3)">⭐ 4,4</span>
+              </div>
+              <div class="dr-tags">
+                <span class="pill pill-green">Zertifiziert</span>
+                <span class="tag">Trek</span>
+                <span class="tag">Cannondale</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cart-footer" style="display:flex;align-items:center;gap:12px;padding:12px 16px 14px">
+        <div style="flex-shrink:0">
+          <div style="font-size:20px;font-weight:700;color:var(--t1);line-height:1.1">60,20 €</div>
+          <div style="font-size:11px;font-weight:500;color:var(--t1);margin-top:2px;opacity:.65">/ Monat</div>
+        </div>
+        <button class="btn-primary" id="sH-cta" disabled onclick="showScene('A',document.getElementById('btnA'))" style="flex:1">Weiter zur Terminbuchung</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE A — Termin buchen (sub-states sTa / sTb / sTc)
+══════════════════════════════════════ -->
+<div class="scene" id="sceneA">
+  <div class="mobile-scene">
+    <div class="mobile-ui">
+      <div class="m-nav">
+        <div class="m-logo">
+          <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+        </div>
+        <div class="m-hamburger"><span></span><span></span><span></span></div>
+      </div>
+
+      <!-- sTa: Zeitauswahl -->
+      <div class="sub-state active" id="sTa">
+        <div class="m-content">
+          <p class="m-title">Übergabetermin wählen</p>
+          <p class="m-sub">Fast geschafft, Emily! Wähle einen Termin bei Fahrrad Meisenheimer.</p>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Fachhändlerdaten</div>
+            <div class="card-body" style="padding:16px 14px">
+              <div class="list-row">
+                <span class="lr-label">Händler</span>
+                <span class="lr-value">Fahrrad Meisenheimer</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Adresse</span>
+                <span class="lr-value" style="font-size:11px;text-align:right">Bertoldstraße 12<br>79098 Freiburg</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Bewertung</span>
+                <span class="lr-value">⭐ 4,8 · 1,2 km</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Telefon</span>
+                <span class="lr-value">0761 123 45 67</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">E-Mail</span>
+                <span class="lr-value" style="font-size:11px">info@fahrrad-meisenheimer.de</span>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Verfügbare Termine</div>
+            <div class="card-body" style="padding:16px 14px">
+              <div class="appt-slot" id="slot-0900" onclick="selectSlot(this)">
+                <span class="appt-time">Fr, 8. Mai · 09:00 Uhr</span>
+                <span class="appt-avail">Frei</span>
+              </div>
+              <div class="appt-slot unavailable">
+                <span class="appt-time">Fr, 8. Mai · 10:30 Uhr</span>
+                <span class="appt-unavail-tag">Belegt</span>
+              </div>
+              <div class="appt-slot unavailable">
+                <span class="appt-time">Fr, 8. Mai · 12:00 Uhr</span>
+                <span class="appt-unavail-tag">Belegt</span>
+              </div>
+              <div class="appt-slot unavailable">
+                <span class="appt-time">Fr, 8. Mai · 14:00 Uhr</span>
+                <span class="appt-unavail-tag">Belegt</span>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Nachricht an den Händler</div>
+            <div class="card-body" style="padding:16px 14px">
+              <div class="note-field disabled" id="sA-note-field" onclick="clickNoteField()">
+                <span class="note-placeholder">Was möchtest du dem Händler mitteilen?</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="m-bottom">
+          <button class="btn-primary" id="sA-cta" disabled onclick="goTb();updateSubNav('A')">Termin auswählen</button>
+        </div>
+      </div>
+
+      <!-- sTb: Bestätigung -->
+      <div class="sub-state" id="sTb">
+        <div class="m-content">
+          <!-- Icon + headline + subline: centered, same animation as Magic Link -->
+          <div style="text-align:center;margin-bottom:24px">
+            <div id="sTb-cal-wrap" class="confirm-circle-wrap" style="display:inline-block;margin-bottom:16px">
+              <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <circle cx="30" cy="30" r="28" fill="var(--green)"/>
+                <rect x="16" y="18" width="28" height="24" rx="3" ry="3" stroke="#29363C" stroke-width="2" fill="none"/>
+                <line x1="23" y1="13" x2="23" y2="21" stroke="#29363C" stroke-width="2" stroke-linecap="round"/>
+                <line x1="37" y1="13" x2="37" y2="21" stroke="#29363C" stroke-width="2" stroke-linecap="round"/>
+                <line x1="16" y1="27" x2="44" y2="27" stroke="#29363C" stroke-width="2"/>
+                <polyline points="24 33 27 36 36 30" stroke="#29363C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <p class="m-title" id="sTb-title" style="opacity:0;margin-bottom:4px">Termin bestätigt!</p>
+            <p class="m-sub" id="sTb-sub" style="opacity:0;margin-bottom:0">Fahrrad Meisenheimer freut sich auf dich.<br>Du erhältst eine Bestätigung per E-Mail.</p>
+          </div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Dein Übergabetermin</div>
+            <div class="card-body" style="padding:16px 14px">
+              <div class="list-row">
+                <span class="lr-label">Händler</span>
+                <span class="lr-value">Fahrrad Meisenheimer</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Adresse</span>
+                <span class="lr-value" style="font-size:11px;text-align:right">Bertoldstraße 12<br>79098 Freiburg</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Datum</span>
+                <span class="lr-value" style="color:var(--green-dark);font-weight:600">Fr, 8. Mai 2026</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Uhrzeit</span>
+                <span class="lr-value" id="sTb-time">09:00 – 10:00 Uhr</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Ansprechperson</span>
+                <span class="lr-value">Daniel Meisenheimer</span>
+              </div>
+              <!-- Ausweis reminder: recognition-b visual pattern, full-width for longer text -->
+              <div style="padding-top:10px;margin-top:4px;display:flex;align-items:flex-start;gap:7px;background:var(--green-xlight);border:.5px solid rgba(157,222,76,.45);border-radius:10px;padding:8px 12px 8px 8px;margin-top:10px">
+                <div class="recognition-b-check" style="flex-shrink:0;margin-top:1px">!</div>
+                <span style="font-size:11px;font-weight:500;color:var(--green-deep);line-height:1.4">Bitte bring deinen Ausweis zur Übergabe mit. Der Händler prüft deine Identität einmalig.</span>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Dein Rad wird vorbereitet</div>
+            <div class="card-body" style="padding:16px 14px">
+              <div class="list-row">
+                <span class="lr-label">Trek FX 2 Midstep Gen 4</span>
+                <span class="pill pill-green">Bereit</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Zubehör</span>
+                <span class="pill pill-green">Komplett</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Probefahrt</span>
+                <span class="lr-value">Jederzeit möglich</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="m-bottom">
+          <button class="btn-primary" onclick="goTc()">Weiter zur Übersicht</button>
+        </div>
+      </div>
+
+      <!-- sTc: Zusammenfassung -->
+      <div class="sub-state" id="sTc">
+        <div class="m-content">
+          <p class="m-title">Deine Bestellung, Emily!</p>
+          <p class="m-sub">Fast da. Nach deinem Termin bei Fahrrad Meisenheimer nimmst du dein Rad einfach mit nach Hause.</p>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Deine Bestellung</div>
+            <div class="card-body" style="padding:16px 14px">
+              <!-- Fahrrad -->
+              <div class="list-row">
+                <span class="lr-label">Fahrrad</span>
+                <div style="text-align:right">
+                  <div style="font-size:13px;font-weight:500;color:var(--t1)">Trek FX 2 Midstep Gen 4</div>
+                  <div style="font-size:11px;color:var(--t3);margin-top:1px">Größe M · Farbe Rot</div>
+                </div>
+              </div>
+              <!-- Servicepaket — Emily selected, no dealer badge -->
+              <div class="list-row">
+                <span class="lr-label">Servicepaket</span>
+                <span class="lr-value">Komfort</span>
+              </div>
+              <!-- Zubehör — expandable -->
+              <div class="list-row" style="cursor:pointer" onclick="toggleScAcc()" id="sc-acc-row">
+                <span class="lr-label">Zubehör</span>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:12px;color:#9A9A90;font-weight:400">2 Artikel ·</span>
+                  <span class="lr-value" style="color:#18180F">149,90 €</span>
+                  <svg id="sc-acc-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" style="transition:transform .2s;flex-shrink:0">
+                    <path d="M3 5L7 9L11 5" stroke="var(--t3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div id="sc-acc-list" style="display:none;padding:2px 0 8px">
+                <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;color:var(--t2)">
+                  <span>Abus Bordo Granit X 6500</span><span>89,95 €</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;color:var(--t2)">
+                  <span>Specialized Align II Helm</span><span>59,95 €</span>
+                </div>
+              </div>
+              <!-- Übergabe -->
+              <div class="list-row">
+                <span class="lr-label">Übergabe</span>
+                <div style="text-align:right">
+                  <div id="sc-appt-line" style="font-size:13px;font-weight:500;color:var(--t1)">Fr, 8. Mai · 09:00 – 10:00 Uhr</div>
+                  <div style="font-size:11px;color:var(--t3);margin-top:1px">Fahrrad Meisenheimer</div>
+                </div>
+              </div>
+              <!-- Rate total -->
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:12px">
+                <span style="font-size:13px;color:var(--t2)">Monatliche Rate</span>
+                <span style="font-size:17px;font-weight:700;color:var(--t1)">60,20 €<span style="font-size:11px;font-weight:400;color:var(--t3)">&thinsp;/Mo.</span></span>
+              </div>
+              <p style="font-size:10px;color:var(--t3);margin-top:5px;line-height:1.5">36 Monate · Finale Rate nach Händlertermin bestätigt.</p>
+            </div>
+          </div>
+          <!-- Vertragsdetails card -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Vertragsdetails</div>
+            <div class="card-body" style="padding:16px 14px">
+              <div class="list-row">
+                <span class="lr-label">Fahrrad</span>
+                <span class="lr-value" style="font-size:12px">Trek FX 2 Midstep Gen 4</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Listenpreis</span>
+                <span class="lr-value">3.499 €</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Zubehör</span>
+                <span class="lr-value">149,90 €</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label" style="font-weight:600;color:var(--t1)">Gesamtwert</span>
+                <span class="lr-value" style="font-weight:600">3.648,90 €</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Laufzeit</span>
+                <span class="lr-value">36 Monate</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Leasinggesellschaft</span>
+                <span class="lr-value" style="font-size:12px">JobRad Leasing</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Arbeitgeber</span>
+                <span class="lr-value" style="font-size:12px">TechCraft GmbH</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Arbeitgeberschutz</span>
+                <span class="pill pill-green">Inklusive</span>
+              </div>
+              <div class="list-row">
+                <span class="lr-label">Händler</span>
+                <span class="lr-value" style="font-size:12px">Fahrrad Meisenheimer</span>
+              </div>
+              <!-- Vertragsentwurf link -->
+              <div style="margin-top:12px">
+                <span style="font-size:12px;color:var(--green-dark);cursor:default">Vollständigen Vertragsentwurf ansehen →</span>
+              </div>
+            </div>
+          </div>
+          <!-- NUV hint -->
+          <div style="display:flex;align-items:flex-start;gap:8px;background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:12px">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px"><rect x="1" y="3" width="14" height="10" rx="2" stroke="var(--t3)" stroke-width="1.2" fill="none"/><path d="M1 5.5L8 9.5L15 5.5" stroke="var(--t3)" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span style="font-size:11px;color:var(--t2);line-height:1.5">Nach dem Abschließen senden wir dir den Vertragsentwurf per E-Mail — zum Durchlesen vor deinem Händlertermin.</span>
+          </div>
+        </div>
+        <div class="m-bottom">
+          <button class="btn-primary" onclick="triggerNUV()">Jetzt bestellen</button>
+        </div>
+      </div>
+
+    </div><!-- /mobile-ui -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     NUV OVERLAY — zone transition bridge
+══════════════════════════════════════ -->
+<div class="nuv-overlay" id="nuv-overlay">
+  <div class="nuv-phone" id="nuv-phone">
+
+    <!-- State 1: Lock screen with push notification -->
+    <div class="nuv-screen" id="nuv-lockscreen">
+      <div class="nuv-time-area">
+        <div class="nuv-time-num">09:14</div>
+        <div class="nuv-time-date">Mittwoch, 6. Mai</div>
+      </div>
+      <div class="nuv-notif" id="nuv-notif" onclick="goNuvInbox()">
+        <div class="nuv-notif-head">
+          <img src="jobrad-icon.png" width="24" height="24" style="border-radius:6px;box-shadow:0 0 0 2px rgba(157,222,76,.35);flex-shrink:0" alt="JobRad">
+          <span class="nuv-notif-app">JobRad</span>
+          <span class="nuv-notif-ts">jetzt</span>
+        </div>
+        <div class="nuv-notif-msg">Dein Vertragsentwurf liegt bereit.</div>
+        <div class="nuv-notif-sub">Lies ihn durch, bevor du zu Fahrrad Meisenheimer fährst.</div>
+      </div>
+    </div>
+
+    <!-- State 2: Inbox glimpse -->
+    <div class="nuv-inbox-screen" id="nuv-inbox-screen">
+      <div class="inbox-statusbar" style="background:#fff;padding:8px 14px 4px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;font-weight:600;color:#000">9:14</span>
+        <span style="display:flex;align-items:center;gap:5px">
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="#000"><rect x="0" y="3" width="3" height="7" rx="1"/><rect x="4.5" y="2" width="3" height="8" rx="1"/><rect x="9" y="0" width="3" height="10" rx="1"/></svg>
+          <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x=".5" y=".5" width="18" height="10" rx="3" stroke="#000" stroke-opacity=".35"/><rect x="2" y="2" width="14" height="7" rx="1.5" fill="#000"/><path d="M20 3.5v4a2 2 0 000-4Z" fill="#000" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+      <div style="background:#fff;padding:4px 14px 8px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f0f0f0">
+        <span style="font-size:12px;color:#007AFF">‹ Postfächer</span>
+        <span style="font-size:15px;font-weight:600;color:#000">Posteingang</span>
+        <span style="font-size:12px;color:#007AFF">Bearbeiten</span>
+      </div>
+      <!-- NUV row — unread, focused -->
+      <div class="inbox-row inbox-row-tappable" style="background:#fff" onclick="goToDealer()">
+        <div class="inbox-unread-dot"></div>
+        <img src="jobrad-icon.png" width="34" height="34" style="flex-shrink:0;margin-top:1px;display:block;border-radius:8px" alt="JobRad">
+        <div class="inbox-meta">
+          <div class="inbox-from">JobRad</div>
+          <div class="inbox-subject" style="font-weight:600;color:#000">Dein Vertragsentwurf · Fahrrad Meisenheimer, 8. Mai</div>
+          <div class="inbox-preview">Hi Emily, dein Nutzungsüberlassungsvertrag liegt als Entwurf bereit. Die finale Rate wird nach deinem Händlertermin bestätigt...</div>
+        </div>
+        <div class="inbox-time" style="color:#29363C;font-weight:600">Jetzt</div>
+      </div>
+      <!-- Termin confirmation — already read, muted -->
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-empty-dot"></div>
+        <div class="inbox-app-icon" style="background:#f0f0f0;color:#666;font-size:9px;font-weight:700">FM</div>
+        <div class="inbox-meta">
+          <div class="inbox-from-muted">Fahrrad Meisenheimer</div>
+          <div class="inbox-subject" id="fm-appt-subject" style="color:#8e8e93">Terminbestätigung: Fr, 8. Mai · 09:00 Uhr</div>
+          <div class="inbox-preview">Hallo Emily, wir freuen uns auf deinen Besuch. Daniel Meisenheimer erwartet dich...</div>
+        </div>
+        <div class="inbox-time">Heute</div>
+      </div>
+      <!-- filler rows -->
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-empty-dot"></div>
+        <div class="inbox-app-icon" style="background:#e8e8ed;color:#8e8e93">TC</div>
+        <div class="inbox-meta">
+          <div class="inbox-from-muted">TechCraft GmbH</div>
+          <div class="inbox-subject" style="color:#8e8e93">Willkommen im Mitarbeiterportal</div>
+          <div class="inbox-preview">Hallo Emily, dein Konto ist aktiv...</div>
+        </div>
+        <div class="inbox-time">Mo.</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="nuv-caption" id="nuv-caption">Emily erhält den Vertragsentwurf schon vor dem Händlertermin. → Tippe auf die Benachrichtigung</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE 5 — Händler-Tablet (sub-states 5A / 5B)
+══════════════════════════════════════ -->
+<div class="scene" id="scene5">
+  <div class="dealer-scene">
+    <div class="dealer-nav">
+      <div class="dealer-nav-logo">
+        <div class="dnl-mark">JR</div>
+        <div class="dnl-name">JobRad</div>
+      </div>
+      <div class="dnl-divider"></div>
+      <div class="dealer-context">
+        <div class="dealer-context-label">Händler-Portal</div>
+        <div class="dealer-context-name">Fahrrad Meisenheimer</div>
+      </div>
+      <div class="dealer-nav-spacer"></div>
+      <div class="nav-user-trigger">
+        <div class="nav-avatar">DM</div>
+      </div>
+    </div>
+    <div class="dealer-subnav">
+      <div class="nav-step active"><div class="nav-step-num">1</div>Warenkorb prüfen</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">2</div>Freigabe</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">3</div>Übergabe</div>
+    </div>
+
+    <!-- 5A: Helmet issue + send update -->
+    <div class="sub-state active" id="s5a">
+      <div class="dealer-header">
+        <div class="dh-title">Warenkorb von Emily Kaufmann</div>
+        <div class="dh-sub">Du kannst Anpassungen vornehmen und Kommentare hinterlassen</div>
+      </div>
+      <div class="dealer-layout">
+
+        <!-- LEFT: cards + actions -->
+        <div>
+          <div class="card">
+            <div class="card-header">Bestelltes Rad</div>
+            <div class="card-body" style="padding:16px">
+              <div style="display:flex;gap:16px;align-items:center;margin-bottom:14px">
+                <div style="width:80px;height:80px;background:var(--bg2);border-radius:var(--r);overflow:hidden;flex-shrink:0">
+                  <img src="trek-fx2-midstep-red.png" alt="Trek FX 2" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display:'none'"/>
+                </div>
+                <div style="flex:1">
+                  <div style="font-size:16px;font-weight:600">Trek FX 2 Midstep Gen 4</div>
+                  <div style="font-size:12px;color:var(--t2);margin-top:3px">Rot · Rahmengröße <span style="text-decoration:line-through;opacity:.45">M</span> → <strong>S (48 cm)</strong></div>
+                  <div style="display:flex;gap:6px;margin-top:8px">
+                    <span style="display:inline-flex;align-items:center;font-size:10px;font-weight:500;padding:3px 9px;border-radius:99px;background:var(--green-xlight);color:var(--green-deep);border:.5px solid rgba(157,222,76,.45)">auf Lager</span>
+                  </div>
+                </div>
+                <div style="text-align:right">
+                  <div style="font-size:22px;font-weight:600">3.499 €</div>
+                  <div style="font-size:11px;color:var(--t3)">Listenpreis</div>
+                </div>
+              </div>
+              <div class="list-row"><span class="lr-label">Seriennummer</span><input type="text" id="s5a-serial-input" onclick="typeSerial()" autocomplete="off" style="border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;font-family:'DM Sans';font-size:13px;width:160px;outline:none;cursor:pointer" placeholder="WH260508XXX"/></div>
+              <div class="list-row" style="border-bottom:none"><span class="lr-label">Übergabedatum</span><input type="text" style="border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;font-family:'DM Sans';font-size:13px;width:160px;outline:none" value="08.05.2026"/></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Zubehör anpassen <span style="color:var(--t3);font-size:9px;text-transform:none;font-weight:400;letter-spacing:0">Leasingfähig</span></div>
+            <div class="card-body" style="padding:16px">
+              <div class="edit-row">
+                <div class="er-info">
+                  <div class="er-name">Abus Bordo Granit X 6500</div>
+                  <div class="er-price">89,95 € · auf Lager</div>
+                </div>
+                <div class="er-actions"><span class="pill pill-green">Bestätigt</span></div>
+              </div>
+              <div class="edit-row" id="helm-row" style="align-items:flex-start">
+                <div class="er-info">
+                  <div class="er-name" id="helm-name">Specialized Align II Helm</div>
+                  <div class="er-price" id="helm-price">59,95 € · <span style="color:#DC2626;font-weight:500">Nicht auf Lager</span></div>
+                </div>
+                <div id="helm-actions" style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+                  <span class="pill pill-amber">Anpassung erforderlich</span>
+                  <button id="helm-alt-btn" onclick="replaceHelm()" style="background:var(--white);border:1px solid var(--border2);border-radius:var(--r-sm);padding:5px 12px;font-family:'DM Sans';font-size:12px;cursor:pointer;color:var(--t1);white-space:nowrap">Alternative wählen</button>
+                </div>
+              </div>
+              <button style="width:100%;margin-top:12px;padding:10px;border:1.5px dashed var(--border2);border-radius:var(--r-sm);background:var(--bg);color:var(--t3);font-family:'DM Sans';font-size:13px;cursor:default;text-align:center">+ Artikel hinzufügen</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Nachricht an den Kunden</div>
+            <div class="card-body">
+              <textarea id="dealer-comment" class="m-note" data-locked="true" readonly onclick="typeComment()" style="min-height:88px;font-size:13px;resize:vertical"></textarea>
+              <button class="d-btn d-btn-primary" id="s5a-send-btn" style="margin-top:12px;width:100%;opacity:.45;cursor:default" disabled onclick="sendDealerUpdate()">Update an Emily senden</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: rate + details -->
+        <div>
+          <div class="card">
+            <div class="card-header">Emily's Netto-Rate</div>
+            <div class="card-body" style="text-align:center;padding:20px 16px">
+              <div style="font-size:40px;font-weight:700;color:var(--t1);line-height:1;letter-spacing:-.02em" id="s5-rate">60,20</div>
+              <div style="font-size:12px;color:var(--t3);margin-top:5px">€ / Monat · 36 Monate</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+                <div style="background:var(--bg);border-radius:var(--r-sm);padding:10px;text-align:left">
+                  <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">Brutto-Rate</div>
+                  <div style="font-size:13px;font-weight:600;color:var(--t1);margin-top:3px" id="s5-brutto">113,20 €</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r-sm);padding:10px;text-align:left">
+                  <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">AG-Zuschuss</div>
+                  <div style="font-size:13px;font-weight:600;color:var(--t1);margin-top:3px">−20,00 €</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">Bestelldetails</div>
+            <div class="card-body" style="padding:4px 14px">
+              <div class="list-row"><span class="lr-label">Kundin</span><span class="lr-value">Emily Kaufmann</span></div>
+              <div class="list-row"><span class="lr-label">Arbeitgeber</span><span class="lr-value">TechCraft GmbH</span></div>
+              <div class="list-row"><span class="lr-label">Laufzeit</span><span class="lr-value">36 Monate</span></div>
+              <div class="list-row"><span class="lr-label">Übergabe bei</span><span class="lr-value">Fahrrad Meisenheimer</span></div>
+              <div class="list-row" style="border-bottom:none">
+                <span class="lr-label">Status</span>
+                <span class="pill pill-amber" id="s5a-status">Händler-Update ausstehend</span>
+              </div>
+            </div>
+          </div>
+          <!-- Toast: appears after "Update an Emily senden" -->
+          <div id="s5a-toast" style="display:none">
+            <div class="card" style="border-color:rgba(157,222,76,.45);background:var(--green-xlight)">
+              <div class="card-body" style="text-align:center;padding:18px 16px">
+                <div class="confirm-circle-wrap" id="s5a-toast-icon" style="display:inline-block;margin-bottom:10px">
+                  <svg viewBox="0 0 40 40" width="40" height="40">
+                    <circle cx="20" cy="20" r="19" fill="var(--green)" stroke="none"/>
+                    <path d="M12 20.5l6 6 10-12" stroke="#29363C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="check-stroke"/>
+                  </svg>
+                </div>
+                <div style="font-size:15px;font-weight:600;color:var(--t1)">Update gesendet!</div>
+                <div style="font-size:12px;color:var(--t2);margin-top:4px">Emily wird per E-Mail benachrichtigt.</div>
+              </div>
+            </div>
+          </div>
+          <button id="s5a-next-btn" onclick="go5B()" class="d-btn d-btn-primary" style="display:none;margin-top:0;width:100%">Servicepaket empfehlen</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5B: Dealer upgrades to Unlimited -->
+    <div class="sub-state" id="s5b">
+      <div class="dealer-header">
+        <div class="dh-title">Warenkorb von Emily Kaufmann</div>
+        <div class="dh-sub">Servicepaket auswählen: deine Empfehlung wird mit der aktualisierten Rate an Emily gesendet</div>
+      </div>
+      <div class="dealer-layout">
+        <div>
+          <div class="card">
+            <div class="card-header">Servicepaket wählen</div>
+            <div class="card-body" style="padding:16px 14px">
+              <div class="service-opt" id="s5b-komfort" onclick="selectDealerPkg('komfort')">
+                <div class="so-header">
+                  <div class="so-name">Komfort <span id="s5b-tag-komfort" style="font-size:11px;font-weight:400;color:var(--t3)">(aktuell)</span></div>
+                  <div class="so-price">+12,90 €/Mo.</div>
+                </div>
+                <div class="so-tagline">Inspektion · Verschleiß · Pannenhilfe · Reparatur bis 600 €</div>
+              </div>
+              <div class="service-opt" id="s5b-unlimited" onclick="selectDealerPkg('unlimited')">
+                <div class="so-header">
+                  <div class="so-name">Unlimited <span id="s5b-tag-unlimited" style="font-size:11px;font-weight:400;color:var(--t3);display:none">(aktuell)</span></div>
+                  <div class="so-price">+19,90 €/Mo.</div>
+                </div>
+                <div class="so-tagline">Alles inklusive · kein Reparaturlimit · Reifenwechsel</div>
+                <ul class="so-features">
+                  <li>Jahresinspektion + Verschleißteile</li>
+                  <li>Unbegrenzte Reparaturkosten</li>
+                  <li>Pannenhilfe & Reifenwechsel</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Nachricht an den Kunden</div>
+            <div class="card-body">
+              <textarea id="s5b-comment" class="m-note" readonly onclick="typeComment5B()" style="min-height:88px;font-size:13px;resize:vertical"></textarea>
+              <button class="d-btn d-btn-primary" id="s5b-send-btn" style="margin-top:12px;width:100%;opacity:.45;cursor:default" disabled onclick="send5BUpdate()">Empfehlung an Emily senden</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky rate + toast + final CTA -->
+        <div class="rate-sticky">
+          <div class="card">
+            <div class="card-header">Emily's Netto-Rate</div>
+            <div class="card-body" style="text-align:center;padding:20px 16px">
+              <div id="s5b-rate-num" style="font-size:40px;font-weight:700;color:var(--t1);line-height:1;letter-spacing:-.02em">60,20</div>
+              <div style="font-size:12px;color:var(--t3);margin-top:5px">€ / Monat · 36 Monate</div>
+              <div id="s5b-rate-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+                <div style="background:var(--bg);border-radius:var(--r-sm);padding:10px;text-align:left">
+                  <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">Brutto-Rate</div>
+                  <div style="font-size:13px;font-weight:600;color:var(--t1);margin-top:3px">113,20 €</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r-sm);padding:10px;text-align:left">
+                  <div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">AG-Zuschuss</div>
+                  <div style="font-size:13px;font-weight:600;color:var(--t1);margin-top:3px">−20,00 €</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Toast: appears after "Empfehlung an Emily senden" -->
+          <div id="s5b-toast" style="display:none">
+            <div class="card" style="border-color:rgba(157,222,76,.45);background:var(--green-xlight)">
+              <div class="card-body" style="text-align:center;padding:18px 16px">
+                <div class="confirm-circle-wrap" id="s5b-toast-icon" style="display:inline-block;margin-bottom:10px">
+                  <svg viewBox="0 0 40 40" width="40" height="40">
+                    <circle cx="20" cy="20" r="19" fill="var(--green)" stroke="none"/>
+                    <path d="M12 20.5l6 6 10-12" stroke="#29363C" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="check-stroke"/>
+                  </svg>
+                </div>
+                <div style="font-size:15px;font-weight:600;color:var(--t1)">Empfehlung gesendet!</div>
+                <div style="font-size:12px;color:var(--t2);margin-top:4px">Emily wird per E-Mail benachrichtigt.</div>
+              </div>
+            </div>
+          </div>
+          <button id="s5b-next-btn" onclick="showScene(6,document.getElementById('btn6'))" class="d-btn d-btn-primary" style="display:none;margin-top:0;width:100%">Abschließen und absenden</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /dealer-scene -->
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE 6 — Emily's phone (sub-states 6A / 6B / 6C)
+══════════════════════════════════════ -->
+<div class="scene" id="scene6">
+
+  <!-- 6A: Push notification — phone shell -->
+  <div class="sub-state active" id="s6a">
+    <div class="bp-scene">
+      <div class="phone-label" id="s6a-label">Auf Emilys Smartphone</div>
+      <div class="nuv-phone" id="s6a-phone" style="transform:none;opacity:1">
+        <div class="nuv-screen">
+          <div class="nuv-time-area">
+            <div class="nuv-time-num">14:23</div>
+            <div class="nuv-time-date">Freitag, 8. Mai</div>
+          </div>
+          <div class="nuv-notif" id="s6a-notif" onclick="go6B(); event.stopPropagation()">
+            <div class="nuv-notif-head">
+              <img src="jobrad-icon.png" width="24" height="24" style="border-radius:6px;box-shadow:0 0 0 2px rgba(157,222,76,.35);flex-shrink:0" alt="JobRad">
+              <span class="nuv-notif-app">JobRad</span>
+              <span class="nuv-notif-ts">jetzt</span>
+            </div>
+            <div class="nuv-notif-msg">Dein Warenkorb ist fertig, Emily</div>
+            <div class="nuv-notif-sub">Daniel von Fahrrad Meisenheimer hat deinen Warenkorb aktualisiert. Jetzt ansehen →</div>
+          </div>
+        </div>
+      </div>
+      <div class="bp-caption" id="s6a-caption">Warenkorb aktualisiert → Tippe auf die Benachrichtigung</div>
+    </div>
+  </div>
+
+  <!-- 6B: Händler-Update — Daniel's changes -->
+  <div class="sub-state" id="s6b">
+    <div class="mobile-scene">
+      <div class="mobile-ui">
+        <div class="m-nav">
+          <div class="m-logo">
+            <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+          </div>
+          <div class="m-hamburger"><span></span><span></span><span></span></div>
+        </div>
+        <div class="m-content">
+          <div class="m-title">Dein Warenkorb wurde aktualisiert</div>
+          <div class="m-sub">Fahrrad Meisenheimer hat 3 Anpassungen vorgenommen.</div>
+
+          <!-- Anpassungen card -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Anpassungen durch Händler</div>
+            <div style="padding:0">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:.5px solid var(--border)">
+                <span style="font-size:13px;color:var(--t2);flex-shrink:0">Helm</span>
+                <span style="font-size:13px;font-weight:500;text-align:right"><span style="font-weight:400;color:var(--t3);text-decoration:line-through;font-size:12px">Specialized Align II</span> → Giro Fixture MIPS</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:.5px solid var(--border)">
+                <span style="font-size:13px;color:var(--t2);flex-shrink:0">Rahmengröße</span>
+                <span style="font-size:13px;font-weight:500"><span style="font-weight:400;color:var(--t3);text-decoration:line-through;font-size:12px">M</span> → S</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px">
+                <span style="font-size:13px;color:var(--t2);flex-shrink:0">Servicepaket</span>
+                <span style="font-size:13px;font-weight:500"><span style="font-weight:400;color:var(--t3);text-decoration:line-through;font-size:12px">Komfort</span> → Unlimited</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Händler-Kommentar card -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Händler-Kommentar</div>
+            <div style="padding:12px 14px">
+              <div style="font-size:13px;color:var(--t2);line-height:1.65">„Bei deiner Pendelstrecke empfehle ich das Unlimited-Paket – unbegrenzte Reparaturen und Reifenwechsel inklusive. Den Helm hab ich auf den Giro Fixture MIPS getauscht – gleicher Standard, sofort verfügbar. Rahmengröße hab ich auf S angepasst."</div>
+              <div style="font-size:11px;color:var(--t3);margin-top:8px">Daniel · Fahrrad Meisenheimer</div>
+            </div>
+          </div>
+
+          <!-- Aktualisierte Rate card — lime number on white -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Aktualisierte Rate</div>
+            <div style="padding:22px 20px 18px;text-align:center">
+              <div style="font-size:48px;font-weight:700;color:var(--green);line-height:1;letter-spacing:-.02em">67,20</div>
+              <div style="font-size:13px;color:var(--t2);margin-top:4px">€ / Monat · 36 Monate</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:12px;border-top:.5px solid var(--border)">
+                <div style="text-align:center">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:3px">Vorher</div>
+                  <div style="font-size:14px;font-weight:500;color:var(--t3);text-decoration:line-through">60,20 €</div>
+                </div>
+                <div style="text-align:center">
+                  <div style="font-size:10px;color:var(--t3);margin-bottom:3px">Jetzt</div>
+                  <div style="font-size:14px;font-weight:700;color:var(--t1)">67,20 €</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leasing-Antrag — leicht abgesetzt via top rule -->
+          <div style="border-top:1px solid var(--green);margin-top:32px;padding:20px 0">
+            <!-- Headline + supportive description (centered, tightly grouped) -->
+            <div style="font-size:16px;font-weight:600;color:var(--t1);margin-bottom:6px;text-align:center">Leasing-Antrag abschließen</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.55;text-align:center">Alles geprüft und bestätigt – ein Klick, und dein Dienstrad-Vertrag ist verbindlich abgeschlossen.</div>
+            <!-- Legal fine print (centered, separated, footer-style) -->
+            <div style="font-size:11px;color:var(--t3);line-height:1.55;text-align:center;margin-top:24px">Mit „Jetzt leasen!" schließt du einen verbindlichen Nutzungsüberlassungsvertrag über 36 Monate ab.</div>
+          </div>
+        </div>
+        <!-- Sticky footer CTA — consistent with EmilyZone pattern -->
+        <div class="cart-footer" style="padding:12px 16px 14px">
+          <button class="btn-primary" id="s6b-jl-btn" onclick="go6C()" style="width:100%">Jetzt leasen!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6C: Bestätigung -->
+  <div class="sub-state" id="s6c">
+    <div class="mobile-scene">
+      <div class="mobile-ui">
+        <div class="m-nav">
+          <div class="m-logo">
+            <img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad">
+          </div>
+          <div class="m-hamburger"><span></span><span></span><span></span></div>
+        </div>
+        <div class="m-content">
+          <!-- Confirm hero — bicycle icon -->
+          <div style="text-align:center;padding:20px 0 16px">
+            <div class="confirm-circle-wrap" style="display:inline-block;margin-bottom:14px">
+              <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <circle cx="30" cy="30" r="28" fill="var(--green)"/>
+                <!-- rear wheel -->
+                <circle cx="19" cy="36" r="8" stroke="#29363C" stroke-width="2.2"/>
+                <!-- front wheel -->
+                <circle cx="41" cy="36" r="8" stroke="#29363C" stroke-width="2.2"/>
+                <!-- frame: chain stay, seat tube, top tube, down tube, fork -->
+                <path d="M19 36 L30 36 M30 36 L25 21 M30 36 L39 21 M25 21 L39 21 M39 21 L41 36" stroke="#29363C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- seat -->
+                <path d="M22 21 L28 21" stroke="#29363C" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- handlebar stem + bar -->
+                <path d="M39 17 L43 17 M41 17 L41 21" stroke="#29363C" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="m-title" style="margin-bottom:4px">Dein JobRad ist bereit, Emily!</div>
+            <div style="font-size:13px;color:var(--t2);line-height:1.5">Dein Bike Pass wurde soeben aktiviert.</div>
+          </div>
+
+          <!-- Summary card -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Zusammenfassung</div>
+            <div class="card-body">
+              <div class="list-row"><span class="lr-label">Rad</span><span class="lr-value" style="font-size:12px">Trek FX 2 Midstep Gen 4</span></div>
+              <div class="list-row"><span class="lr-label">Netto-Rate</span><span class="lr-value" style="color:var(--green-dark);font-weight:600">67,20 €/Mo.</span></div>
+              <div class="list-row"><span class="lr-label">Servicepaket</span><span class="lr-value" style="color:var(--green-dark)">Unlimited</span></div>
+              <div class="list-row"><span class="lr-label">Laufzeit</span><span class="lr-value">36 Monate</span></div>
+              <div class="list-row"><span class="lr-label">Händler</span><span class="lr-value" style="font-size:12px">Fahrrad Meisenheimer</span></div>
+              <div class="list-row"><span class="lr-label">Übergabe</span><span class="lr-value" style="font-size:12px">Fr, 8. Mai 2026</span></div>
+            </div>
+          </div>
+
+          <!-- Bike Pass card -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header">Bike Pass</div>
+            <div class="card-body" style="text-align:center">
+              <div style="font-size:15px;font-weight:600;color:var(--t1);margin-bottom:2px">Emily Kaufmann</div>
+              <div style="font-size:12px;color:var(--t2);margin-bottom:10px">Trek FX 2 Midstep Gen 4</div>
+              <div style="font-size:11px;color:var(--t3);font-family:'DM Mono',monospace;margin-bottom:12px">BP-2026-EM-0042</div>
+              <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap">
+                <span class="pill pill-green">Aktiv</span>
+                <span class="pill pill-green">Versichert</span>
+                <span class="pill pill-green">Garantie aktiv</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cart-footer" style="padding:12px 16px 14px">
+          <button class="btn-primary" id="s6c-bp-btn" style="width:100%" onclick="showScene(7,document.getElementById('btn7'))">Bike Pass öffnen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     COMMITMENT OVERLAY — Ch. 7 transition
+══════════════════════════════════════ -->
+<div class="commitment-overlay" id="commitment-overlay">
+  <div class="co-label">Trek FX 2 Midstep Gen 4</div>
+  <div class="co-title">Dein Rad ist für dich reserviert.</div>
+  <div class="co-rate">67,20 €</div>
+  <div class="co-duration">pro Monat · 36 Monate · Unlimited-Paket</div>
+  <div class="co-divider"></div>
+  <div class="co-hint">Fahrrad Meisenheimer wird benachrichtigt</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     INBOX OVERLAY — Magic Link email glimpse
+══════════════════════════════════════ -->
+<div class="inbox-overlay" id="inbox-overlay">
+  <div class="phone-label" id="inbox-label">In Emilys Postfach</div>
+  <div class="inbox-frame" id="inbox-frame">
+    <div class="inbox-screen">
+
+      <!-- Status bar -->
+      <div class="inbox-statusbar">
+        <span>9:41</span>
+        <span style="display:flex;align-items:center;gap:5px">
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="#000"><rect x="0" y="3" width="3" height="7" rx="1"/><rect x="4.5" y="2" width="3" height="8" rx="1"/><rect x="9" y="0" width="3" height="10" rx="1"/></svg>
+          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M6 2 C3.2 2 0.8 3.2 0 5 C1.6 7.2 3.7 8.5 6 8.5 C8.3 8.5 10.4 7.2 12 5 C11.2 3.2 8.8 2 6 2Z" stroke="#000" stroke-width="1.2" fill="none"/><circle cx="6" cy="5" r="1.5" fill="#000"/></svg>
+          <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x=".5" y=".5" width="18" height="10" rx="3" stroke="#000" stroke-opacity=".35"/><rect x="2" y="2" width="14" height="7" rx="1.5" fill="#000"/><path d="M20 3.5v4a2 2 0 000-4Z" fill="#000" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+
+      <!-- Mail header -->
+      <div class="inbox-header">
+        <div class="inbox-back">‹ Postfächer</div>
+        <div class="inbox-title">Posteingang</div>
+        <div class="inbox-edit">Bearbeiten</div>
+      </div>
+
+      <!-- Row 1 — muted -->
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-empty-dot"></div>
+        <div class="inbox-app-icon" style="background:#e8e8ed;color:#8e8e93">Li</div>
+        <div class="inbox-meta">
+          <div class="inbox-from-muted">LinkedIn</div>
+          <div class="inbox-subject" style="color:#8e8e93">Du wirst in 3 Beiträgen erwähnt</div>
+          <div class="inbox-preview">Sieh, was deine Kontakte teilen...</div>
+        </div>
+        <div class="inbox-time">Gestern</div>
+      </div>
+
+      <!-- Row 2 — JobRad (highlighted, unread) -->
+      <div class="inbox-row inbox-row-tappable" onclick="closeInboxAndProceed()">
+        <div class="inbox-unread-dot"></div>
+        <img src="jobrad-icon.png" width="34" height="34" style="flex-shrink:0;margin-top:1px;display:block" alt="JobRad">
+        <div class="inbox-meta">
+          <div class="inbox-from">JobRad</div>
+          <div class="inbox-subject" style="font-weight:600;color:#000">Dein Anmeldelink · JobRad</div>
+          <div class="inbox-preview">Klicke auf den Link, um dich anzumelden...</div>
+        </div>
+        <div class="inbox-time" style="color:#29363C;font-weight:600">Jetzt</div>
+      </div>
+
+      <!-- Row 3 — muted -->
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-empty-dot"></div>
+        <div class="inbox-app-icon" style="background:#e8e8ed;color:#8e8e93">TC</div>
+        <div class="inbox-meta">
+          <div class="inbox-from-muted">TechCraft GmbH</div>
+          <div class="inbox-subject" style="color:#8e8e93">Willkommen im Mitarbeiterportal</div>
+          <div class="inbox-preview">Hallo Emily, dein Konto ist aktiv...</div>
+        </div>
+        <div class="inbox-time">Mo.</div>
+      </div>
+
+      <!-- Row 4 — muted -->
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-empty-dot"></div>
+        <div class="inbox-app-icon" style="background:#e8e8ed;color:#8e8e93">Sp</div>
+        <div class="inbox-meta">
+          <div class="inbox-from-muted">Spotify</div>
+          <div class="inbox-subject" style="color:#8e8e93">Deine monatliche Zusammenfassung</div>
+          <div class="inbox-preview">Du hast im April 127 Stunden...</div>
+        </div>
+        <div class="inbox-time">Sa.</div>
+      </div>
+
+    </div><!-- /inbox-screen -->
+  </div><!-- /inbox-frame -->
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE 7 — Bike Pass 0 km (device shell)
+══════════════════════════════════════ -->
+<div class="scene" id="scene7">
+  <div class="bp-scene">
+    <div class="bp-phone" id="bp-phone">
+      <div class="bp-screen">
+        <!-- Mini nav -->
+        <div class="bps-nav">
+          <div class="bps-icon">JR</div>
+          <span class="bps-name">JobRad</span>
+          <span class="bps-sep"></span>
+          <span class="bps-status">Bike Pass · Aktiv</span>
+        </div>
+        <!-- Bike Pass hero -->
+        <div class="bps-hero">
+          <div class="bph-bp-label">JobRad Bike Pass</div>
+          <div class="bph-name">Trek FX 2 Midstep Gen 4</div>
+          <div class="bph-sub">Rot · Größe S · Leasingstart 8.05.2026</div>
+          <div class="bph-km-row">
+            <div class="bph-km-wrap">
+              <div class="bph-km" id="s7-km">0</div>
+              <div class="bph-km-unit">km</div>
+            </div>
+            <div class="bph-status-pill">
+              <div class="bph-status-dot"></div>
+              Aktiv
+            </div>
+          </div>
+        </div>
+        <!-- Detail rows -->
+        <div class="bps-body">
+          <div class="bps-row">
+            <span class="bps-label">Leasingstart</span>
+            <span class="bps-value">8. Mai 2026</span>
+          </div>
+          <div class="bps-row">
+            <span class="bps-label">Leasingende</span>
+            <span class="bps-value">7. Mai 2029</span>
+          </div>
+          <div class="bps-row">
+            <span class="bps-label">Servicepaket</span>
+            <span class="bps-value" style="color:var(--green-dark)">Unlimited</span>
+          </div>
+          <div class="bps-row">
+            <span class="bps-label">Arbeitgeber</span>
+            <span class="bps-value">TechCraft GmbH</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bp-caption" id="bp-caption">Bike Pass aktiviert · 0 km · Das Rad gehört jetzt zur Identität von Emily</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCENE 8 — Bike Pass 387 km (flat)
+══════════════════════════════════════ -->
+<div class="scene" id="scene8">
+  <div class="s8-wrap">
+    <div class="s8-inner">
+      <div class="s8-nav">
+        <div class="s8-nav-icon">JR</div>
+        <span class="s8-nav-name">JobRad</span>
+        <div class="s8-nav-sep"></div>
+        <span class="s8-nav-section">Bike Pass</span>
+      </div>
+      <div class="s8-hero">
+        <div class="s8h-top">
+          <div class="s8h-img">
+            <img src="trek-fx2-midstep-red.png" alt="Trek FX 2" onerror="this.style.display='none'"/>
+          </div>
+          <div class="s8h-info">
+            <div class="s8h-bplabel">JobRad Bike Pass</div>
+            <div class="s8h-name">Trek FX 2 Midstep Gen 4</div>
+            <div class="s8h-sub">Rot · Größe S · 2026</div>
+            <div class="s8h-pills">
+              <span class="s8h-pill">Trekking</span>
+              <span class="s8h-pill">Unlimited</span>
+            </div>
+          </div>
+        </div>
+        <div class="s8h-km-row">
+          <div class="s8h-km-group">
+            <div class="s8h-km">387</div>
+            <div class="s8h-km-unit">km</div>
+          </div>
+          <div class="s8h-active">
+            <div class="s8h-active-dot"></div>
+            3 Monate aktiv
+          </div>
+        </div>
+      </div>
+      <div class="s8-content">
+        <div class="s8-card">
+          <div class="s8-card-head">Vertragsdaten</div>
+          <div class="s8-card-body">
+            <div class="s8-row"><span class="s8-rl">Leasingstart</span><span class="s8-rv">8. Mai 2026</span></div>
+            <div class="s8-row"><span class="s8-rl">Leasingende</span><span class="s8-rv">7. Mai 2029</span></div>
+            <div class="s8-row"><span class="s8-rl">Netto-Rate</span><span class="s8-rv green">67,20 €/Mo.</span></div>
+            <div class="s8-row"><span class="s8-rl">Servicepaket</span><span class="s8-rv green">Unlimited</span></div>
+            <div class="s8-row"><span class="s8-rl">Arbeitgeber</span><span class="s8-rv">TechCraft GmbH</span></div>
+          </div>
+        </div>
+        <div class="s8-card">
+          <div class="s8-card-head">Dein Servicepaket</div>
+          <div class="s8-card-body">
+            <div class="s8-row"><span class="s8-rl">Jahresinspektion</span><span class="s8-rv green">Inklusive</span></div>
+            <div class="s8-row"><span class="s8-rl">Verschleißteile</span><span class="s8-rv green">Inklusive</span></div>
+            <div class="s8-row"><span class="s8-rl">Reparaturen</span><span class="s8-rv green">Unbegrenzt</span></div>
+            <div class="s8-row"><span class="s8-rl">Pannenhilfe</span><span class="s8-rv green">Inklusive</span></div>
+            <div class="s8-row"><span class="s8-rl">Nächste Inspektion</span><span class="s8-rv">April 2027</span></div>
+          </div>
+        </div>
+        <div class="s8-card">
+          <div class="s8-card-head">Zubehör</div>
+          <div class="s8-card-body">
+            <div class="s8-row"><span class="s8-rl">Abus Bordo Granit X 6500</span><span class="pill pill-green">Aktiv</span></div>
+            <div class="s8-row"><span class="s8-rl">Giro Fixture MIPS Helm</span><span class="pill pill-green">Aktiv</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════ -->
+<script>
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ── Scene switching ──
+let currentScene = 1;
+
+// Skip Scene 1 cinematic opener when entering from ep0
+// (Emily already saw the phone-notification intro at the end of ep0).
+// Index → ep1 still plays the full 95% opener.
+if (new URLSearchParams(location.search).get('from') === 'ep0') {
+  currentScene = 2;
+  document.getElementById('scene1').classList.remove('active');
+  document.getElementById('scene2').classList.add('active');
+  document.getElementById('btn2').classList.add('active');
+  history.replaceState(null, '', '#s2');
+}
+
+// EMILY zone flow order (scene 1 is cinematic intro — not in nav)
+const emilyFlow = [2, 3, 4, 'H', 'A'];
+
+function showScene(id, btn) {
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen-btn').forEach(b => b.classList.remove('active'));
+  const sceneEl = document.getElementById(id == 'H' ? 'sceneH' : id == 'A' ? 'sceneA' : 'scene' + id);
+  if (sceneEl) sceneEl.classList.add('active');
+  if (btn) btn.classList.add('active');
+  currentScene = id;
+  window.scrollTo(0, 0);
+  history.replaceState(null, '', '#s' + id);
+
+  if (id == 1) setTimeout(() => runS1Counter(), 120);
+  if (id == 6) { setSubState('s6a', ['s6a','s6b','s6c']); enter6A(); }
+  if (id == 7) {
+    s7CounterDone = false;
+    const phone = document.getElementById('bp-phone');
+    const caption = document.getElementById('bp-caption');
+    caption.classList.remove('visible');
+    phone.classList.remove('fade-out');
+    phone.classList.add('hidden');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => { phone.classList.remove('hidden'); });
+    });
+    setTimeout(() => caption.classList.add('visible'), 900);
+  }
+
+  updateSubNav(id);
+}
+
+// ── Sub-nav configuration ──
+const subNavConfig = {};
+
+const subNavActiveState = {};
+
+function updateSubNav(id) {
+  const bar = document.getElementById('sub-nav-bar');
+  const cfg = subNavConfig[id];
+  const mobileScene = document.querySelector('.scene.active .mobile-scene');
+  if (!cfg) {
+    bar.innerHTML = '';
+    bar.classList.add('hidden');
+    if (mobileScene) mobileScene.style.paddingTop = '104px';
+    return;
+  }
+
+  bar.classList.remove('hidden');
+  if (mobileScene) mobileScene.style.paddingTop = '';
+  const states = subNavActiveState[id];
+  let activeIdx = 0;
+  states.forEach((sid, i) => {
+    const el = document.getElementById(sid);
+    if (el && el.classList.contains('active')) activeIdx = i;
+  });
+
+  const sid = typeof id === 'string' ? `'${id}'` : id;
+  bar.innerHTML = cfg.map((item, i) => {
+    const isActive = i === activeIdx;
+    const isDone = i < activeIdx;
+    const cls = isActive ? 'active' : (isDone ? 'done' : '');
+    const num = isDone ? '✓' : (i + 1);
+    const connector = i < cfg.length - 1
+      ? `<div class="nav-step-connector${isDone ? ' done' : ''}"></div>`
+      : '';
+    return `<div class="nav-step ${cls}" onclick="subNavClick(${sid},${i})">`
+      + `<div class="nav-step-num">${num}</div>${item.label}</div>${connector}`;
+  }).join('');
+}
+
+function subNavClick(id, idx) {
+  subNavConfig[id][idx].fn();
+}
+
+// ── Keyboard navigation ──
+document.addEventListener('keydown', function(e) {
+  if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'Enter') {
+    e.preventDefault(); advance();
+  } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+    e.preventDefault(); retreat();
+  }
+});
+
+// ── Click-anywhere-to-advance (for live demo) ──
+document.addEventListener('click', function(e) {
+  const t = e.target;
+  if (currentScene == 1) return; // scene 1 is keyboard-only
+  // Scene 6 phone shell background = dead zone; only nuv-notif fires go6B
+  if (currentScene == 6 && t.closest('.bp-scene, .nuv-phone, .nuv-screen, .nuv-time-area')) return;
+  if (t.closest('button, a, input, select, textarea, .screen-bar, .sub-nav-bar, .nuv-overlay, .commitment-overlay, .inbox-overlay, .bike-card, #s3a-email-field, .pkg, .dealer-row, .appt-slot, #sA-note-field')) return;
+  advance();
+});
+
+function advance() {
+  const n = currentScene;
+
+  if (n == 3) { fireHint(); return; }
+  if (n === 'R') { fireHint(); return; }
+  if (n == 4) { if (document.querySelector('#scene4 .pkg.selected')) { pulseHint(document.getElementById('s4-cta')); } else { fireHint(); } return; }
+  if (n === 'H') { if (document.querySelector('#sceneH .dealer-row.selected')) { pulseHint(document.getElementById('sH-cta')); } else { fireHint(); } return; }
+  if (n === 'A') {
+    if (document.getElementById('sTa').classList.contains('active')) {
+      // Always hint — slot, note, then CTA must be clicked explicitly; click-outside never skips steps
+      fireHint(); return;
+    }
+    if (document.getElementById('sTb').classList.contains('active')) { pulseHint(document.querySelector('#sTb .btn-primary')); return; }
+    if (document.getElementById('sTc').classList.contains('active')) { pulseHint(document.querySelector('#sTc .btn-primary')); return; }
+  }
+  if (n == 5) {
+    if (document.getElementById('s5a').classList.contains('active')) { fireHint(); return; }
+    if (document.getElementById('s5b').classList.contains('active')) { fireHint(); return; }
+  }
+  if (n == 6) {
+    if (document.getElementById('s6a').classList.contains('active')) { go6B(); return; }
+    if (document.getElementById('s6b').classList.contains('active')) { go6C(); return; }
+    if (document.getElementById('s6c').classList.contains('active')) { showScene(7, document.getElementById('btn7')); return; }
+  }
+  if (n == 7) {
+    if (!s7CounterDone) { runKmCounter(); return; }
+  }
+
+  // Scene 1: cinematic — dissolve through black into Bike Finder
+  if (n == 1) {
+    if (!s1ReadyToAdvance) return;
+    const overlay = document.getElementById('scene-fade-overlay');
+    overlay.classList.add('in');
+    setTimeout(() => {
+      showScene(2, document.getElementById('btn2'));
+      overlay.classList.remove('in');
+    }, 425);
+    return;
+  }
+
+  // Scene 2: background click fires hint, not advance
+  if (n == 2) { fireHint(); return; }
+
+  // Numeric fallback for AT DEALER zone
+  const numericNext = { 1:2, 2:3, 5:6, 6:7, 7:8 };
+  if (numericNext[n]) showScene(numericNext[n], document.getElementById('btn' + numericNext[n]));
+}
+
+function retreat() {
+  const n = currentScene;
+  if (n === 'R') { showScene(3, document.getElementById('btn3')); return; }
+  if (n == 4) { showScene('R', document.getElementById('btnR')); return; }
+  if (n === 'H') { showScene(4, document.getElementById('btn4')); return; }
+  if (n === 'A') {
+    if (document.getElementById('sTc').classList.contains('active')) { goTb(); return; }
+    if (document.getElementById('sTb').classList.contains('active')) { goTa(); return; }
+    if (document.getElementById('sTa').classList.contains('active')) { showScene('H', document.getElementById('btnH')); return; }
+  }
+  if (n == 5) {
+    if (document.getElementById('s5b').classList.contains('active')) { go5A(); return; }
+    // s5a: go back to sceneA sTc (summary — last Emily zone screen)
+    setSubState('sTc', ['sTa','sTb','sTc']);
+    showScene('A', document.getElementById('btnA'));
+    return;
+  }
+  if (n == 6 && document.getElementById('s6b').classList.contains('active')) { go6A(); return; }
+  if (n == 6 && document.getElementById('s6c').classList.contains('active')) { go6B(); return; }
+
+  const numericPrev = { 2:null, 3:2, 6:5, 7:6, 8:7 };
+  if (numericPrev[n]) showScene(numericPrev[n], document.getElementById('btn' + numericPrev[n]));
+}
+
+// ── Scene 1: 95% counter → "Bis jetzt." reveal ──
+let s1Done = false;
+let s1ReadyToAdvance = false;
+async function runS1Counter() {
+  if (s1Done) return;
+  s1Done = true;
+  const el = document.getElementById('s1-num');
+  animateCount(el, 0, 95, 2400, '%');      // slow, deliberate count
+  await sleep(2800);                        // 95% holds — let it land
+  document.getElementById('s1-text').classList.add('visible'); // subline fades in
+  await sleep(3200);                        // audience reads the full sentence
+  document.getElementById('s1-num').classList.add('s1-fadeout');  // 95% out first
+  await sleep(600);                         // stagger — subline follows
+  document.getElementById('s1-text').classList.add('s1-fadeout'); // subline out
+  await sleep(1000);                        // wait for text to clear
+  document.getElementById('s1-bisjetzt').classList.add('visible'); // "Bis jetzt" fades in (1s)
+  await sleep(1900);                        // fade-in completes + holds ~900ms
+  document.getElementById('s1-bisjetzt').classList.add('s1-fadeout'); // "Bis jetzt" fades out
+  await sleep(900);                         // fading out
+  document.getElementById('s1-hint').classList.add('visible');     // SPACE fades in
+  await sleep(700);
+  s1ReadyToAdvance = true;
+}
+
+function animateCount(el, from, to, duration, suffix) {
+  suffix = suffix || '';
+  const start = performance.now();
+  const range = to - from;
+  function step(now) {
+    const elapsed = Math.min(now - start, duration);
+    const t = elapsed / duration;
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(from + range * ease) + suffix;
+    if (elapsed < duration) requestAnimationFrame(step);
+    else el.textContent = to + suffix;
+  }
+  requestAnimationFrame(step);
+}
+
+// ── Scene 3 sub-state functions ──
+function go3A() { setSubState('s3a', ['s3a']); }
+
+// ── Scene A (Termin buchen) sub-state functions ──
+function goTa() { setSubState('sTa', ['sTa','sTb','sTc']); }
+function goTb() {
+  // Push dynamic time into confirmation card and NUV inbox
+  document.getElementById('sTb-time').textContent = selectedApptTime;
+  const fmSubj = document.getElementById('fm-appt-subject');
+  if (fmSubj) fmSubj.textContent = 'Terminbestätigung: Fr, 8. Mai · ' + selectedApptTime.split(' – ')[0] + ' Uhr';
+  setSubState('sTb', ['sTa','sTb','sTc']);
+  setTimeout(animatesTb, 40);
+}
+
+// ── Scene 5 sub-state functions ──
+function go5A() { setSubState('s5a', ['s5a','s5b']); }
+function go5B() { setSubState('s5b', ['s5a','s5b']); }
+
+function typeComment5B() {
+  var el = document.getElementById('s5b-comment');
+  if (el.value || el.dataset.typing) return;
+  el.dataset.typing = '1';
+  el.blur();
+  var msg = 'Bei 18 km Pendelstrecke täglich — auch im Regen — empfehle ich das Unlimited-Paket. Unbegrenzte Reparaturen, Reifenwechsel inklusive. Das gibt dir die komplette Sorglosigkeit.';
+  typeInto(el, msg, 8, function() {
+    delete el.dataset.typing;
+    var btn = document.getElementById('s5b-send-btn');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  });
+}
+
+function send5BUpdate() {
+  var toast = document.getElementById('s5b-toast');
+  toast.style.display = 'block';
+  var icon = document.getElementById('s5b-toast-icon');
+  icon.classList.remove('confirm-circle-wrap'); void icon.offsetWidth; icon.classList.add('confirm-circle-wrap');
+  var stroke = toast.querySelector('.check-stroke');
+  stroke.style.animation = 'none'; void stroke.offsetWidth; stroke.style.animation = '';
+  var btn = document.getElementById('s5b-send-btn');
+  btn.textContent = 'Gesendet';
+  btn.disabled = true;
+  btn.style.opacity = '0.55';
+  btn.style.cursor = 'default';
+  var nextBtn = document.getElementById('s5b-next-btn');
+  if (nextBtn) { nextBtn.style.display = 'block'; setTimeout(function() { pulseHint(nextBtn); }, 600); }
+  toast.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── Scene 5A: typing animations ──
+function typeInto(el, text, speed, onDone) {
+  el.value = '';
+  var i = 0;
+  var t = setInterval(function() {
+    el.value += text[i++];
+    if (i >= text.length) { clearInterval(t); if (onDone) onDone(); }
+  }, speed);
+}
+
+function typeSerial() {
+  var input = document.getElementById('s5a-serial-input');
+  if (input.value || input.dataset.typing) return;
+  input.dataset.typing = '1';
+  input.blur();
+  typeInto(input, 'WTU240508427', 80, function() {
+    delete input.dataset.typing;
+    input.readOnly = true;
+    input.style.cursor = 'default';
+  });
+}
+
+function typeComment() {
+  var el = document.getElementById('dealer-comment');
+  // If helm not yet replaced, redirect hint to alt button
+  if (el.dataset.locked) { pulseHint(document.getElementById('helm-alt-btn')); return; }
+  if (el.value || el.dataset.typing) return;
+  el.dataset.typing = '1';
+  el.blur();
+  var msg = 'Das Specialized Align II Helm ist leider nicht mehr auf Lager. Ich empfehle stattdessen den Giro Fixture MIPS Helm (64,95 €) — gleicher Schutzstandard, sofort verfügbar. Ich zeige dir das Modell direkt hier im Ladengeschäft.';
+  typeInto(el, msg, 8, function() {
+    delete el.dataset.typing;
+    var btn = document.getElementById('s5a-send-btn');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+    setTimeout(function() { pulseHint(btn); }, 350);
+  });
+}
+
+function replaceHelm() {
+  document.getElementById('helm-name').textContent = 'Giro Fixture MIPS Helm';
+  document.getElementById('helm-price').innerHTML = '64,95 € · auf Lager';
+  // Lock the row height before removing the button so the row doesn't jump
+  var actionsEl = document.getElementById('helm-actions');
+  actionsEl.style.minHeight = actionsEl.offsetHeight + 'px';
+  actionsEl.innerHTML = '<span class="pill pill-green">Bestätigt</span>';
+  // Rate ticks up: 59,95 → 64,95 (+5 € Zubehör → +0,14 €/Mo at 36 months)
+  var rateEl = document.getElementById('s5-rate');
+  if (rateEl) { rateEl.textContent = '60,34'; rateEl.classList.add('rate-flash'); setTimeout(function(){ rateEl.classList.remove('rate-flash'); }, 400); }
+  var bruttoEl = document.getElementById('s5-brutto');
+  if (bruttoEl) { bruttoEl.textContent = '113,47 €'; }
+  // Unlock the comment field
+  var comment = document.getElementById('dealer-comment');
+  delete comment.dataset.locked;
+  comment.style.opacity = '';
+  comment.style.cursor = '';
+}
+
+function sendDealerUpdate() {
+  // Show toast with checkmark animation
+  var toast = document.getElementById('s5a-toast');
+  toast.style.display = 'block';
+  var icon = document.getElementById('s5a-toast-icon');
+  icon.classList.remove('confirm-circle-wrap'); void icon.offsetWidth; icon.classList.add('confirm-circle-wrap');
+  var stroke = toast.querySelector('.check-stroke');
+  stroke.style.animation = 'none'; void stroke.offsetWidth; stroke.style.animation = '';
+  // Lock button
+  var btn = document.getElementById('s5a-send-btn');
+  btn.textContent = 'Gesendet';
+  btn.disabled = true;
+  btn.style.opacity = '0.55';
+  btn.style.cursor = 'default';
+  // Reveal next-step CTA
+  var nextBtn = document.getElementById('s5a-next-btn');
+  if (nextBtn) { nextBtn.style.display = 'block'; setTimeout(function() { pulseHint(nextBtn); }, 600); }
+  // Scroll toast into view
+  toast.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── Scene 6 sub-state functions ──
+function enter6A() {
+  const label   = document.getElementById('s6a-label');
+  const notif   = document.getElementById('s6a-notif');
+  const caption = document.getElementById('s6a-caption');
+  const phone   = document.getElementById('s6a-phone');
+  label.classList.remove('visible');
+  notif.classList.remove('visible');
+  caption.classList.remove('visible');
+  setTimeout(() => label.classList.add('visible'), 50);
+  setTimeout(() => notif.classList.add('visible'), 50);
+  setTimeout(() => doBuzz(phone), 900);
+  setTimeout(() => caption.classList.add('visible'), 100);
+}
+function go6A() { setSubState('s6a', ['s6a','s6b','s6c']); enter6A(); }
+function go6B() { setSubState('s6b', ['s6a','s6b','s6c']); document.querySelector('#s6b .mobile-scene').style.paddingTop = '104px'; }
+function go6C() { setSubState('s6c', ['s6a','s6b','s6c']); document.querySelector('#s6c .mobile-scene').style.paddingTop = '104px'; }
+
+function setSubState(activeId, allIds) {
+  allIds.forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById(activeId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Service package selection (Scene 4) ──
+const pkgRates = { kein: '47,30', basis: '54,80', komfort: '60,20', unlimited: '67,20' };
+function selectPkg(name) {
+  if (name !== 'komfort') { pulseHint(document.getElementById('pkg-komfort')); return; }
+  ['kein','basis','komfort','unlimited'].forEach(p => {
+    const el = document.getElementById('pkg-' + p);
+    if (el) el.classList.remove('selected');
+  });
+  document.getElementById('pkg-' + name).classList.add('selected');
+  const rateEl = document.getElementById('s4-rate-display');
+  rateEl.textContent = pkgRates[name] + ' € / Monat';
+  rateEl.classList.remove('rate-flash');
+  void rateEl.offsetWidth;
+  rateEl.classList.add('rate-flash');
+  const cta = document.getElementById('s4-cta');
+  if (cta) cta.disabled = false;
+}
+
+// ── Dealer selection (Scene H) ──
+function selectDealer(name) {
+  ['meisenheimer','velo','zweirad'].forEach(d => {
+    const card = document.getElementById('dealer-' + d);
+    const pin  = document.getElementById('pin-' + d);
+    if (card) card.classList.remove('selected');
+    if (pin)  pin.classList.remove('active');
+  });
+  document.getElementById('dealer-' + name).classList.add('selected');
+  const pin = document.getElementById('pin-' + name);
+  if (pin) pin.classList.add('active');
+  const cta = document.getElementById('sH-cta');
+  if (cta) cta.disabled = false;
+}
+
+// ── Dealer pkg selection (Scene 5B) ──
+function selectDealerPkg(name) {
+  ['komfort','unlimited'].forEach(function(p) {
+    document.getElementById('s5b-' + p).classList.remove('selected');
+  });
+  document.getElementById('s5b-' + name).classList.add('selected');
+  document.getElementById('s5b-tag-komfort').style.display  = name === 'komfort'   ? '' : 'none';
+  document.getElementById('s5b-tag-unlimited').style.display = name === 'unlimited' ? '' : 'none';
+  var num  = document.getElementById('s5b-rate-num');
+  var grid = document.getElementById('s5b-rate-grid');
+  function cell(label, val) {
+    return '<div style="background:var(--bg);border-radius:var(--r-sm);padding:10px;text-align:left">' +
+      '<div style="font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">' + label + '</div>' +
+      '<div style="font-size:13px;font-weight:600;color:var(--t1);margin-top:3px">' + val + '</div></div>';
+  }
+  if (name === 'unlimited') {
+    num.textContent = '67,20';
+    num.classList.add('rate-flash'); setTimeout(function(){ num.classList.remove('rate-flash'); }, 400);
+    grid.innerHTML = cell('Vorher','<span style="text-decoration:line-through;opacity:.55">60,20 €</span>') +
+                     cell('Differenz','+7,00 €/Mo.') +
+                     cell('Brutto-Rate','126,30 €') +
+                     cell('AG-Zuschuss','−20,00 €');
+  } else {
+    num.textContent = '60,20';
+    num.classList.add('rate-flash'); setTimeout(function(){ num.classList.remove('rate-flash'); }, 400);
+    grid.innerHTML = cell('Brutto-Rate','113,20 €') + cell('AG-Zuschuss','−20,00 €');
+  }
+}
+
+// ── NUV overlay ──
+let nuvBuzzInterval = null;
+function triggerNUV() {
+  const overlay = document.getElementById('nuv-overlay');
+  const phone   = document.getElementById('nuv-phone');
+  const notif   = document.getElementById('nuv-notif');
+  const caption = document.getElementById('nuv-caption');
+  overlay.classList.add('active');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { phone.classList.add('visible'); });
+  });
+  setTimeout(() => { notif.classList.add('visible'); }, 50);
+  setTimeout(() => {
+    doBuzz(phone);
+    nuvBuzzInterval = setInterval(() => doBuzz(phone), 3500);
+  }, 900);
+  setTimeout(() => { caption.classList.add('visible'); }, 100);
+}
+
+function doBuzz(el) {
+  el.classList.remove('buzz');
+  void el.offsetWidth;
+  el.classList.add('buzz');
+  el.addEventListener('animationend', () => el.classList.remove('buzz'), { once: true });
+}
+
+function goToDealer() {
+  if (nuvBuzzInterval) { clearInterval(nuvBuzzInterval); nuvBuzzInterval = null; }
+  const notif = document.getElementById('nuv-notif');
+  if (notif) { notif.style.transform = 'scale(.96)'; notif.style.opacity = '.7'; }
+  setTimeout(() => {
+    document.getElementById('nuv-overlay').classList.remove('active');
+    document.getElementById('nuv-phone').classList.remove('visible');
+    document.getElementById('nuv-notif').classList.remove('visible');
+    document.getElementById('nuv-caption').classList.remove('visible');
+    document.getElementById('nuv-phone').style.transform = '';
+    document.getElementById('nuv-phone').style.opacity = '';
+    document.getElementById('nuv-notif').style.transform = '';
+    document.getElementById('nuv-notif').style.opacity = '';
+    // reset inbox state for re-entry
+    const lock = document.getElementById('nuv-lockscreen');
+    const inbox = document.getElementById('nuv-inbox-screen');
+    lock.style.display = ''; lock.style.opacity = ''; lock.style.transition = '';
+    inbox.classList.remove('visible'); inbox.style.display = 'none';
+    showScene(5, document.getElementById('btn5'));
+  }, 200);
+}
+
+// ── Commitment overlay ──
+function triggerCommitment() {
+  const overlay = document.getElementById('commitment-overlay');
+  overlay.classList.add('active');
+  setTimeout(() => overlay.classList.add('show'), 30);
+  overlay.addEventListener('click', advanceFromCommitment, { once: true });
+  setTimeout(advanceFromCommitment, 2800);
+}
+
+let commitmentDone = false;
+function advanceFromCommitment() {
+  if (commitmentDone) return;
+  commitmentDone = true;
+  const overlay = document.getElementById('commitment-overlay');
+  overlay.classList.remove('show');
+  setTimeout(() => {
+    overlay.classList.remove('active');
+    commitmentDone = false;
+    go6C();
+  }, 400);
+}
+
+// ── Scene 7: km counter → Scene 8 transition ──
+let s7CounterDone = false;
+async function runKmCounter() {
+  if (s7CounterDone) return;
+  s7CounterDone = true;
+  const kmEl = document.getElementById('s7-km');
+  animateCount(kmEl, 0, 387, 1500);
+  await sleep(1600);
+  const phone = document.getElementById('bp-phone');
+  phone.classList.add('fade-out');
+  await sleep(800);
+  showScene(8, document.getElementById('btn8'));
+  setTimeout(() => {
+    phone.classList.remove('fade-out');
+    kmEl.textContent = '0';
+    document.getElementById('bp-caption').classList.remove('visible');
+    s7CounterDone = false;
+  }, 500);
+}
+
+// ── Inbox overlay ──
+function showInboxOverlay() {
+  const overlay = document.getElementById('inbox-overlay');
+  const frame   = document.getElementById('inbox-frame');
+  const label   = document.getElementById('inbox-label');
+  overlay.classList.add('active');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      frame.classList.add('visible');
+      label.classList.add('visible');
+    });
+  });
+}
+
+function closeInboxAndProceed() {
+  const overlay = document.getElementById('inbox-overlay');
+  const frame   = document.getElementById('inbox-frame');
+  const label   = document.getElementById('inbox-label');
+  overlay.classList.remove('active');
+  frame.classList.remove('visible');
+  label.classList.remove('visible');
+  showScene('R', document.getElementById('btnR'));
+}
+
+// ── Email field fill — typing animation ──
+function fillEmail() {
+  const field = document.getElementById('s3a-email-field');
+  if (field.classList.contains('filled') || field.classList.contains('typing')) return;
+  field.classList.add('typing');
+  field.style.borderColor = 'var(--green)';
+  field.style.color = 'var(--t1)';
+
+  const email = 'emily.kaufmann@techcraft.de';
+  let i = 0;
+  field.innerHTML = '<span class="cursor">|</span>';
+
+  function typeNext() {
+    if (i < email.length) {
+      field.innerHTML = email.slice(0, ++i) + '<span class="cursor">|</span>';
+      setTimeout(typeNext, 30);
+    } else {
+      field.innerHTML = email;
+      field.classList.remove('typing');
+      field.classList.add('filled');
+      document.getElementById('s3a-btn').disabled = false;
+      setTimeout(() => {
+        document.querySelectorAll('.recognition-el').forEach(el => el.classList.add('visible'));
+      }, 220);
+    }
+  }
+
+  setTimeout(typeNext, 100);
+}
+
+// ── Magic Link send state ──
+function sendMagicLink() {
+  const form = document.getElementById('s3a-form-content');
+  const confirm = document.getElementById('s3a-confirm-content');
+  const btn = document.getElementById('s3a-btn');
+
+  form.style.transition = 'opacity 0.25s ease';
+  form.style.opacity = '0';
+
+  setTimeout(() => {
+    form.style.display = 'none';
+    confirm.style.display = 'block';
+    setTimeout(() => {
+      btn.textContent = 'Als Emily anmelden';
+      btn.onclick = function() { showInboxOverlay(); };
+    }, 250);
+  }, 280);
+}
+
+// ── Bike Finder selection ──
+function selectBike(card, name) {
+  if (!card.classList.contains('selectable')) return;
+  document.querySelectorAll('#scene2 .bike-card').forEach(c => c.classList.remove('highlight'));
+  card.classList.add('highlight');
+  const btn = document.getElementById('scene2-btn');
+  btn.disabled = false;
+  btn.textContent = name + ' wählen →';
+  const sizeM = document.getElementById('size-m');
+  if (sizeM) sizeM.classList.add('selected');
+}
+
+// ── Hint system ──
+function pulseHint(el) {
+  if (!el) return;
+  if (!el) return;
+  el.classList.remove('hint-pulse');
+  void el.offsetWidth;
+  el.classList.add('hint-pulse');
+  el.addEventListener('animationend', () => el.classList.remove('hint-pulse'), { once: true });
+}
+
+function fireHint() {
+  const n = currentScene;
+  let target = null;
+  if (n == 1) target = document.getElementById('s1-num');
+  else if (n == 2) {
+    const trek = document.getElementById('trek-card');
+    target = (trek && trek.classList.contains('highlight')) ? document.querySelector('#scene2 .btn-primary') : trek;
+  }
+  else if (n == 3) {
+    const emailField = document.getElementById('s3a-email-field');
+    target = (emailField && emailField.classList.contains('filled')) ? document.getElementById('s3a-btn') : emailField;
+  }
+  else if (n === 'R') target = document.querySelector('#sceneR .btn-primary');
+  else if (n == 4) target = document.getElementById('pkg-komfort');
+  else if (n === 'H') target = document.getElementById('dealer-meisenheimer');
+  else if (n === 'A') {
+    if (document.getElementById('sTa').classList.contains('active')) {
+      const slotSel = document.querySelector('#sTa .appt-slot.selected');
+      const noteFilled = document.getElementById('sA-note-field').classList.contains('filled');
+      if (!slotSel) target = document.querySelector('#sTa .appt-slot:not(.unavailable)');
+      else if (!noteFilled) target = document.getElementById('sA-note-field');
+      else target = document.getElementById('sA-cta');
+    } else {
+      target = document.querySelector('#sTb .btn-primary');
+    }
+  }
+  else if (n == 5) {
+    if (document.getElementById('s5a').classList.contains('active')) {
+      var serial   = document.getElementById('s5a-serial-input');
+      var helmDone = !!document.getElementById('helm-actions').querySelector('.pill-green');
+      var comment  = document.getElementById('dealer-comment');
+      var sendBtn  = document.getElementById('s5a-send-btn');
+      var nextBtn  = document.getElementById('s5a-next-btn');
+      if (nextBtn && nextBtn.style.display !== 'none') target = nextBtn;
+      else if (!sendBtn.disabled)                      target = sendBtn;
+      else if (helmDone && !comment.value.trim())      target = comment;
+      else if (!helmDone && serial && serial.value)    target = document.getElementById('helm-alt-btn');
+      else                                             target = serial;
+    } else {
+      var pkgSel = document.querySelector('#s5b .service-opt.selected');
+      var c5b    = document.getElementById('s5b-comment');
+      var snd5b  = document.getElementById('s5b-send-btn');
+      var nxt5b  = document.getElementById('s5b-next-btn');
+      if (!pkgSel)                                 target = document.getElementById('s5b-unlimited');
+      else if (nxt5b && nxt5b.style.display !== 'none') target = nxt5b;
+      else if (!snd5b.disabled)                    target = snd5b;
+      else                                         target = c5b;
+    }
+  }
+  else if (n == 6) {
+    if (document.getElementById('s6a').classList.contains('active')) target = document.getElementById('s6a-notif');
+    else if (document.getElementById('s6b').classList.contains('active')) target = document.getElementById('s6b-jl-btn');
+    else target = document.getElementById('s6c-bp-btn');
+  }
+  else if (n == 7) target = document.getElementById('bp-phone');
+  pulseHint(target);
+}
+
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('scene') || e.target === document.body) {
+    fireHint();
+  }
+});
+
+// ── Restore from hash ──
+setTimeout(function() {
+  const h = location.hash.slice(1);
+  if (h && h.startsWith('s')) {
+    const raw = h.slice(1);
+    const id = (raw === 'H' || raw === 'A') ? raw : parseInt(raw);
+    if (id && (id >= 2 && id <= 8 || id === 'H' || id === 'A')) {
+      showScene(id, document.getElementById('btn' + id));
+    }
+  }
+}, 0);
+
+// ── Scene A: selected slot time (used by sTb confirmation) ──
+let selectedApptTime = '09:00 – 10:00 Uhr';
+
+// ── Scene A: slot selection ──
+function selectSlot(el) {
+  if (el.classList.contains('unavailable')) return;
+  document.querySelectorAll('#sTa .appt-slot').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('sA-note-field').classList.remove('disabled');
+  // Store the selected time for the confirmation screen
+  const t = el.querySelector('.appt-time');
+  if (t) {
+    const m = t.textContent.match(/(\d{2}:\d{2})/);
+    if (m) {
+      const parts = m[1].split(':').map(Number);
+      const endH = String(parts[0] + 1).padStart(2, '0');
+      const endM = String(parts[1]).padStart(2, '0');
+      selectedApptTime = `${m[1]} – ${endH}:${endM} Uhr`;
+    }
+  }
+}
+
+// ── Scene A: note field typing animation ──
+function clickNoteField() {
+  const field = document.getElementById('sA-note-field');
+  if (field.classList.contains('filled') || field.classList.contains('typing') || field.classList.contains('disabled')) return;
+  field.classList.add('typing');
+  field.style.borderColor = 'var(--green)';
+  const note = 'Interessiere mich für dieses Trekking-Bike, bin wohl Größe M. Erste Radbestellung mit JobRad!';
+  let i = 0;
+  field.innerHTML = '<span class="cursor">|</span>';
+  function typeNext() {
+    if (i < note.length) {
+      field.innerHTML = note.slice(0, ++i) + '<span class="cursor">|</span>';
+      setTimeout(typeNext, 19);
+    } else {
+      field.innerHTML = note;
+      field.classList.remove('typing');
+      field.classList.add('filled');
+      const cta = document.getElementById('sA-cta');
+      cta.disabled = false;
+      setTimeout(() => pulseHint(cta), 320);
+    }
+  }
+  typeNext();
+}
+
+// ── NUV: lock screen → inbox glimpse ──
+function goNuvInbox() {
+  if (nuvBuzzInterval) { clearInterval(nuvBuzzInterval); nuvBuzzInterval = null; }
+  const lock = document.getElementById('nuv-lockscreen');
+  const inbox = document.getElementById('nuv-inbox-screen');
+  const caption = document.getElementById('nuv-caption');
+  lock.style.opacity = '0';
+  lock.style.transition = 'opacity .25s';
+  setTimeout(() => {
+    lock.style.display = 'none';
+    inbox.style.display = 'flex';
+    requestAnimationFrame(() => requestAnimationFrame(() => inbox.classList.add('visible')));
+    caption.style.opacity = '0';
+    caption.style.transition = 'opacity .2s';
+    setTimeout(() => {
+      caption.textContent = 'Emily sieht den Vertragsentwurf in ihrem Postfach. → Tippe auf die E-Mail';
+      caption.style.opacity = '.38';
+    }, 250);
+  }, 260);
+}
+
+function goTc() {
+  const apptEl = document.getElementById('sc-appt-line');
+  if (apptEl && selectedApptTime) apptEl.textContent = 'Fr, 8. Mai · ' + selectedApptTime;
+  setSubState('sTc', ['sTa','sTb','sTc']);
+}
+
+function toggleScAcc() {
+  const list = document.getElementById('sc-acc-list');
+  const chevron = document.getElementById('sc-acc-chevron');
+  const open = list.style.display !== 'none';
+  list.style.display = open ? 'none' : 'block';
+  chevron.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+// ── Scene A sTb: entrance animation — same CSS class as Magic Link checkmark ──
+function animatesTb() {
+  const icon = document.getElementById('sTb-cal-wrap');
+  const title = document.getElementById('sTb-title');
+  const sub = document.getElementById('sTb-sub');
+  if (!icon) return;
+  // Force CSS animation replay (identical to confirm-circle-wrap on Magic Link)
+  icon.classList.remove('confirm-circle-wrap');
+  void icon.offsetWidth;
+  icon.classList.add('confirm-circle-wrap');
+  // Title and sub fade-in
+  [title, sub].forEach(el => el.getAnimations().forEach(a => a.cancel()));
+  title.animate(
+    [{opacity:0, transform:'translateY(5px)'},{opacity:1, transform:'translateY(0)'}],
+    {duration:300, delay:420, easing:'ease', fill:'both'}
+  );
+  sub.animate(
+    [{opacity:0, transform:'translateY(5px)'},{opacity:1, transform:'translateY(0)'}],
+    {duration:300, delay:520, easing:'ease', fill:'both'}
+  );
+}
+
+// ── Run Scene 1 counter on load ──
+setTimeout(() => {
+  if (currentScene === 1) runS1Counter();
+}, 200);
+
+// ── Page-transition fade-out (when arriving from another page) ──
+if (document.documentElement.classList.contains('fading-in')) {
+  setTimeout(() => {
+    document.documentElement.classList.remove('fading-in');
+  }, 60);
+}
+
+// ── Helper: fade-out then navigate ──
+function fadeNavigate(url) {
+  document.documentElement.classList.add('fading-in');
+  setTimeout(() => { window.location.href = url; }, 425);
+}
+</script>
+
+<div id="scene-fade-overlay"></div>
+</body>
+</html>

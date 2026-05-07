@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200">
+  <title>JobRad 2.0 · Coming Soon</title>
+  <link rel="icon" href="JobRad Favicon Pink auf Anthrazit.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #293a3a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .label {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #f0ece6;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+  <p class="label">COMING SOON</p>
+  <script>
+    setTimeout(function() {
+      document.querySelector('.label').style.opacity = '1';
+    }, 800);
+  </script>
+</body>
+</html>

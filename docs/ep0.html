@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JobRad 2.0 · Episode 0 · AG Onboarding</title>
+<link rel="icon" href="JobRad Favicon Pink auf Anthrazit.png" type="image/png"/>
+<script>
+  // Page-transition fade — if arriving from another page, start with overlay visible
+  if (new URLSearchParams(location.search).get('from')) {
+    document.documentElement.classList.add('fading-in');
+  }
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#9DDE4C;--green-dark:#66B216;--green-deep:#29363C;
+  --green-light:#F2FBE7;--green-mid:#C5ED82;--green-xlight:#F8FDF4;
+  --bg:#F5F5F0;--bg2:#EEEEE8;--white:#FFFFFF;
+  --border:#E2E2DB;--border2:#D4D4CC;
+  --t1:#18180F;--t2:#5A5A50;--t3:#9A9A90;
+  --blue:#2563EB;--blue-light:#EFF6FF;--blue-mid:#DBEAFE;
+  --blue-hr:#185FA5;--blue-hr-bg:#E6F1FB;--blue-hr-mid:#B8D4EC;
+  --amber:#FEF3C7;--amber-text:#92400E;--amber-mid:#FCD34D;
+  --red-light:#FEF2F2;--red-text:#991B1B;
+  --r:10px;--r-sm:6px;--r-lg:16px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.07),0 2px 4px -1px rgba(0,0,0,.04);
+}
+
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--t1);min-height:100vh;font-size:14px;line-height:1.5}
+
+/* ── Page-transition fade overlay (anthracite dissolve into next episode) ── */
+#scene-fade-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#29363C;opacity:0;pointer-events:none;z-index:9999;transition:opacity 425ms ease-in-out}
+html.fading-in #scene-fade-overlay{opacity:1}
+
+/* ── Screen switcher ── */
+.screen-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 40px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);flex-wrap:wrap}
+.screen-btn{padding:6px 14px;border-radius:var(--r-sm);border:.5px solid var(--border2);background:transparent;color:var(--t2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;margin-left:8px}
+.screen-btn.active{background:var(--green);color:#29363C;border-color:var(--green);font-weight:600}
+.screen-btn:hover:not(.active){background:var(--bg2)}
+.screen-label{font-size:11px;color:var(--t2);margin-left:auto;font-weight:500}
+
+/* ── 3-column screen-bar layout ── */
+.screen-bar-left{min-width:120px;display:flex;align-items:center}
+.screen-bar-nav{flex:1;display:flex;align-items:center;justify-content:center}
+.screen-bar-right{min-width:120px;display:flex;align-items:center;justify-content:flex-end}
+.screen-bar-hub{font-size:9px;color:var(--t1);text-decoration:none;font-family:'DM Sans',sans-serif;white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.05em;transition:opacity .15s}
+.screen-bar-hub:hover{opacity:.6}
+.ep1-btn{background:var(--green);color:#29363C;font-size:12px;font-weight:600;padding:6px 14px;border-radius:var(--r-sm);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s,background .15s,transform .15s;white-space:nowrap}
+.ep1-btn:hover{background:var(--green-dark);transform:translateX(1px)}
+.ep1-btn.visible{opacity:1;visibility:visible}
+
+/* ── Phone takeover overlay ── */
+@keyframes phoneBuzz{0%,100%{transform:translateY(0) rotate(0)}15%{transform:translateY(-2px) rotate(-.3deg)}35%{transform:translateY(2px) rotate(.3deg)}55%{transform:translateY(-1px) rotate(-.2deg)}75%{transform:translateY(1px) rotate(.2deg)}}
+.phone-overlay{display:none;position:fixed;inset:0;background:rgba(10,16,12,.93);backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+.phone-overlay.active{display:flex}
+.phone-frame{width:300px;border-radius:46px;background:#161616;padding:11px;box-shadow:0 0 0 1px #252525,0 60px 120px rgba(0,0,0,.85),0 0 60px rgba(157,222,76,.06);transform:translateY(50px);opacity:0;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .5s}
+.phone-frame.visible{transform:translateY(0);opacity:1}
+.phone-frame.buzz{animation:phoneBuzz .5s ease-out}
+.phone-screen{border-radius:37px;overflow:hidden;background:linear-gradient(160deg,#1C2820 0%,#0D1410 100%);min-height:540px;position:relative}
+.phone-time-area{text-align:center;padding:52px 0 28px}
+.phone-time-num{font-size:66px;font-weight:200;letter-spacing:-.02em;color:rgba(255,255,255,.9);font-family:'DM Sans',sans-serif;line-height:1}
+.phone-time-date{font-size:12px;color:rgba(255,255,255,.32);margin-top:6px}
+.phone-notif{margin:0 10px;background:rgba(255,255,255,.10);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:14px;padding:11px 13px;cursor:pointer;transform:translateY(-80px);opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1) .35s,opacity .4s ease .35s}
+.phone-notif.visible{transform:translateY(0);opacity:1}
+.phone-notif:hover{background:rgba(255,255,255,.16)}
+.phone-notif:active{transform:scale(.97)}
+.phone-notif-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.phone-notif-icon{width:24px;height:24px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#29363C;font-family:'DM Mono',monospace;flex-shrink:0}
+.phone-notif-app{font-size:11px;font-weight:500;color:rgba(255,255,255,.55)}
+.phone-notif-ts{font-size:10px;color:rgba(255,255,255,.28);margin-left:auto}
+.phone-notif-msg{font-size:13px;color:#fff;font-weight:500;line-height:1.4}
+.phone-notif-sub{font-size:11px;color:rgba(255,255,255,.42);margin-top:3px}
+.phone-label{font-size:12px;color:#fff;letter-spacing:.10em;text-transform:uppercase;text-align:center;opacity:0;transition:opacity .5s .2s}
+.phone-label.visible{opacity:.50}
+.phone-caption{font-size:11px;color:#fff;letter-spacing:.04em;text-align:center;opacity:0;transition:opacity .6s 1s}
+.phone-caption.visible{opacity:.55}
+
+/* ── Screen ── */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+
+/* ── Navbar ── */
+.navbar{background:var(--white);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;padding:0 40px;position:sticky;top:46px;z-index:90}
+.nav-logo{display:flex;align-items:center;gap:10px;min-width:160px}
+.nav-logo-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#29363C;font-family:'DM Mono',monospace}
+.nav-logo-name{font-size:15px;font-weight:600;color:var(--t1)}
+.nav-steps{display:flex;align-items:center;gap:0;flex:1;justify-content:center}
+.nav-step{display:flex;align-items:center;gap:8px;padding:0 16px;font-size:12px;color:var(--t3)}
+.nav-step.active{color:var(--green-dark);font-weight:500}
+.nav-step.done{color:var(--t2)}
+.nav-step-num{width:22px;height:22px;border-radius:50%;background:var(--border);color:var(--t3);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.nav-step.active .nav-step-num{background:var(--green);color:#29363C;font-weight:700}
+.nav-step.done .nav-step-num{background:var(--green-light);color:var(--green-dark)}
+.nav-step-connector{width:40px;height:1px;background:var(--border);flex-shrink:0}
+.nav-step.done + .nav-step-connector,.nav-step-connector.done{background:var(--green)}
+.nav-right{min-width:160px;text-align:right;font-size:11px;color:var(--t3);display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+
+/* ── Role indicator (Kathrin Δ2 — Mehrfach-Rollen andeuten, nicht lösen) ── */
+.role-pill{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:.5px solid var(--border);padding:3px 10px;border-radius:99px;font-size:10px;color:var(--t2);font-weight:500;cursor:pointer;transition:all .15s}
+.role-pill:hover{background:var(--white);border-color:var(--border2)}
+.role-pill-dot{width:6px;height:6px;background:var(--green);border-radius:50%}
+.role-pill-arrow{font-size:9px;color:var(--t3);margin-left:2px}
+
+/* ── Page layout ── */
+.page{max-width:1200px;margin:0 auto;padding:40px}
+.page-title{font-size:28px;font-weight:600;color:var(--t1);margin-bottom:8px;letter-spacing:-.02em}
+.page-sub{font-size:14px;color:var(--t2);margin-bottom:32px}
+
+/* ── Two col ── */
+.two-col{display:grid;gap:20px}
+.two-col-form{grid-template-columns:1fr 340px}
+.two-col-contract{grid-template-columns:1fr 360px}
+
+/* ── Card ── */
+.card{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.card-head{padding:10px 16px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card-head .head-pill{font-size:9px;font-weight:600;letter-spacing:.04em;padding:2px 8px;border-radius:99px;text-transform:uppercase}
+.card-head .head-pill.default{background:var(--green-light);color:var(--green-deep)}
+.card-head .head-pill.editable{background:var(--blue-light);color:var(--blue);text-transform:none;letter-spacing:0}
+.card-body{padding:20px}
+
+/* ── Form ── */
+.form-section{margin-bottom:4px}
+.form-row{display:grid;gap:16px;margin-bottom:16px}
+.form-row-2{grid-template-columns:1fr 1fr}
+.form-row-3{grid-template-columns:2fr 1fr 1fr}
+.field{}
+.field-label{font-size:11px;color:var(--t2);margin-bottom:5px;display:block}
+.field-label .opt{color:var(--t3);font-weight:400}
+.field input,.field select{width:100%;padding:9px 12px;border:.5px solid var(--border);border-radius:var(--r-sm);font-size:13px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);outline:none;transition:border-color .15s,background .15s}
+.field input:focus,.field select:focus{border-color:var(--green);background:var(--white)}
+.field input::placeholder{color:var(--t3)}
+.field-hint{font-size:10px;color:var(--t3);margin-top:4px}
+.field-hint a{color:var(--blue);text-decoration:none}
+
+/* Search field special */
+.search-wrap{position:relative}
+.search-wrap input{padding-left:34px;border-color:var(--green);background:var(--white)}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:14px}
+.search-hint{font-size:11px;color:var(--t3);margin-top:4px}
+
+/* Or divider */
+.or-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--t3);font-size:11px}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:.5px;background:var(--border)}
+
+/* Section divider in card */
+.form-section-head{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin:20px 0 14px;padding-top:20px;border-top:.5px solid var(--border)}
+.form-section-head:first-child{margin-top:0;padding-top:0;border-top:none}
+
+/* Checkbox row */
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;padding:12px 0}
+.checkbox-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--green);flex-shrink:0;margin-top:2px;cursor:pointer}
+.checkbox-row label{font-size:12px;color:var(--t2);cursor:pointer;line-height:1.5}
+.checkbox-row a{color:var(--green-dark);text-decoration:underline}
+
+/* ── Buttons ── */
+.btn{padding:11px 20px;border-radius:var(--r-sm);font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn-primary{background:var(--green);color:#29363C;font-weight:600;width:100%}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-ghost{background:transparent;color:var(--t2);border:.5px solid var(--border)}
+.btn-ghost:hover{background:var(--bg2)}
+.btn-link{background:transparent;color:var(--blue);padding:6px 0;font-size:12px;text-decoration:underline;text-underline-offset:2px}
+.btn-link:hover{color:var(--blue)}
+
+/* ── Why card ── */
+.benefit-item{display:flex;gap:12px;padding:12px 0;border-bottom:.5px solid var(--border)}
+.benefit-item:last-child{border-bottom:none}
+.benefit-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px}
+.benefit-title{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:2px}
+.benefit-desc{font-size:11px;color:var(--t2)}
+
+/* ── Konditionen ── */
+.kond-card{position:relative}
+.kond-accent{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);border-radius:3px 0 0 3px}
+.kond-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 16px;border-bottom:.5px solid var(--border);font-size:13px}
+.kond-row:last-child{border-bottom:none}
+.kond-label{color:var(--t2)}
+.kond-value{font-weight:500;color:var(--t1);text-align:right}
+.kond-value.green{color:var(--green-dark)}
+.kond-value-sub{font-size:10px;color:var(--t3);font-weight:400;display:block;margin-top:2px}
+
+/* ── PDF Viewer ── */
+.pdf-viewer{background:var(--bg2);border-radius:var(--r-sm);overflow:hidden}
+.pdf-toolbar{background:#DEDEDB;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;font-size:11px}
+.pdf-toolbar-name{color:var(--t2);font-family:'DM Mono',monospace;font-size:10px}
+.pdf-toolbar-action{color:var(--blue);cursor:pointer;display:flex;align-items:center;gap:4px}
+.pdf-paper-area{padding:16px 24px;background:var(--bg2);max-height:300px;overflow-y:auto}
+.pdf-paper{background:var(--white);border:.5px solid var(--border2);border-radius:2px;padding:28px 32px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.pdf-doc-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px;letter-spacing:.02em}
+.pdf-doc-sub{font-size:10px;color:var(--t3);margin-bottom:16px;padding-bottom:16px;border-bottom:.5px solid var(--border)}
+.pdf-section{margin-bottom:16px}
+.pdf-section-title{font-size:11px;font-weight:600;color:var(--t1);margin-bottom:6px}
+.pdf-section-text{font-size:10px;color:var(--t2);line-height:1.7}
+
+/* ── Status boxes ── */
+.status-box{border-radius:var(--r-sm);padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;font-size:12px}
+.status-checking{background:var(--amber);color:var(--amber-text)}
+.status-ok{background:var(--green-light);color:var(--green-deep)}
+.status-pending{background:var(--blue-light);color:var(--blue)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.status-ok .status-dot{animation:none}
+
+/* ── Vorsteuer checkbox ── */
+.vst-box{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:12px 14px}
+.vst-hint{font-size:11px;color:var(--t3);margin-top:6px;line-height:1.5}
+
+/* ── CTA area ── */
+.cta-card{padding:16px}
+.cta-note{font-size:11px;color:var(--t3);text-align:center;margin-top:8px;line-height:1.5}
+
+/* ── Deposit / fallback note ── */
+.deposit-note{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;font-size:11px;color:var(--t2);line-height:1.5}
+.deposit-note strong{color:var(--t1);display:block;margin-bottom:3px;font-size:12px}
+
+/* ── Hint boxes ── */
+.hint-box{background:var(--green-xlight);border:.5px solid var(--green-light);border-radius:var(--r-sm);padding:12px 14px;margin-top:12px;font-size:12px;color:var(--green-dark)}
+.hint-box a{color:var(--green-dark);font-weight:500}
+.hint-box.blue{background:var(--blue-light);border-color:var(--blue-mid);color:var(--blue)}
+.hint-box.blue a{color:var(--blue)}
+.hint-box.amber{background:var(--amber);border-color:var(--amber-mid);color:var(--amber-text)}
+
+/* ── Wirtschaftlich Berechtigte (Kathrin) ── */
+.wb-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px}
+.wb-row:last-child{margin-bottom:0}
+.wb-name{font-size:13px;font-weight:500;color:var(--t1)}
+.wb-meta{font-size:11px;color:var(--t3)}
+.wb-confirm{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--green-dark);font-weight:500}
+.wb-tap{display:inline-flex;align-items:center;gap:6px;background:var(--green-light);color:var(--green-deep);padding:5px 11px;border-radius:99px;font-size:11px;font-weight:500;cursor:pointer;border:.5px solid var(--green-mid)}
+
+/* ── Delegate / Signing flow (Kathrin Δ1 — Asynchronität) ── */
+.delegate-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:14px;margin-bottom:12px;cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .15s,background .15s}
+.delegate-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.delegate-card.selected{border-color:var(--green);background:var(--green-xlight)}
+.delegate-name{font-size:14px;font-weight:500;color:var(--t1);margin-bottom:2px;display:flex;align-items:center;gap:8px}
+.delegate-role{font-size:11px;color:var(--t3);margin-bottom:6px}
+.delegate-source{font-size:10px;color:var(--green-dark);background:var(--green-light);padding:2px 7px;border-radius:99px;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn-spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(41,54,60,.25);border-top-color:#29363C;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.activation-hero{background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);border-radius:var(--r-lg);padding:48px 64px;text-align:center;box-shadow:0 20px 60px rgba(157,222,76,.25);opacity:0;transform:scale(.96);transition:opacity .5s,transform .5s}
+.activation-hero.visible{opacity:1;transform:scale(1)}
+.activation-hero-ring{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:#fff;opacity:0;transform:scale(.6);transition:opacity .5s .15s,transform .5s .15s}
+.activation-hero.visible .activation-hero-ring{opacity:1;transform:scale(1)}
+.activation-hero-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.02em;opacity:0;transform:translateY(8px);transition:opacity .5s .3s,transform .5s .3s}
+.activation-hero.visible .activation-hero-title{opacity:1;transform:translateY(0)}
+.activation-hero-sub{font-size:14px;color:var(--green-mid);opacity:0;transform:translateY(8px);transition:opacity .5s .45s,transform .5s .45s;margin-bottom:16px}
+.activation-hero.visible .activation-hero-sub{opacity:1;transform:translateY(0)}
+.activation-hero-trigger{font-size:11px;color:rgba(255,255,255,.6);opacity:0;transition:opacity .5s .6s}
+.activation-hero.visible .activation-hero-trigger{opacity:1}
+
+.signing-state{display:none}
+.signing-state.active{display:block}
+
+.pending-card{background:var(--white);border:.5px dashed var(--blue-mid);border-radius:var(--r-sm);padding:18px;text-align:center}
+.pending-icon{width:44px;height:44px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:18px;color:var(--blue)}
+.pending-title{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.pending-sub{font-size:12px;color:var(--t2);margin-bottom:12px;line-height:1.5}
+.pending-meta{font-size:11px;color:var(--t3);font-family:'DM Mono',monospace}
+
+.timeline{display:flex;flex-direction:column;gap:0;margin:14px 0;padding:0 4px}
+.timeline-item{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:11px}
+.timeline-dot{width:14px;height:14px;border-radius:50%;background:var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;color:#29363C;font-size:8px}
+.timeline-item.done .timeline-dot{background:var(--green)}
+.timeline-item.active .timeline-dot{background:var(--blue);animation:pulse 1.4s infinite}
+.timeline-text{color:var(--t2)}
+.timeline-item.done .timeline-text{color:var(--t1)}
+.timeline-time{color:var(--t3);margin-left:auto;font-family:'DM Mono',monospace;font-size:10px}
+
+/* ── Path toggle (HRIS vs. Manuell — Thomas/Kathrin) ── */
+.path-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.path-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .15s;position:relative}
+.path-card:hover{background:var(--white);border-color:var(--border2)}
+.path-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:13.5px}
+.path-card.selected::after{content:'✓';position:absolute;top:10px;right:10px;width:18px;height:18px;background:var(--green);color:#29363C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+.path-card-icon{width:32px;height:32px;border-radius:var(--r-sm);background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
+.path-card-title{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:3px}
+.path-card-desc{font-size:11px;color:var(--t2);line-height:1.5}
+.path-content{display:none}
+.path-content.active{display:block}
+
+/* ── Service paket cards (Daniel Δ1) ── */
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.service-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .15s;position:relative;display:flex;flex-direction:column}
+.service-card:hover{background:var(--white);border-color:var(--border2)}
+.service-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:13.5px}
+.service-card.recommended::before{content:'Empfehlung';position:absolute;top:-8px;left:14px;background:var(--green);color:#29363C;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.02em}
+.service-card.selected::after{content:'✓';position:absolute;top:10px;right:10px;width:18px;height:18px;background:var(--green);color:#29363C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+.service-name{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.service-tagline{font-size:11px;color:var(--t2);margin-bottom:10px;flex:1;line-height:1.5}
+.service-features{font-size:11px;color:var(--t2);line-height:1.7;border-top:.5px solid var(--border);padding-top:8px}
+.service-features li{list-style:none;margin-left:0}
+.service-features li::before{content:'·';color:var(--green);margin-right:6px;font-weight:600}
+
+/* ── Modus-Auswahl Radio ── */
+.mode-row{display:flex;gap:8px;margin-bottom:12px}
+.mode-card{flex:1;background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;cursor:pointer;transition:all .15s}
+.mode-card:hover{background:var(--white)}
+.mode-card.selected{background:var(--green-xlight);border-color:var(--green);border-width:1.5px;padding:9.5px 11.5px}
+.mode-title{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:2px}
+.mode-desc{font-size:10px;color:var(--t2);line-height:1.4}
+
+/* ── CSV upload area ── */
+.upload-area{border:1px dashed var(--border2);border-radius:var(--r-sm);padding:20px;text-align:center;background:var(--bg);transition:all .15s;cursor:pointer}
+.upload-area:hover{background:var(--green-xlight);border-color:var(--green-mid)}
+.upload-icon{width:32px;height:32px;border-radius:var(--r-sm);background:var(--white);border:.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:14px;color:var(--t2)}
+.upload-text{font-size:12px;color:var(--t2)}
+.upload-text strong{color:var(--green-dark);text-decoration:underline}
+
+/* ── Success screen ── */
+.success-hero{background:var(--green);padding:48px 40px;text-align:center}
+.success-ring{width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px}
+.success-title{font-size:26px;font-weight:600;color:#29363C;margin-bottom:6px}
+.success-sub{font-size:14px;color:rgba(41,54,60,.7)}
+.tiles-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.tile{background:var(--white);border:.5px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.tile-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.tile-value{font-size:20px;font-weight:600;color:var(--green-dark)}
+.tile-sub{font-size:11px;color:var(--t2);margin-top:3px}
+
+.next-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.next-item{padding:24px;border-right:.5px solid var(--border);display:flex;flex-direction:column}
+.next-item:last-child{border-right:none}
+.next-icon{width:32px;height:32px;border-radius:var(--r-sm);background:var(--green-xlight);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:12px}
+.next-title{font-size:14px;font-weight:500;color:var(--t1);margin-bottom:6px}
+.next-desc{font-size:12px;color:var(--t2);margin-bottom:16px;line-height:1.5;flex:1}
+
+/* ── Research note (footer) ── */
+.research-note{max-width:1200px;margin:40px auto 60px;padding:0 40px;font-size:10px;color:var(--t3);line-height:1.7;font-family:'DM Mono',monospace}
+.research-note strong{color:var(--t2)}
+.research-note ul{margin-left:20px;margin-top:6px}
+
+/* ── Portal-Distinction: Screens 4+5 ───────────────────
+   Schritte 1–3 = öffentliches Self-Onboarding (außen am Portal).
+   Schritte 4–5 = Manager-Portal (innen). HR-Blau-Akzent
+   gemäß Design-System (--blue-hr aus PROJECT_CONTEXT.md),
+   konsistent mit Bike-Pass-HR-View. */
+
+.screen.portal-screen{background:var(--bg2)}
+
+/* Portal navbar — replaces onboarding progress nav on screens 4+5 */
+.navbar-portal{background:var(--white);border-bottom:1px solid var(--border);height:64px;display:flex;align-items:center;padding:0 32px;position:sticky;top:46px;z-index:90;gap:18px}
+.navbar-portal .nav-logo{min-width:auto}
+.navbar-portal .nav-logo-mark{background:var(--blue-hr);color:#fff}
+.portal-context{display:flex;flex-direction:column;gap:1px;padding:0 16px;border-left:.5px solid var(--border);height:32px;justify-content:center}
+.portal-context-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.portal-context-name{font-size:13px;color:var(--t1);font-weight:500;line-height:1.1}
+
+.portal-nav-sections{display:flex;align-items:center;gap:2px;flex:1;justify-content:center}
+.portal-nav-item{padding:7px 13px;font-size:12px;color:var(--t2);cursor:pointer;border-radius:var(--r-sm);font-weight:500;transition:all .15s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.portal-nav-item:hover{background:var(--bg)}
+.portal-nav-item.active{background:var(--blue-hr-bg);color:var(--blue-hr)}
+
+.portal-nav-right{display:flex;align-items:center;gap:10px}
+.setup-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;background:var(--amber);color:var(--amber-text);font-size:11px;font-weight:500;white-space:nowrap}
+.setup-pill-dot{width:6px;height:6px;background:currentColor;border-radius:50%}
+.setup-pill.done{background:var(--green-light);color:var(--green-deep)}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--blue-hr-bg);color:var(--blue-hr);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Mono',monospace}
+
+/* Magic-Link confirmation banner — Screen 4 only */
+.portal-banner{background:var(--green-light);border-bottom:.5px solid var(--green-mid);padding:10px 40px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--green-deep);position:sticky;top:110px;z-index:80}
+.portal-banner-left{display:flex;align-items:center;gap:10px}
+.portal-banner-icon{width:18px;height:18px;border-radius:50%;background:var(--green-dark);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.portal-banner-time{color:var(--green-deep);opacity:.7;font-family:'DM Mono',monospace;font-size:11px}
+.portal-banner-close{color:var(--green-deep);cursor:pointer;font-size:14px;opacity:.5;background:none;border:none;padding:4px 8px}
+.portal-banner-close:hover{opacity:1}
+
+/* Transition card — Screen 3 State C */
+.transition-card{background:var(--green-deep);color:#fff;border-radius:var(--r-lg);padding:32px;text-align:center;margin:24px auto;max-width:560px;box-shadow:var(--shadow-md)}
+.transition-card-icon{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:20px}
+.transition-card-title{font-size:18px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em}
+.transition-card-sub{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:20px;line-height:1.6}
+.transition-card-meta{font-size:11px;color:rgba(255,255,255,.55);opacity:1;font-family:'DM Mono',monospace;margin-bottom:20px}
+.btn-portal{background:var(--white);color:var(--green-deep);padding:12px 24px;border-radius:var(--r-sm);font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:8px}
+.btn-portal:hover{background:var(--bg)}
+
+/* Screen switcher visual divider */
+.screen-bar-divider{width:1px;height:22px;background:var(--border2);margin:0 20px 0 28px}
+.screen-bar-zone{font-size:9px;color:var(--t1);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin:0 6px 0 0;align-self:center}
+
+/* Email mockup — Screen 3 State C
+   Magic Link 2: System → Sara (passwortlose Portal-Auth, getrennt von ZB-Signatur).
+   Wird als E-Mail in Saras Posteingang gerahmt, nicht als Browser-Weiterführung. */
+.email-inbox-label{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t2);margin-bottom:10px;padding:0 4px}
+.email-inbox-label strong{color:var(--t1);font-weight:600}
+.email-inbox-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:var(--blue-hr-bg);color:var(--blue-hr);border-radius:50%;font-size:11px;flex-shrink:0}
+
+.email-mock{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-md)}
+.email-mock-header{padding:16px 22px;background:var(--bg);border-bottom:.5px solid var(--border);font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);position:relative}
+.email-mock-row{display:flex;gap:8px;line-height:1.8}
+.email-mock-row strong{color:var(--t3);font-weight:600;display:inline-block;min-width:34px;text-transform:uppercase;letter-spacing:.04em;font-size:9px}
+.email-mock-time{position:absolute;top:16px;right:22px;color:var(--t3);font-family:'DM Mono',monospace;font-size:10px}
+.email-mock-subject{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--t1);font-weight:600;margin-top:10px;padding-top:10px;border-top:.5px solid var(--border)}
+
+.email-mock-body{padding:26px 28px}
+.email-mock-greeting{font-size:13px;color:var(--t1);margin-bottom:14px}
+.email-mock-text{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px}
+.email-mock-text:last-of-type{margin-bottom:18px}
+.email-mock-cta{padding:8px 0 18px;text-align:center}
+.email-mock-meta{font-size:10px;color:var(--t3);text-align:center;font-family:'DM Mono',monospace;border-top:.5px solid var(--border);padding-top:14px;line-height:1.6}
+.email-mock-signoff{font-size:12px;color:var(--t2);margin-top:6px}
+.email-mock-signoff strong{color:var(--t1);font-weight:500}
+
+.btn-magic-link{background:var(--green);color:#29363C;font-weight:600;padding:14px 28px;border-radius:var(--r-sm);font-size:13px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:8px}
+.btn-magic-link:hover{background:var(--green-dark)}
+
+.parallel-caption{text-align:center;font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin:4px 0;display:flex;align-items:center;gap:14px}
+.parallel-caption::before,.parallel-caption::after{content:'';flex:1;height:.5px;background:var(--border)}
+
+/* ── Responsive padding ── */
+@media(max-width:900px){
+  .two-col-form,.two-col-contract{grid-template-columns:1fr}
+  .page{padding:20px}
+  .service-grid{grid-template-columns:1fr}
+  .path-toggle{grid-template-columns:1fr}
+  .portal-nav-sections{display:none}
+}
+
+/* ── Handelsregister overlay (Screen 1) ── */
+#hr-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(24,24,15,.52);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .35s;pointer-events:none}
+#hr-overlay.visible{opacity:1;pointer-events:all}
+.hr-search-wrap{position:relative;text-align:center}
+.hr-search{background:#fff;border:1.5px solid var(--green);border-radius:12px;padding:18px 24px;display:flex;align-items:center;gap:0;width:520px;max-width:90vw;box-shadow:0 0 0 10px rgba(157,222,76,.18),0 30px 60px rgba(0,0,0,.45)}
+.hr-search-icon{color:var(--green);font-size:24px;flex-shrink:0;margin-right:14px}
+.hr-search-input{color:var(--t1);font-size:22px;font-weight:500;letter-spacing:-.01em;min-height:30px;font-family:'DM Sans',sans-serif}
+.hr-search-caret{display:inline-block;width:2px;height:26px;background:var(--t1);margin-left:2px;vertical-align:middle;animation:blink .9s infinite}
+.hr-hint{margin-top:16px;font-size:14px;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;justify-content:center;font-weight:500;opacity:0;transform:translateY(-4px);transition:opacity .3s,transform .3s}
+.hr-hint.visible{opacity:1;transform:translateY(0)}
+.hr-hint-dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0}
+.hr-hint.searching{color:#FCD34D}
+.hr-hint.searching .hr-hint-dot{animation:pulse 1s infinite}
+.hr-hint.found{color:var(--green-mid)}
+
+/* ── Bonitätsprüfung overlay (Screen 2) ── */
+#bonity-overlay{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(24,24,15,.52);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .35s;pointer-events:none}
+#bonity-overlay.visible{opacity:1;pointer-events:all}
+.bonity-ol-card{border-radius:12px;padding:22px 28px;display:flex;align-items:center;gap:16px;font-family:'DM Sans',sans-serif;font-size:16px;width:420px;max-width:90vw;box-shadow:0 20px 50px rgba(0,0,0,.45);transition:background .5s,box-shadow .5s,color .5s}
+.bonity-ol-card.checking{background:var(--amber);color:var(--amber-text)}
+.bonity-ol-card.ok{background:var(--green-light);color:var(--green-deep);box-shadow:0 20px 50px rgba(157,222,76,.3),0 0 0 1px var(--green)}
+.bonity-ol-dot{width:14px;height:14px;border-radius:50%;background:currentColor;flex-shrink:0;animation:pulse 1.4s infinite}
+.bonity-ol-card.ok .bonity-ol-dot{background:var(--green);animation:none}
+.bonity-ol-label strong{display:block;font-weight:700;font-size:17px;margin-bottom:3px}
+#bonity-card.clickable{cursor:pointer;transition:transform .15s,box-shadow .15s}
+#bonity-card.clickable:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+
+/* Custom select chevron — replaces browser default */
+.field select{appearance:none;-webkit-appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M1.5 3.5l3.5 3.5 3.5-3.5' stroke='%23889296' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:calc(100% - 12px) center;background-size:10px}
+/* Disabled CTA */
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+/* ── HRIS animation overlay (Screen 4) ── */
+#hris-overlay{position:fixed;inset:0;z-index:500;background:rgba(24,24,15,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .35s;pointer-events:none;overflow:hidden}
+#hris-overlay.visible{opacity:1;pointer-events:all}
+#hris-table-phase{position:absolute;top:0;left:50%;transform:translateX(-50%);width:700px;max-width:90vw}
+.hris-tbl-header{display:grid;grid-template-columns:110px 90px 105px 1fr 110px;padding:9px 16px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:600;border-bottom:.5px solid rgba(255,255,255,.12);opacity:0;transition:opacity .3s}
+.hris-tbl-header.visible{opacity:1}
+.hris-row{display:grid;grid-template-columns:110px 90px 105px 1fr 110px;padding:10px 16px;border-bottom:.5px solid rgba(255,255,255,.07);font-size:12px;color:rgba(255,255,255,.82);will-change:transform;opacity:0}
+.hris-row:nth-child(odd){background:rgba(255,255,255,.04)}
+.hris-emp-id{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.38)}
+#hris-counter{position:absolute;top:50%;left:50%;transform:translate(-50%,calc(-50% + 80px));opacity:0;text-align:center;white-space:nowrap;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .4s;display:none}
+#hris-counter.in{transform:translate(-50%,-50%);opacity:1}
+.hris-ctr-label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:18px}
+.hris-ctr-num{font-size:140px;font-weight:700;color:var(--green);font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.06em;text-shadow:0 0 80px rgba(157,222,76,.28)}
+.hris-ctr-sub{margin-top:20px;font-size:15px;color:rgba(255,255,255,.6);opacity:0;transition:opacity .5s}
+.hris-ctr-sub.visible{opacity:1}
+.hris-ctr-sub span{color:var(--green);font-weight:500}
+
+/* ── Hint system ── */
+@keyframes hintRing {
+  0%   { box-shadow: 0 0 0 0 rgba(157,222,76,.35), 0 0 0 0 rgba(157,222,76,.15); }
+  50%  { box-shadow: 0 0 0 8px rgba(157,222,76,0),  0 0 0 14px rgba(157,222,76,0); }
+  100% { box-shadow: 0 0 0 0 rgba(157,222,76,0),   0 0 0 0 rgba(157,222,76,0); }
+}
+.hint-pulse { animation: hintRing .9s ease-out 2; }
+
+@keyframes ctaPulse {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(157,222,76,0); }
+  50%       { transform: scale(1.04); box-shadow: 0 0 0 8px rgba(157,222,76,.25); }
+}
+.ep1-btn.pulsing { animation: ctaPulse 1.8s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<!-- Screen switcher -->
+<div class="screen-bar">
+  <div class="screen-bar-left">
+    <a class="screen-bar-hub" href="index.html">← Episodenübersicht</a>
+  </div>
+  <div class="screen-bar-nav">
+    <span class="screen-bar-zone">Public</span>
+    <button class="screen-btn active" onclick="showScreen(1,this)">1 – Unternehmensdaten</button>
+    <button class="screen-btn" onclick="showScreen(2,this)">2 – Vertragsvorschau</button>
+    <button class="screen-btn" onclick="showScreen(3,this)">3 – Unterzeichnung</button>
+    <span class="screen-bar-divider"></span>
+    <span class="screen-bar-zone">Portal</span>
+    <button class="screen-btn" onclick="showScreen(4,this)">4 – Konfiguration</button>
+    <button class="screen-btn" onclick="showScreen(5,this)">5 – Go-Live</button>
+  </div>
+  <div class="screen-bar-right">
+    <button class="ep1-btn" id="ep1-btn" onclick="triggerPhoneOverlay()">Episode 1 · The Journey Begins</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 1: Unternehmensdaten
+══════════════════════════════════════ -->
+<div class="screen active" id="screen1">
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">JR</div>
+      <div class="nav-logo-name">JobRad</div>
+    </div>
+    <div class="nav-steps">
+      <div class="nav-step active"><div class="nav-step-num">1</div>Unternehmen</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">2</div>Vertrag</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">3</div>Unterzeichnung</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">4</div>Konfiguration</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">5</div>Go-Live</div>
+    </div>
+    <div class="nav-right">
+      <span>Kein Login erforderlich</span>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="page-title">Jetzt JobRad einführen</div>
+    <div class="page-sub">Vollständig digital · selbstgeführt · ohne Sales-Termin</div>
+
+    <div class="two-col two-col-form">
+      <!-- Left: Form -->
+      <div class="card">
+        <div class="card-head">Unternehmensdaten</div>
+        <div class="card-body">
+          <div class="form-section-head" style="margin-top:0;border-top:none;padding-top:0">Ihr Unternehmen</div>
+
+          <!-- Search -->
+          <div class="field" style="margin-bottom:6px">
+            <label class="field-label">Unternehmen suchen</label>
+            <div class="search-wrap">
+              <span class="search-icon">⌕</span>
+              <input id="s1-search" type="text" value="" placeholder="Name oder Handelsregisternummer" autocomplete="off"/>
+            </div>
+            <div class="search-hint">Wir importieren automatisch aus dem Handelsregister · <a href="#" style="color:var(--blue);text-decoration:none">Daten falsch? Korrektur über CreFo →</a></div>
+          </div>
+
+          <div class="or-divider">oder manuell eingeben</div>
+
+          <div class="form-row form-row-2">
+            <div class="field">
+              <label class="field-label">Firmenname</label>
+              <input id="s1-firmenname" type="text" value=""/>
+            </div>
+            <div class="field">
+              <label class="field-label">Rechtsform</label>
+              <select><option selected>GmbH</option><option>AG</option><option>GbR</option><option>UG</option><option>KG</option></select>
+            </div>
+          </div>
+
+          <div class="form-row form-row-2">
+            <div class="field">
+              <label class="field-label">Straße & Hausnummer</label>
+              <input id="s1-strasse" type="text" value=""/>
+            </div>
+            <div class="field">
+              <label class="field-label">PLZ / Stadt</label>
+              <input id="s1-plz" type="text" value=""/>
+            </div>
+          </div>
+
+          <div class="form-row" style="grid-template-columns:1fr">
+            <div class="field">
+              <label class="field-label">Anzahl Mitarbeitende</label>
+              <input id="s1-ma" type="text" value=""/>
+            </div>
+          </div>
+
+          <div class="form-section-head">Ansprechperson</div>
+
+          <div class="form-row form-row-2">
+            <div class="field">
+              <label class="field-label">Vorname</label>
+              <input id="s1-vorname" type="text" value=""/>
+            </div>
+            <div class="field">
+              <label class="field-label">Nachname</label>
+              <input id="s1-nachname" type="text" value=""/>
+            </div>
+          </div>
+
+          <div class="form-row" style="grid-template-columns:1fr">
+            <div class="field">
+              <label class="field-label">Geschäftliche E-Mail-Adresse</label>
+              <input id="s1-email" type="email" value=""/>
+            </div>
+          </div>
+
+          <div class="checkbox-row" style="border-top:.5px solid var(--border);margin-top:8px">
+            <input type="checkbox" id="dsgvo" checked/>
+            <label for="dsgvo">Ich stimme der <a href="#">Datenschutzerklärung</a> zu und bin damit einverstanden, dass JobRad meine Daten zur Vertragsabwicklung verarbeitet.</label>
+          </div>
+        </div>
+
+        <div style="padding:12px 20px;border-top:.5px solid var(--border);background:var(--white)">
+          <button class="btn btn-primary" id="s1-next-btn" onclick="showScreen(2,document.querySelectorAll('.screen-btn')[1])" disabled style="opacity:.5;cursor:not-allowed">Weiter zur Vertragsvorschau</button>
+        </div>
+      </div>
+
+      <!-- Right: Why + Hint -->
+      <div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-head">Warum JobRad?</div>
+          <div class="card-body" style="padding:0 16px">
+            <div class="benefit-item">
+              <div class="benefit-dot"></div>
+              <div><div class="benefit-title">Mitarbeiterbindung stärken</div><div class="benefit-desc">Ein Benefit, der wirklich genutzt wird.</div></div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-dot"></div>
+              <div><div class="benefit-title">Steuerlich attraktiv</div><div class="benefit-desc">Gehaltsumwandlung reduziert Lohnnebenkosten.</div></div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-dot"></div>
+              <div><div class="benefit-title">Volldigitales Onboarding</div><div class="benefit-desc">Kein Papierkram, kein Sales-Termin nötig.</div></div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-dot"></div>
+              <div><div class="benefit-title">Mitarbeitende verwalten</div><div class="benefit-desc">HR-System anbinden – oder Liste hochladen. Beides möglich.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">Hinweis</div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--t2);line-height:1.6">JobRad steht Unternehmen aller Größen zur Verfügung – ab 1 Mitarbeiter:in.</div>
+            <div class="hint-box" style="margin-top:10px"><a href="#">Häufige Fragen →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 2: Vertragsvorschau
+══════════════════════════════════════ -->
+<div class="screen" id="screen2">
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">JR</div>
+      <div class="nav-logo-name">JobRad</div>
+    </div>
+    <div class="nav-steps">
+      <div class="nav-step done"><div class="nav-step-num">✓</div>Unternehmen</div>
+      <div class="nav-step-connector done"></div>
+      <div class="nav-step active"><div class="nav-step-num">2</div>Vertrag</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">3</div>Unterzeichnung</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">4</div>Konfiguration</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">5</div>Go-Live</div>
+    </div>
+    <div class="nav-right"><span>hr@techcraft.de</span></div>
+  </nav>
+
+  <div class="page">
+    <div class="page-title">Ihr Vertragsangebot</div>
+    <div class="page-sub" id="s2-sub">Standard-Konditionen · im Hintergrund läuft die Bonitätsprüfung</div>
+
+    <div class="two-col two-col-contract">
+      <!-- Left -->
+      <div>
+        <!-- Konditionen -->
+        <div class="card kond-card" style="margin-bottom:16px;position:relative">
+          <div class="kond-accent"></div>
+          <div class="card-head" style="padding-left:20px">
+            <span>Standard-Konditionen</span>
+            <span class="head-pill default">Default</span>
+          </div>
+          <div class="kond-row"><span class="kond-label">Unternehmen</span><span class="kond-value">TechCraft GmbH</span></div>
+          <div class="kond-row"><span class="kond-label">Laufzeit Einzelvertrag</span><span class="kond-value">36 Monate</span></div>
+          <div class="kond-row"><span class="kond-label">Max. Radwert pro Rad</span><span class="kond-value">11.900 €<span class="kond-value-sub">Standardwert · skalierbar</span></span></div>
+          <div class="kond-row"><span class="kond-label">Initiales Volumen</span><span class="kond-value">10 Räder<span class="kond-value-sub">erweiterbar nach Go-Live</span></span></div>
+          <div class="kond-row"><span class="kond-label">Arbeitgeberschutz</span><span class="kond-value green">inklusive (Tarif AJAU)</span></div>
+          <div class="kond-row"><span class="kond-label">Leasingpartner</span><span class="kond-value">JobRad Leasing GmbH</span></div>
+          <div style="padding:11px 16px;background:var(--blue-light);border-top:.5px solid var(--border);font-size:11px;color:var(--blue);line-height:1.6">
+            Die Standard-Konfiguration deckt die meisten Anwendungsfälle ab. <strong>Servicepakete und HRIS-Anbindung</strong> konfigurieren Sie nach Vertragsabschluss in Schritt 4.
+          </div>
+        </div>
+
+        <!-- PDF Viewer -->
+        <div class="card">
+          <div class="card-head">Vollständiger Vertrag</div>
+          <div class="pdf-viewer">
+            <div class="pdf-toolbar">
+              <span class="pdf-toolbar-name">Rahmenvertrag_TechCraft_GmbH.pdf</span>
+              <span class="pdf-toolbar-action">⬇ Herunterladen</span>
+            </div>
+            <div class="pdf-paper-area">
+              <div class="pdf-paper">
+                <div class="pdf-doc-title">RAHMENVERTRAG JOBRAD LEASING</div>
+                <div class="pdf-doc-sub">TechCraft GmbH · JobRad Leasing GmbH · Stand 2024</div>
+
+                <div class="pdf-section">
+                  <div class="pdf-section-title">§ 1 Vertragsgegenstand</div>
+                  <div class="pdf-section-text">Die JobRad Leasing GmbH (nachfolgend „Leasinggeber") stellt dem Leasingnehmer (nachfolgend „Arbeitgeber") auf Basis dieses Rahmenvertrags Fahrräder und Pedelecs zur Verfügung, welche den Arbeitnehmern des Arbeitgebers zur dienstlichen und privaten Nutzung überlassen werden.</div>
+                </div>
+
+                <div class="pdf-section">
+                  <div class="pdf-section-title">§ 2 Laufzeit und Konditionen</div>
+                  <div class="pdf-section-text">Der Rahmenvertrag gilt ab Unterzeichnung und läuft auf unbestimmte Zeit. Einzelleasingverträge werden jeweils für 36 Monate abgeschlossen. Der maximale Radwert je Einzelleasingvertrag beträgt 11.900 EUR inkl. Zubehör.</div>
+                </div>
+
+                <div class="pdf-section">
+                  <div class="pdf-section-title">§ 3 Arbeitgeberschutz</div>
+                  <div class="pdf-section-text">Der Arbeitgeberschutz nach Tarif AJAU ist Bestandteil jeden Einzelleasingvertrags. Versicherungsträger ist die ERGO Direkt Versicherung AG. Die Abwicklung erfolgt durch assona GmbH, Postfach 51 11 36, 13371 Berlin.</div>
+                </div>
+
+                <div class="pdf-section">
+                  <div class="pdf-section-title">§ 4 Pflichten des Arbeitgebers</div>
+                  <div class="pdf-section-text">Der Arbeitgeber verpflichtet sich zur Meldung von Störfällen innerhalb von 14 Tagen über das meinJobRad-Portal. Versicherungsfälle sind unverzüglich zu melden.</div>
+                </div>
+
+                <div class="pdf-section">
+                  <div class="pdf-section-title">§ 5 Datenschutz</div>
+                  <div class="pdf-section-text">Die Verarbeitung personenbezogener Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO. Weitere Informationen entnehmen Sie der Datenschutzerklärung unter www.jobrad.org/datenschutz.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right sidebar -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <!-- Bonitätsprüfung -->
+        <div class="card clickable" id="bonity-card">
+          <div class="card-head">Bonitätsprüfung</div>
+          <div class="card-body">
+            <div class="status-box status-checking" id="bonity-checking">
+              <div class="status-dot"></div>
+              <span>Prüfung läuft im Hintergrund …</span>
+            </div>
+            <div class="status-box status-ok" id="bonity-ok" style="display:none">
+              <div class="status-dot"></div>
+              <span><strong>Bonität freigegeben</strong> – TechCraft GmbH wurde freigegeben.</span>
+            </div>
+            <div style="font-size:11px;color:var(--t2);line-height:1.5">Die Prüfung erfolgt automatisch durch die Leasinggesellschaft und dauert in der Regel weniger als 2 Minuten.</div>
+          </div>
+        </div>
+
+        <!-- Wirtschaftlich Berechtigte (Kathrin — Pflicht-Hürde) -->
+        <div class="card">
+          <div class="card-head">Wirtschaftlich Berechtigte</div>
+          <div class="card-body" style="padding-bottom:14px">
+            <div style="font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:10px">
+              Aus Handelsregister & Listen vorausgefüllt – bitte bestätigen.
+            </div>
+            <div class="wb-row">
+              <div>
+                <div class="wb-name">Maximilian Bauer</div>
+                <div class="wb-meta">Geschäftsführer · 60 % Anteil</div>
+              </div>
+              <span class="wb-confirm">✓ bestätigt</span>
+            </div>
+            <div class="wb-row">
+              <div>
+                <div class="wb-name">Sophie Reinhardt</div>
+                <div class="wb-meta">Geschäftsführerin · 40 % Anteil</div>
+              </div>
+              <span class="wb-confirm">✓ bestätigt</span>
+            </div>
+            <div style="font-size:10px;color:var(--t3);margin-top:6px"><a href="#" style="color:var(--blue);text-decoration:none">Person hinzufügen / korrigieren</a></div>
+          </div>
+        </div>
+
+        <!-- Vorsteuerabzug -->
+        <div class="card">
+          <div class="card-head">Steuerliche Angaben</div>
+          <div class="card-body">
+            <div class="vst-box">
+              <div class="checkbox-row" style="padding:0">
+                <input type="checkbox" id="vst" checked/>
+                <label for="vst">Das Unternehmen ist vorsteuerabzugsberechtigt</label>
+              </div>
+            </div>
+            <div class="vst-hint">Voreingestellt für Standardvertrag. Angabe kann später im Portal korrigiert werden.</div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="card">
+          <div class="card-head">Nächster Schritt</div>
+          <div class="cta-card">
+            <button class="btn btn-primary" id="sign-btn" onclick="showScreen(3,document.querySelectorAll('.screen-btn')[2])" disabled style="opacity:.5;cursor:not-allowed">Weiter zur Unterzeichnung</button>
+            <div class="cta-note">Digitale Signatur via Online-Ident (IDnow)</div>
+          </div>
+        </div>
+
+        <!-- Deposit fallback -->
+        <div class="card">
+          <div class="card-head">Alternative: Deposit</div>
+          <div class="card-body">
+            <div class="deposit-note">
+              <strong>Falls keine automatische Freigabe erfolgt</strong>
+              Eine einmalige Sicherheitsleistung ermöglicht die sofortige Weiterführung des Prozesses.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 3: Unterzeichnung (mit Asynchronität — Kathrin Δ1)
+══════════════════════════════════════ -->
+<div class="screen" id="screen3">
+  <nav class="navbar">
+    <div class="nav-logo"><div class="nav-logo-mark">JR</div><div class="nav-logo-name">JobRad</div></div>
+    <div class="nav-steps">
+      <div class="nav-step done"><div class="nav-step-num">✓</div>Unternehmen</div>
+      <div class="nav-step-connector done"></div>
+      <div class="nav-step done"><div class="nav-step-num">✓</div>Vertrag</div>
+      <div class="nav-step-connector done"></div>
+      <div class="nav-step active"><div class="nav-step-num">3</div>Unterzeichnung</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">4</div>Konfiguration</div>
+      <div class="nav-step-connector"></div>
+      <div class="nav-step"><div class="nav-step-num">5</div>Go-Live</div>
+    </div>
+    <div class="nav-right"><span>hr@techcraft.de</span></div>
+  </nav>
+
+  <div class="page">
+    <!-- State A: Auswahl ZB + Senden -->
+    <div class="signing-state active" id="state-select">
+      <div class="page-title">Unterzeichnung anstoßen</div>
+      <div class="page-sub">Zeichnungsberechtigte Person auswählen · sicherer Link wird per E-Mail versendet</div>
+
+      <div class="two-col two-col-contract">
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-head">Zeichnungsberechtigte Person</div>
+            <div class="card-body">
+              <div style="font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:12px">
+                Vorausgefüllt aus Handelsregister und gekauften Listen. Wählen Sie die Person aus, die den Rahmenvertrag rechtswirksam zeichnen kann.
+              </div>
+
+              <div class="delegate-card" id="zb-bauer">
+                <div class="delegate-name">
+                  Maximilian Bauer
+                  <span class="delegate-source">Handelsregister</span>
+                </div>
+                <div class="delegate-role">Geschäftsführer · einzelvertretungsberechtigt</div>
+                <div style="font-size:11px;color:var(--t2)">m.bauer@techcraft.de</div>
+              </div>
+
+              <div class="delegate-card" id="zb-reinhardt">
+                <div class="delegate-name">
+                  Sophie Reinhardt
+                </div>
+                <div class="delegate-role">Geschäftsführerin · gemeinschaftlich vertretungsberechtigt</div>
+                <div style="font-size:11px;color:var(--t2)">s.reinhardt@techcraft.de</div>
+              </div>
+
+              <button class="btn btn-link" style="padding:8px 0;color:var(--blue)">+ Weitere Person hinzufügen (mit Vollmacht-Upload)</button>
+            </div>
+          </div>
+
+          <!-- Vollmacht-Upload Pfad als zweiter Pfad (Kathrin — Rot) -->
+          <div class="card">
+            <div class="card-head">Alternativ: Bevollmächtigte:r mit Vollmacht</div>
+            <div class="card-body">
+              <div style="font-size:12px;color:var(--t2);line-height:1.6">
+                Wenn die Unterzeichnung durch eine nicht im Handelsregister eingetragene Person erfolgen soll – etwa weil zwei Geschäftsführer abwesend sind – können Sie hier eine Vollmacht hochladen. Die Person erhält denselben Magic Link.
+              </div>
+              <button class="btn btn-ghost" style="margin-top:12px;width:auto">Vollmacht hochladen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right sidebar: How it works -->
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card">
+            <div class="card-head">So läuft die Unterzeichnung</div>
+            <div class="card-body" style="padding:0 16px">
+              <div class="benefit-item"><div style="width:24px;height:24px;border-radius:50%;background:var(--green-light);color:var(--green-dark);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div><div><div class="benefit-title">Magic Link versenden</div><div class="benefit-desc">Sicherer Link geht per E-Mail an Maximilian Bauer.</div></div></div>
+              <div class="benefit-item"><div style="width:24px;height:24px;border-radius:50%;background:var(--green-light);color:var(--green-dark);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div><div><div class="benefit-title">Identifikation via IDnow</div><div class="benefit-desc">Online-Ident am Smartphone oder Desktop · ca. 2 Min.</div></div></div>
+              <div class="benefit-item"><div style="width:24px;height:24px;border-radius:50%;background:var(--green-light);color:var(--green-dark);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div><div><div class="benefit-title">Digitale Signatur</div><div class="benefit-desc">Qualifizierte elektronische Signatur (QES) im Browser.</div></div></div>
+              <div class="benefit-item"><div style="width:24px;height:24px;border-radius:50%;background:var(--green-light);color:var(--green-dark);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div><div><div class="benefit-title">Sie werden benachrichtigt</div><div class="benefit-desc">Per E-Mail, sobald die Signatur erfolgt ist.</div></div></div>
+            </div>
+          </div>
+
+          <!-- Realismus-Hinweis (Kathrin) -->
+          <div class="card">
+            <div class="card-head">Hinweis</div>
+            <div class="card-body">
+              <div class="hint-box blue" style="margin-top:0">
+                <strong style="display:block;margin-bottom:4px">Sie müssen nicht warten</strong>
+                Sie können dieses Fenster schließen. Sobald die Person unterzeichnet hat, melden wir uns per E-Mail. Mit dem Magic Link in dieser Mail kommen Sie direkt zurück in den Prozess.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="cta-card">
+              <button class="btn btn-primary" id="magic-link-send-btn" onclick="sendMagicLink()" disabled style="opacity:.5;cursor:not-allowed">Magic Link an Maximilian Bauer senden</button>
+              <div class="cta-note">Sie erhalten eine Bestätigungs-E-Mail · Re-entry jederzeit über den Link</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- State B: Pending (Warten auf Unterschrift) -->
+    <div class="signing-state" id="state-pending">
+      <div class="page-title">Warten auf Unterschrift</div>
+      <div class="page-sub">Magic Link versendet · Sie können diese Seite schließen</div>
+
+      <div class="two-col two-col-contract">
+        <div>
+          <div class="card" style="margin-bottom:16px">
+            <div class="pending-card" style="margin:24px;border-radius:var(--r)">
+              <div class="pending-icon">✉</div>
+              <div class="pending-title">Warten auf Unterschrift von Maximilian Bauer</div>
+              <div class="pending-sub">
+                Wir haben den Rahmenvertrag und einen sicheren Magic Link an<br>
+                <strong>m.bauer@techcraft.de</strong> versendet.
+              </div>
+              <div class="pending-meta">Versendet vor wenigen Sekunden · gültig 14 Tage</div>
+            </div>
+
+            <div style="padding:0 24px 20px">
+              <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:10px">Status</div>
+              <div class="timeline">
+                <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Vertrag generiert · Bonität freigegeben</div><div class="timeline-time">12:04</div></div>
+                <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Magic Link an m.bauer@techcraft.de versendet</div><div class="timeline-time">12:07</div></div>
+                <div class="timeline-item active"><div class="timeline-dot"></div><div class="timeline-text">Warten auf Identifikation & Unterschrift</div><div class="timeline-time">…</div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-text">Vertrag aktiviert</div><div class="timeline-time"></div></div>
+              </div>
+            </div>
+
+            <div style="padding:14px 20px;background:var(--bg);border-top:.5px solid var(--border);display:flex;gap:8px;justify-content:space-between;align-items:center">
+              <button class="btn btn-ghost" style="width:auto">Magic Link erneut senden</button>
+              <button class="btn btn-link">m.bauer@techcraft.de ändern</button>
+            </div>
+          </div>
+
+          <!-- Asynchronitäts-Erklärung -->
+          <div class="hint-box blue">
+            <strong style="display:block;margin-bottom:4px">Geschäftsführer-Konstellationen sind normal</strong>
+            Häufig stößt eine HR-Person das Onboarding an, während die Unterschrift bei der Geschäftsführung liegt. Das System orchestriert den Übergang – in der Regel innerhalb von 1–3 Tagen, abhängig von der Verfügbarkeit der Geschäftsführung.
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card">
+            <div class="card-head">Vertrag im Überblick</div>
+            <div class="kond-row"><span class="kond-label">Unternehmen</span><span class="kond-value">TechCraft GmbH</span></div>
+            <div class="kond-row"><span class="kond-label">Unterzeichner:in</span><span class="kond-value">M. Bauer (GF)</span></div>
+            <div class="kond-row"><span class="kond-label">Verfahren</span><span class="kond-value">IDnow + QES</span></div>
+            <div class="kond-row"><span class="kond-label">Aktiv</span><span class="kond-value">noch nicht</span></div>
+          </div>
+
+          <!-- Demo: Simulate signature -->
+          <div class="card" style="background:var(--bg)">
+            <div class="card-head" style="background:var(--bg2)">Demo</div>
+            <div class="card-body">
+              <div style="font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:10px">
+                Im Prototyp können Sie den Wartezustand überspringen, um die nachfolgenden Schritte zu sehen.
+              </div>
+              <button class="btn btn-primary" id="simulate-btn" onclick="goToActivated()">Unterschrift simulieren</button>
+            </div>
+          </div>
+
+          <!-- Re-entry-Hinweis -->
+          <div class="card">
+            <div class="card-head">Re-entry</div>
+            <div class="card-body">
+              <div style="font-size:12px;color:var(--t2);line-height:1.6">
+                Wir benachrichtigen Sie per E-Mail, sobald die Unterschrift vorliegt. Über den Link in der Mail kommen Sie direkt in die Konfiguration zurück.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- State C: Vertrag aktiviert -->
+    <div class="signing-state" id="state-activated">
+      <div style="max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:18px">
+
+        <!-- Activation hero -->
+        <div class="activation-hero" id="activation-hero">
+          <div class="activation-hero-ring">✓</div>
+          <div class="activation-hero-title">TechCraft GmbH ist jetzt aktiv</div>
+          <div class="activation-hero-sub">Vertrag aktiviert. Ihr TechCraft Unternehmensprofil ist jetzt aktiv.</div>
+          <div class="activation-hero-trigger">E-Signatur eingegangen · Maximilian Bauer · heute, 14:28 Uhr</div>
+        </div>
+
+        <!-- System-Status -->
+        <div class="card">
+          <div class="card-head">System-Status</div>
+          <div style="padding:18px 24px">
+            <div class="timeline">
+              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Vertrag generiert · Bonität freigegeben</div><div class="timeline-time">12:04</div></div>
+              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Magic Link 1 an m.bauer@techcraft.de versendet</div><div class="timeline-time">12:07</div></div>
+              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Identifikation (IDnow) & Signatur (QES) durch M. Bauer</div><div class="timeline-time">14:28</div></div>
+              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Vertrag aktiviert · Magic Link 2 an sara.meier@techcraft.de versendet</div><div class="timeline-time">14:32</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Caption -->
+        <div class="parallel-caption">Parallel · in Saras Posteingang</div>
+
+        <!-- E-Mail-Mockup (was Sara wirklich sieht — nicht Browser-Weiterführung) -->
+        <div>
+          <div class="email-inbox-label">
+            <span class="email-inbox-icon">✉</span>
+            <span><strong>Posteingang</strong> · sara.meier@techcraft.de · 1 neue Nachricht</span>
+          </div>
+
+          <div class="email-mock">
+            <div class="email-mock-header">
+              <div class="email-mock-row"><strong>Von</strong><span>JobRad &lt;noreply@jobrad.org&gt;</span></div>
+              <div class="email-mock-row"><strong>An</strong><span>sara.meier@techcraft.de</span></div>
+              <span class="email-mock-time">14:32 Uhr</span>
+              <div class="email-mock-subject">Ihr Manager-Portal ist bereit</div>
+            </div>
+            <div class="email-mock-body">
+              <div class="email-mock-greeting">Hallo Sara,</div>
+              <div class="email-mock-text">
+                Maximilian Bauer hat den Rahmenvertrag für TechCraft GmbH soeben digital unterzeichnet. Ihr Manager-Portal ist jetzt aktiv – Sie können das Setup in wenigen Minuten abschließen.
+              </div>
+              <div class="email-mock-text">
+                Mit einem Klick kommen Sie passwortlos in Ihr Portal:
+              </div>
+              <div class="email-mock-cta">
+                <button class="btn-magic-link" id="portal-switch-btn" onclick="showScreen(4,document.querySelectorAll('.screen-btn')[3])">Ins Manager-Portal wechseln</button>
+              </div>
+              <div class="email-mock-signoff">
+                Viele Grüße<br>
+                <strong>Ihr JobRad-Team</strong>
+              </div>
+              <div class="email-mock-meta" style="margin-top:18px">
+                Magic Link · einmalig nutzbar · 14 Tage gültig · passwortlos<br>
+                Sie können das Portal jederzeit über diesen Link erreichen, bis das Setup abgeschlossen ist.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 4: Konfiguration (Manager-Portal)
+══════════════════════════════════════ -->
+<div class="screen portal-screen" id="screen4">
+  <nav class="navbar-portal">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">JR</div>
+      <div class="nav-logo-name">JobRad</div>
+    </div>
+    <div class="portal-context">
+      <div class="portal-context-label">Manager-Portal</div>
+      <div class="portal-context-name">TechCraft GmbH</div>
+    </div>
+    <div class="portal-nav-sections">
+      <div class="portal-nav-item">Übersicht</div>
+      <div class="portal-nav-item">Mitarbeitende</div>
+      <div class="portal-nav-item">Verträge</div>
+      <div class="portal-nav-item">Auswertungen</div>
+      <div class="portal-nav-item active">Konfiguration</div>
+      <div class="portal-nav-item">Hilfe</div>
+    </div>
+    <div class="portal-nav-right">
+      <span class="setup-pill"><span class="setup-pill-dot"></span>Setup: 1 von 2</span>
+      <div class="user-avatar">SM</div>
+    </div>
+  </nav>
+
+  <!-- Magic-Link-Bestätigungs-Banner — nur beim ersten Portal-Eintritt -->
+  <div class="portal-banner" id="magic-link-banner">
+    <div class="portal-banner-left">
+      <div class="portal-banner-icon">✓</div>
+      <span><strong>Rahmenvertrag unterzeichnet</strong> · Maximilian Bauer · per Magic Link <span class="portal-banner-time">· 14:28</span></span>
+    </div>
+    <button class="portal-banner-close" onclick="document.getElementById('magic-link-banner').style.display='none'" title="Hinweis schließen">×</button>
+  </div>
+
+  <div class="page">
+    <div class="page-title">Konfiguration abschließen</div>
+    <div class="page-sub">Servicepakete für Mitarbeitende festlegen · Mitarbeitenden-Verwaltung wählen</div>
+
+    <div class="two-col two-col-contract">
+      <!-- Left: Servicepakete + Mitarbeitenden-Verwaltung -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Servicepakete (Daniel Δ1 — größter Hebel) -->
+        <div class="card">
+          <div class="card-head">
+            <span>Services für Ihre Mitarbeitenden</span>
+          </div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:18px">
+              Wählen Sie, welche Servicepakete Ihre Mitarbeitenden buchen können – und ob diese verpflichtend, bezuschusst oder selbst gezahlt sind.
+            </div>
+
+            <div class="form-section-head" style="margin-top:0;border-top:none;padding-top:0">Verfügbare Pakete</div>
+            <div class="service-grid">
+              <div class="service-card">
+                <div class="service-name">Basis</div>
+                <div class="service-tagline">Jährliche Inspektion · Standard für mechanische Räder</div>
+                <ul class="service-features">
+                  <li>1 Inspektion / Jahr</li>
+                  <li>Mobilitätsgarantie</li>
+                </ul>
+              </div>
+              <div class="service-card recommended">
+                <div class="service-name">Komfort</div>
+                <div class="service-tagline">Inspektion + Verschleißreparaturen · die meistgewählte Variante</div>
+                <ul class="service-features">
+                  <li>2 Inspektionen / Jahr</li>
+                  <li>Verschleißteile inkl.</li>
+                  <li>Pannenhilfe 24/7</li>
+                </ul>
+              </div>
+              <div class="service-card">
+                <div class="service-name">Unlimited</div>
+                <div class="service-tagline">Volle Werkstattabdeckung · für anspruchsvolle Pendler</div>
+                <ul class="service-features">
+                  <li>Unlimitierte Werkstatt</li>
+                  <li>Komfort + alle Reparaturen</li>
+                  <li>Ersatzrad bei Bedarf</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-section-head">Modus für Mitarbeitende</div>
+            <div class="mode-row">
+              <div class="mode-card">
+                <div class="mode-title">Verpflichtend</div>
+                <div class="mode-desc">Komfort wird bei jeder Bestellung mitgebucht. Höchste Mitarbeiterzufriedenheit.</div>
+              </div>
+              <div class="mode-card">
+                <div class="mode-title">Zuschuss</div>
+                <div class="mode-desc">Sie übernehmen einen Anteil. Mitarbeitende zahlen den Rest.</div>
+              </div>
+              <div class="mode-card">
+                <div class="mode-title">Selbstzahlung</div>
+                <div class="mode-desc">Mitarbeitende wählen frei und zahlen selbst.</div>
+              </div>
+            </div>
+
+            <div class="hint-box" style="margin-top:0">
+              <strong>Empfehlung:</strong> „Komfort verpflichtend" – Bike-Service-Team-Empfehlung. Pakete sind Teil des Einzelleasingvertrags und können später nicht mehr pro Vertrag umgestellt werden.
+            </div>
+          </div>
+        </div>
+
+        <!-- Mitarbeitenden-Verwaltung (Thomas + Kathrin: HRIS als Option, nicht Default) -->
+        <div class="card">
+          <div class="card-head">Mitarbeitenden-Verwaltung</div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:14px">
+              Beide Wege führen zum gleichen Ergebnis. HR-System anbinden ist bequemer; Liste hochladen funktioniert auch ohne IT-Anbindung.
+            </div>
+
+            <div class="path-toggle">
+              <div class="path-card" id="path-hris" onclick="runHrisAnimation()">
+                <div class="path-card-icon">⇆</div>
+                <div class="path-card-title">HR-System anbinden</div>
+                <div class="path-card-desc">SAP, Personio, Workday u.a. · Berechtigungen synchronisieren automatisch</div>
+              </div>
+              <div class="path-card" id="path-manual" onclick="selectPath('manual')">
+                <div class="path-card-icon">⬆</div>
+                <div class="path-card-title">Liste hochladen</div>
+                <div class="path-card-desc">CSV oder Excel · Mitarbeitende manuell pflegen · jederzeit wechselbar</div>
+              </div>
+            </div>
+
+            <!-- Path A: HRIS -->
+            <div class="path-content active" id="content-hris">
+              <div class="field" style="margin-bottom:12px">
+                <label class="field-label">HR-System auswählen</label>
+                <select><option selected>SAP SuccessFactors</option><option>Personio</option><option>Workday</option><option>HRworks</option><option>Andere · auf Anfrage</option></select>
+                <div class="field-hint">Sie werden zur OAuth-Authentifizierung weitergeleitet</div>
+              </div>
+              <div class="status-box status-pending">
+                <div class="status-dot"></div>
+                <span><strong>Anbindung folgt nach Go-Live</strong> – kein Block fürs Onboarding</span>
+              </div>
+              <div style="font-size:11px;color:var(--t2);line-height:1.5">
+                Für die Demo nehmen wir 650 Mitarbeitende als erkanntes Volumen an.
+              </div>
+            </div>
+
+            <!-- Path B: Manuell -->
+            <div class="path-content" id="content-manual">
+              <div class="upload-area">
+                <div class="upload-icon">⬆</div>
+                <div class="upload-text"><strong>CSV-Datei wählen</strong> oder hier ablegen<br><span style="font-size:10px;color:var(--t3)">Vorlage: Vorname, Nachname, E-Mail, Geburtsdatum, Standort</span></div>
+              </div>
+              <div style="font-size:11px;color:var(--t2);line-height:1.5;margin-top:10px">
+                Mitarbeitende-Liste lässt sich später jederzeit erweitern oder durch HRIS-Anbindung ersetzen.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Rahmen-Übersicht (read-only) + CTA -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+
+        <!-- Rahmenbedingungen (read-only — Kathrin Δ3) -->
+        <div class="card kond-card" style="position:relative">
+          <div class="kond-accent"></div>
+          <div class="card-head" style="padding-left:20px">
+            <span>Rahmen aus Vertrag</span>
+            <span class="head-pill editable">nach Go-Live editierbar</span>
+          </div>
+          <div class="kond-row"><span class="kond-label">Max. Radwert pro Rad</span><span class="kond-value">11.900 €</span></div>
+          <div class="kond-row"><span class="kond-label">Max. Räder pro MA</span><span class="kond-value">2</span></div>
+          <div class="kond-row"><span class="kond-label">Initiales Volumen</span><span class="kond-value">10 Räder</span></div>
+          <div class="kond-row"><span class="kond-label">Laufzeit Einzelvertrag</span><span class="kond-value">36 Monate</span></div>
+          <div style="padding:11px 16px;background:var(--bg);border-top:.5px solid var(--border);font-size:11px;color:var(--t2);line-height:1.5">
+            Diese Werte stammen aus dem Standardvertrag und werden später im Bereich „Verträge" angepasst – nicht hier im Setup.
+          </div>
+        </div>
+
+        <!-- Bevollmächtigte einladen -->
+        <div class="card">
+          <div class="card-head">Bevollmächtigte einladen</div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:12px">
+              HR-Manager:innen, die Mitarbeitenden-Anträge prüfen. Pre-approval bei erfüllten Rahmenbedingungen läuft automatisch.
+            </div>
+            <div class="field" style="margin-bottom:12px">
+              <label class="field-label">E-Mail-Adressen (kommagetrennt)</label>
+              <input type="text" value="sara.meier@techcraft.de"/>
+              <div class="field-hint">Die Personen erhalten ebenfalls einen Magic Link</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="card">
+          <div class="cta-card">
+            <button class="btn btn-primary" id="s4-cta" disabled onclick="showScreen(5,document.querySelectorAll('.screen-btn')[4])">Konfiguration speichern & Go-Live</button>
+            <div class="cta-note">Konfiguration ist im Portal jederzeit anpassbar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN 5: Go-Live (Manager-Portal · HR-Blau-Akzent)
+══════════════════════════════════════ -->
+<div class="screen portal-screen" id="screen5">
+  <nav class="navbar-portal">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">JR</div>
+      <div class="nav-logo-name">JobRad</div>
+    </div>
+    <div class="portal-context">
+      <div class="portal-context-label">Manager-Portal</div>
+      <div class="portal-context-name">TechCraft GmbH</div>
+    </div>
+    <div class="portal-nav-sections">
+      <div class="portal-nav-item">Übersicht</div>
+      <div class="portal-nav-item">Mitarbeitende</div>
+      <div class="portal-nav-item">Verträge</div>
+      <div class="portal-nav-item">Auswertungen</div>
+      <div class="portal-nav-item active">Konfiguration</div>
+      <div class="portal-nav-item">Hilfe</div>
+    </div>
+    <div class="portal-nav-right">
+      <span class="setup-pill done"><span class="setup-pill-dot"></span>Setup abgeschlossen ✓</span>
+      <div class="user-avatar">SM</div>
+    </div>
+  </nav>
+
+  <div class="success-hero">
+    <div class="success-ring">✓</div>
+    <div class="success-title">TechCraft GmbH ist jetzt aktiv</div>
+    <div class="success-sub">Bevollmächtigte können Mitarbeitende einladen · Mitarbeitende können Räder bestellen</div>
+  </div>
+
+  <div class="page">
+    <div class="tiles-grid">
+      <div class="tile"><div class="tile-label">Vertrag</div><div class="tile-value" style="font-size:16px;color:var(--green-dark)">aktiv ✓</div><div class="tile-sub">unterzeichnet von M. Bauer</div></div>
+      <div class="tile"><div class="tile-label">Mitarbeitende</div><div class="tile-value">650</div><div class="tile-sub" id="ma-source-tile">verbunden via SAP SuccessFactors</div></div>
+      <div class="tile"><div class="tile-label">Servicepaket</div><div class="tile-value" style="font-size:16px;color:var(--green-dark)">Komfort</div><div class="tile-sub">verpflichtend</div></div>
+      <div class="tile"><div class="tile-label">Bevollmächtigte</div><div class="tile-value">1</div><div class="tile-sub">S. Meier · Magic Link versendet</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">Nächste Schritte</div>
+      <div class="next-grid">
+        <div class="next-item">
+          <div class="next-icon">→</div>
+          <div class="next-title">Mitarbeitende informieren</div>
+          <div class="next-desc">Kommunikationsmaterial herunterladen oder direkt per Portal versenden – sobald Sie bereit sind, intern zu kommunizieren.</div>
+          <button class="btn btn-primary">Material herunterladen</button>
+        </div>
+        <div class="next-item">
+          <div class="next-icon">⚙</div>
+          <div class="next-title">Konditionen anpassen</div>
+          <div class="next-desc">Max. Radwert, Anzahl Räder und Servicepaket-Konfiguration jederzeit im Bereich „Verträge" anpassen.</div>
+          <button class="btn btn-ghost">Zu „Verträge"</button>
+        </div>
+        <div class="next-item">
+          <div class="next-icon">✓</div>
+          <div class="next-title">Status verfolgen</div>
+          <div class="next-desc">Anträge, Aktivierungen und Störfälle in einer einzigen Übersicht – ohne Filtern.</div>
+          <button class="btn btn-ghost">Zur Übersicht</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showScreen(n, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen' + n).classList.add('active');
+  if (btn) btn.classList.add('active');
+  // Bonitätsprüfung auto-timer: fires after 2 min if Andi hasn't clicked manually
+  if (bonityTimer) { clearTimeout(bonityTimer); bonityTimer = null; }
+  if (n === 2 && !bonityDone) bonityTimer = setTimeout(() => runBonityAnimation(), 120000);
+  // Reset signing state when navigating to screen 3 directly
+  if (n === 3) {
+    document.getElementById('state-select').classList.add('active');
+    document.getElementById('state-pending').classList.remove('active');
+    document.getElementById('state-activated').classList.remove('active');
+  }
+  // Re-show Magic-Link banner on every fresh portal entry (Screen 4)
+  if (n === 4) {
+    const banner = document.getElementById('magic-link-banner');
+    if (banner) banner.style.display = 'flex';
+  }
+  // Reveal Episode 1 button after Go-Live screen loads
+  if (n === 5) {
+    setTimeout(() => {
+      const b = document.getElementById('ep1-btn');
+      if (b) { b.classList.add('visible'); b.classList.add('pulsing'); }
+    }, 1500);
+  }
+  window.scrollTo(0, 0);
+  history.replaceState(null, '', '#' + n);
+}
+
+// Restore screen on reload — deferred so all let declarations are initialised first
+setTimeout(function() {
+  const n = parseInt(location.hash.slice(1));
+  if (n >= 1 && n <= 5) showScreen(n, document.querySelectorAll('.screen-btn')[n - 1]);
+}, 0);
+
+// Screen 3 — toggle to pending state
+function goToPending() {
+  document.getElementById('state-select').classList.remove('active');
+  document.getElementById('state-pending').classList.add('active');
+  document.getElementById('state-activated').classList.remove('active');
+  window.scrollTo(0, 0);
+}
+
+// Screen 3 — toggle to activated state
+function goToActivated() {
+  document.getElementById('state-select').classList.remove('active');
+  document.getElementById('state-pending').classList.remove('active');
+  document.getElementById('state-activated').classList.add('active');
+  window.scrollTo(0, 0);
+  const hero = document.getElementById('activation-hero');
+  if (hero) { hero.classList.remove('visible'); setTimeout(() => hero.classList.add('visible'), 80); }
+}
+
+// Screen 3 — delegate card selection
+['zb-bauer','zb-reinhardt'].forEach(id => {
+  document.getElementById(id).addEventListener('click', () => {
+    document.querySelectorAll('.delegate-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById(id).classList.add('selected');
+    const btn = document.getElementById('magic-link-send-btn');
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer'; }
+  });
+});
+
+// Screen 3 — send Magic Link (spinner → State B)
+async function sendMagicLink() {
+  const btn = document.getElementById('magic-link-send-btn');
+  if (!btn || btn.disabled) return;
+  btn.disabled = true;
+  btn.style.cursor = 'not-allowed';
+  btn.innerHTML = '<span class="btn-spin"></span>Wird gesendet …';
+  await sleep(900);
+  goToPending();
+}
+
+// Screen 4 — Path toggle (HRIS vs manual)
+function selectPath(which) {
+  const hrisCard = document.getElementById('path-hris');
+  const manualCard = document.getElementById('path-manual');
+  const hrisContent = document.getElementById('content-hris');
+  const manualContent = document.getElementById('content-manual');
+  const tile = document.getElementById('ma-source-tile');
+  if (which === 'hris') {
+    hrisCard.classList.add('selected');
+    manualCard.classList.remove('selected');
+    hrisContent.classList.add('active');
+    manualContent.classList.remove('active');
+    if (tile) tile.textContent = 'verbunden via SAP SuccessFactors';
+  } else {
+    manualCard.classList.add('selected');
+    hrisCard.classList.remove('selected');
+    manualContent.classList.add('active');
+    hrisContent.classList.remove('active');
+    if (tile) tile.textContent = 'manuell importiert (CSV)';
+  }
+}
+
+// Service card selection
+document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    checkS4Complete();
+  });
+});
+
+// Mode card selection
+document.querySelectorAll('.mode-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    checkS4Complete();
+  });
+});
+
+// ── Screen 4: HRIS animation ──────────────────────────────────────────────
+let hrisAnimDone = false;
+
+function animateCount(el, from, to, duration) {
+  const start = performance.now();
+  const range = to - from;
+  function step(now) {
+    const elapsed = Math.min(now - start, duration);
+    const t = elapsed / duration;
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(from + range * ease).toLocaleString('de-DE');
+    if (elapsed < duration) requestAnimationFrame(step);
+    else el.textContent = to.toLocaleString('de-DE');
+  }
+  requestAnimationFrame(step);
+}
+
+async function runHrisAnimation() {
+  if (hrisAnimDone) return;
+  hrisAnimDone = true;
+
+  const overlay = document.getElementById('hris-overlay');
+  overlay.classList.add('visible');
+  await sleep(350);
+
+  const vh = window.innerHeight;
+  const header = document.getElementById('hris-tbl-header');
+  const rows = overlay.querySelectorAll('.hris-row');
+  const tablePhase = document.getElementById('hris-table-phase');
+  const exitDist = tablePhase.offsetHeight + 60;
+
+  // Phase 1 — header fades in at top of screen
+  header.classList.add('visible');
+  await sleep(250);
+
+  // Set all rows below the screen, then stagger them upward
+  rows.forEach(r => {
+    r.style.transition = 'none';
+    r.style.transform = `translateY(${vh}px)`;
+    r.style.opacity = '1';
+  });
+  await sleep(30);
+
+  for (let i = 0; i < rows.length; i++) {
+    rows[i].style.transition = 'transform 500ms cubic-bezier(.22,1,.36,1)';
+    rows[i].style.transform = 'translateY(0)';
+    await sleep(80);
+  }
+  await sleep(400); // hold — full table visible
+
+  // Exit — header leads upward, then rows cascade after it
+  header.style.transition = 'transform 380ms cubic-bezier(.55,0,1,.45), opacity 300ms ease';
+  header.style.transform = `translateY(${-exitDist}px)`;
+  header.style.opacity = '0';
+  await sleep(80);
+  for (let i = 0; i < rows.length; i++) {
+    rows[i].style.transition = 'transform 380ms cubic-bezier(.55,0,1,.45)';
+    rows[i].style.transform = `translateY(${-exitDist}px)`;
+    await sleep(55);
+  }
+  await sleep(300);
+
+  // Counter fades in
+  const counterWrap = document.getElementById('hris-counter');
+  counterWrap.style.display = 'block';
+  await sleep(30);
+  counterWrap.classList.add('in');
+
+  animateCount(document.getElementById('hris-count-num'), 0, 650, 1600);
+  await sleep(1800);
+
+  document.getElementById('hris-count-sub').classList.add('visible');
+  await sleep(1600);
+
+  // Fade out overlay
+  overlay.classList.remove('visible');
+  await sleep(380);
+
+  // Update UI: select HRIS path, show content
+  document.getElementById('path-hris').classList.add('selected');
+  document.getElementById('content-hris').classList.add('active');
+  const tile = document.getElementById('ma-source-tile');
+  if (tile) tile.textContent = 'verbunden via SAP SuccessFactors';
+
+  checkS4Complete();
+}
+
+function checkS4Complete() {
+  const serviceOk = !!document.querySelector('#screen4 .service-card.selected');
+  const modusOk   = !!document.querySelector('#screen4 .mode-card.selected');
+  const cta = document.getElementById('s4-cta');
+  if (cta && serviceOk && modusOk && hrisAnimDone) {
+    cta.disabled = false;
+    cta.style.opacity = '1';
+    cta.style.cursor = 'pointer';
+  }
+}
+
+// ── Screen 2: Bonitätsprüfung animation ──────────────────────────────────
+let bonityDone = false;
+let bonityTimer = null;
+
+async function runBonityAnimation() {
+  if (bonityDone) return;
+  bonityDone = true;
+  if (bonityTimer) { clearTimeout(bonityTimer); bonityTimer = null; }
+
+  const card = document.getElementById('bonity-card');
+  if (card) card.classList.remove('clickable');
+
+  const overlay = document.getElementById('bonity-overlay');
+  const olCard  = document.getElementById('bonity-ol-card');
+  const olLabel = document.getElementById('bonity-ol-label');
+
+  olCard.classList.remove('ok');
+  olCard.classList.add('checking');
+  olLabel.innerHTML = '<strong>Prüfung läuft …</strong>Bonität wird im Hintergrund geprüft';
+
+  overlay.classList.add('visible');
+  await sleep(1200);
+
+  olCard.classList.remove('checking');
+  olCard.classList.add('ok');
+  olLabel.innerHTML = '<strong>Bonität freigegeben</strong>TechCraft GmbH wurde freigegeben.';
+  await sleep(1500);
+
+  overlay.classList.remove('visible');
+  await sleep(400);
+
+  const checking = document.getElementById('bonity-checking');
+  const ok       = document.getElementById('bonity-ok');
+  const signBtn  = document.getElementById('sign-btn');
+  const sub      = document.getElementById('s2-sub');
+  if (checking) checking.style.display = 'none';
+  if (ok)       ok.style.display = 'flex';
+  if (signBtn)  { signBtn.disabled = false; signBtn.style.opacity = '1'; signBtn.style.cursor = 'pointer'; }
+  if (sub)      sub.textContent = 'Standard-Konditionen · Bonität freigegeben';
+}
+
+document.getElementById('bonity-card').addEventListener('click', () => {
+  if (!bonityDone) runBonityAnimation();
+});
+
+// ── Screen 1: Handelsregister animation ──────────────────────────────────
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+const S1_DATA = {
+  'firmenname':'TechCraft GmbH','strasse':'Reeperbahn 42','plz':'20359 Hamburg',
+  'ma':'650','vorname':'Sara','nachname':'Meier','email':'hr@techcraft.de'
+};
+
+let s1Played = false;
+
+document.getElementById('s1-search').addEventListener('click', function() {
+  if (s1Played) return;
+  s1Played = true;
+  runHRAnimation();
+});
+
+async function runHRAnimation() {
+  const overlay = document.getElementById('hr-overlay');
+  const input   = document.getElementById('hr-input');
+  const hint    = document.getElementById('hr-hint');
+  const hintTxt = document.getElementById('hr-hint-text');
+
+  overlay.classList.add('visible');
+  await sleep(350);
+
+  // typewriter
+  input.textContent = '';
+  const text = 'TechCraft GmbH';
+  await new Promise(resolve => {
+    let i = 0;
+    const iv = setInterval(() => {
+      input.textContent = text.substring(0, ++i);
+      if (i >= text.length) { clearInterval(iv); resolve(); }
+    }, 72);
+  });
+
+  // searching
+  hint.classList.add('visible','searching');
+  hintTxt.textContent = 'Handelsregister wird durchsucht …';
+  await sleep(1300);
+
+  // found
+  hint.classList.remove('searching');
+  hint.classList.add('found');
+  hintTxt.textContent = '✓ Unternehmen gefunden';
+  await sleep(1500);
+
+  // populate behind overlay (invisible transition)
+  document.getElementById('s1-search').value = 'TechCraft GmbH';
+  Object.keys(S1_DATA).forEach(k => {
+    const el = document.getElementById('s1-' + k);
+    if (el) el.value = S1_DATA[k];
+  });
+
+  // enable Screen 1 CTA
+  const s1btn = document.getElementById('s1-next-btn');
+  if (s1btn) { s1btn.disabled = false; s1btn.style.opacity = '1'; s1btn.style.cursor = 'pointer'; }
+
+  // fade out overlay
+  overlay.classList.remove('visible');
+  await sleep(380);
+  overlay.style.display = 'none';
+
+  // staggered field flash — communicates "data just arrived"
+  const fieldIds = ['s1-firmenname','s1-strasse','s1-plz','s1-ma','s1-vorname','s1-nachname','s1-email'];
+  for (const id of fieldIds) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    el.style.transition = 'background .5s';
+    el.style.background = 'var(--green-xlight)';
+    await sleep(70);
+  }
+  await sleep(500);
+  fieldIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.background = '';
+  });
+}
+
+// ── Phone takeover: Ep. 0 closing beat ──
+let buzzInterval = null;
+
+function triggerPhoneOverlay() {
+  const overlay = document.getElementById('phone-overlay');
+  const frame   = document.getElementById('phone-frame');
+  const notif   = document.getElementById('phone-notif');
+  const caption = document.getElementById('phone-caption');
+  const label   = document.getElementById('phone-label');
+  if (!overlay) return;
+
+  overlay.classList.add('active');
+  // Phone slides up
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { frame.classList.add('visible'); });
+  });
+  // Notification drops in (handled by CSS transition delay .35s)
+  setTimeout(() => { notif.classList.add('visible'); }, 50);
+  // Initial buzz after notification lands
+  setTimeout(() => {
+    doBuzz(frame);
+    // Recurring buzz every 3.5s until Andi taps
+    buzzInterval = setInterval(() => doBuzz(frame), 3500);
+  }, 850);
+  // Label + caption fade in
+  setTimeout(() => { label.classList.add('visible'); caption.classList.add('visible'); }, 100);
+}
+
+function doBuzz(frame) {
+  frame.classList.remove('buzz');
+  // Force reflow so the animation restarts cleanly
+  void frame.offsetWidth;
+  frame.classList.add('buzz');
+  frame.addEventListener('animationend', () => frame.classList.remove('buzz'), { once: true });
+}
+
+// ── Hint system ──
+function pulseHint(el) {
+  if (!el) return;
+  el.classList.remove('hint-pulse');
+  void el.offsetWidth; // force reflow so animation restarts
+  el.classList.add('hint-pulse');
+  el.addEventListener('animationend', () => el.classList.remove('hint-pulse'), { once: true });
+}
+
+function getScreen4HintTarget() {
+  const serviceOk = !!document.querySelector('#screen4 .service-card.selected');
+  const modusOk   = !!document.querySelector('#screen4 .mode-card.selected');
+  if (!serviceOk) return document.querySelector('#screen4 .service-card.recommended');
+  if (!modusOk)   return document.querySelector('#screen4 .mode-card');
+  if (!hrisAnimDone) return document.getElementById('path-hris');
+  const cta = document.getElementById('s4-cta');
+  return (cta && !cta.disabled) ? cta : null;
+}
+
+function fireHint() {
+  const n = parseInt(location.hash.slice(1)) || 1;
+  let target = null;
+  if (n === 1) {
+    const cta = document.getElementById('s1-next-btn');
+    target = (cta && !cta.disabled) ? cta : document.getElementById('s1-search');
+  } else if (n === 2) {
+    const cta = document.getElementById('sign-btn');
+    target = (cta && !cta.disabled) ? cta : document.getElementById('bonity-card');
+  } else if (n === 3) {
+    if (document.getElementById('state-activated').classList.contains('active')) {
+      target = document.getElementById('portal-switch-btn');
+    } else if (document.getElementById('state-pending').classList.contains('active')) {
+      target = document.getElementById('simulate-btn');
+    } else {
+      const delegateSelected = !!document.querySelector('.delegate-card.selected');
+      target = delegateSelected
+        ? document.getElementById('magic-link-send-btn')
+        : document.getElementById('zb-bauer');
+    }
+  } else if (n === 4) {
+    target = getScreen4HintTarget();
+  }
+  // Screen 5: ep1-btn has its own ctaPulse — no additional hint needed
+  pulseHint(target);
+}
+
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('screen') || e.target === document.body) {
+    fireHint();
+  }
+});
+
+function goToEp1() {
+  if (buzzInterval) { clearInterval(buzzInterval); buzzInterval = null; }
+  const notif = document.getElementById('phone-notif');
+  if (notif) { notif.style.transform = 'scale(.95)'; notif.style.opacity = '.7'; }
+  // Trigger anthracite fade-out, then navigate (matches ep1 Scene 1 → Scene 2 dissolve pattern)
+  setTimeout(() => {
+    document.documentElement.classList.add('fading-in');
+    setTimeout(() => { window.location.href = 'ep1.html?from=ep0'; }, 425);
+  }, 180);
+}
+
+// ── Page-transition fade-out (when arriving from another page) ──
+if (document.documentElement.classList.contains('fading-in')) {
+  setTimeout(() => {
+    document.documentElement.classList.remove('fading-in');
+  }, 60);
+}
+
+// ── Helper: fade-out then navigate ──
+function fadeNavigate(url) {
+  document.documentElement.classList.add('fading-in');
+  setTimeout(() => { window.location.href = url; }, 425);
+}
+
+</script>
+
+<div id="scene-fade-overlay"></div>
+
+<!-- HRIS animation overlay — Screen 4 -->
+<div id="hris-overlay">
+  <div id="hris-table-phase">
+    <div class="hris-tbl-header" id="hris-tbl-header">
+      <span>Mitarbeiter-ID</span><span>Vorname</span><span>Nachname</span><span>E-Mail</span><span>Abteilung</span>
+    </div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10423</span><span>Anna</span><span>Becker</span><span>a.becker@techcraft.de</span><span>Entwicklung</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10891</span><span>Markus</span><span>Schreiber</span><span>m.schreiber@techcraft.de</span><span>Vertrieb</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10001</span><span>Emily</span><span>Kaufmann</span><span>emily.kaufmann@techcraft.de</span><span>Design</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10234</span><span>Julia</span><span>Wagner</span><span>j.wagner@techcraft.de</span><span>Personal</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10567</span><span>Thomas</span><span>Klein</span><span>t.klein@techcraft.de</span><span>Finanzen</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10789</span><span>Laura</span><span>Fischer</span><span>l.fischer@techcraft.de</span><span>Marketing</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10345</span><span>Felix</span><span>Müller</span><span>f.mueller@techcraft.de</span><span>Entwicklung</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10678</span><span>Sarah</span><span>Hoffmann</span><span>s.hoffmann@techcraft.de</span><span>Logistik</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10912</span><span>Christian</span><span>Braun</span><span>c.braun@techcraft.de</span><span>Vertrieb</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11042</span><span>Elena</span><span>Richter</span><span>e.richter@techcraft.de</span><span>Entwicklung</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10156</span><span>David</span><span>Wolf</span><span>d.wolf@techcraft.de</span><span>HR</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11234</span><span>Petra</span><span>Neumann</span><span>p.neumann@techcraft.de</span><span>Marketing</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10088</span><span>Michael</span><span>Zimmermann</span><span>m.zimmermann@techcraft.de</span><span>Finanzen</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11378</span><span>Sandra</span><span>Krause</span><span>s.krause@techcraft.de</span><span>Sales</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10445</span><span>Johannes</span><span>Köhler</span><span>j.koehler@techcraft.de</span><span>Entwicklung</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11512</span><span>Katrin</span><span>Schneider</span><span>k.schneider@techcraft.de</span><span>Personal</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10023</span><span>Stefan</span><span>Meyer</span><span>s.meyer@techcraft.de</span><span>Vertrieb</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11689</span><span>Marie</span><span>Weber</span><span>m.weber@techcraft.de</span><span>Design</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10334</span><span>Klaus</span><span>Schulz</span><span>k.schulz@techcraft.de</span><span>Entwicklung</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11801</span><span>Lena</span><span>Hartmann</span><span>l.hartmann@techcraft.de</span><span>Marketing</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10756</span><span>Andreas</span><span>Lange</span><span>a.lange@techcraft.de</span><span>Operations</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10901</span><span>Nina</span><span>Schmitt</span><span>n.schmitt@techcraft.de</span><span>Finanzen</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11124</span><span>Florian</span><span>Werner</span><span>f.werner@techcraft.de</span><span>Entwicklung</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10289</span><span>Birgit</span><span>Winkler</span><span>b.winkler@techcraft.de</span><span>Vertrieb</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11456</span><span>Sebastian</span><span>Roth</span><span>s.roth@techcraft.de</span><span>HR</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10712</span><span>Hannah</span><span>Bauer</span><span>h.bauer@techcraft.de</span><span>Personal</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11900</span><span>Monika</span><span>Hofmann</span><span>m.hofmann@techcraft.de</span><span>Entwicklung</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10367</span><span>Patrick</span><span>Berger</span><span>p.berger@techcraft.de</span><span>Vertrieb</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11643</span><span>Sabine</span><span>Schmidt</span><span>s.schmidt@techcraft.de</span><span>HR</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10834</span><span>Tobias</span><span>Koch</span><span>t.koch@techcraft.de</span><span>Logistik</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11267</span><span>Anja</span><span>Fuchs</span><span>a.fuchs@techcraft.de</span><span>Marketing</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10589</span><span>Ralf</span><span>Schäfer</span><span>r.schaefer@techcraft.de</span><span>Finanzen</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11734</span><span>Melanie</span><span>König</span><span>m.koenig@techcraft.de</span><span>Design</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10478</span><span>Carsten</span><span>Lehmann</span><span>c.lehmann@techcraft.de</span><span>Operations</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-11189</span><span>Yvonne</span><span>Brunner</span><span>y.brunner@techcraft.de</span><span>Personal</span></div>
+    <div class="hris-row"><span class="hris-emp-id">TC-10945</span><span>Marco</span><span>Heinrich</span><span>m.heinrich@techcraft.de</span><span>Entwicklung</span></div>
+  </div>
+  <div id="hris-counter">
+    <div class="hris-ctr-label">Berechtigte Mitarbeiter:innen</div>
+    <div class="hris-ctr-num" id="hris-count-num">0</div>
+    <div class="hris-ctr-sub" id="hris-count-sub">wurden automatisch importiert via <span>SAP SuccessFactors</span></div>
+  </div>
+</div>
+
+<!-- Bonitätsprüfung overlay — Screen 2 animation -->
+<div id="bonity-overlay">
+  <div class="bonity-ol-card checking" id="bonity-ol-card">
+    <span class="bonity-ol-dot"></span>
+    <span class="bonity-ol-label" id="bonity-ol-label"><strong>Prüfung läuft …</strong>Bonität wird im Hintergrund geprüft</span>
+  </div>
+</div>
+
+<!-- Handelsregister overlay — Screen 1 animation -->
+<div id="hr-overlay">
+  <div class="hr-search-wrap">
+    <div class="hr-search">
+      <span class="hr-search-icon">⌕</span>
+      <span class="hr-search-input" id="hr-input"></span><span class="hr-search-caret"></span>
+    </div>
+    <div class="hr-hint" id="hr-hint">
+      <span class="hr-hint-dot"></span>
+      <span id="hr-hint-text"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHONE TAKEOVER — Ep. 0 closing beat / Ep. 1 bridge
+══════════════════════════════════════ -->
+<div class="phone-overlay" id="phone-overlay">
+  <div class="phone-label" id="phone-label">Auf Emilys Smartphone</div>
+  <div class="phone-frame" id="phone-frame">
+    <div class="phone-screen">
+      <!-- Status bar -->
+      <div style="padding:13px 22px 0;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace">
+        <span>9:41</span>
+        <span>●●● 5G</span>
+      </div>
+      <!-- Clock -->
+      <div class="phone-time-area">
+        <div class="phone-time-num">9:41</div>
+        <div class="phone-time-date">Montag, 4. Mai</div>
+      </div>
+      <!-- Push notification — tap to enter Ep. 1 -->
+      <div class="phone-notif" id="phone-notif" onclick="goToEp1()">
+        <div class="phone-notif-head">
+          <img src="jobrad-icon.png" width="24" height="24" style="border-radius:6px;display:block;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(157,222,76,.45)" alt="JobRad">
+          <span class="phone-notif-app">JobRad</span>
+          <span class="phone-notif-ts">jetzt</span>
+        </div>
+        <div class="phone-notif-msg">Dein Unternehmen <strong>TechCraft</strong> bietet jetzt JobRad an.</div>
+        <div class="phone-notif-sub">Entdecke Dienstrad-Leasing für dich →</div>
+      </div>
+    </div>
+  </div>
+  <div class="phone-caption" id="phone-caption">649 weitere Mitarbeiter:innen wurden benachrichtigt</div>
+</div>
+
+</body>
+</html>

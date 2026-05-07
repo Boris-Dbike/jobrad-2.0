@@ -3,29 +3,174 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+/* ─────────────────────────────────────────────────────────
+   Peloton UI (PUI) — raw token values
+   Source: PUI - Foundation / Mapped / Layout (Figma library)
+   Extracted: 2026-04-15 via Figma MCP
+   ───────────────────────────────────────────────────────── */
+
+/* PUI Semantic color tokens (Mapped collection) */
+:root {
+  /* Surface / background */
+  --pui-surface-bg-default:   #FFFFFF;
+  --pui-surface-bg-dark:      #F2F4F5;
+  --pui-surface-bg-darker:    #D0DADE;
+  --pui-surface-bg-warning:   #FBF2E9;
+  --pui-surface-bg-danger:    #FFEDEB;
+  --pui-surface-bg-success:   #F2FBE7;
+
+  /* Surface / text */
+  --pui-surface-text-dark:    #11171A;
+  --pui-surface-text-default: #29363C;
+  --pui-surface-text-light:   #485E68;
+  --pui-surface-text-lighter: #B2C1C8;
+  --pui-surface-text-error:   #DB0A0A;
+  --pui-surface-text-warning: #664214;
+  --pui-surface-text-success: #267B00;
+
+  /* Surface / border */
+  --pui-surface-border-default: #B2C1C8;
+  --pui-surface-border-dark:    #485E68;
+  --pui-surface-border-darker:  #11171A;
+  --pui-surface-border-focus:   #4F9C0D;
+  --pui-surface-border-error:   #DB0A0A;
+  --pui-surface-border-success: #267B00;
+  --pui-surface-border-warning: #664214;
+
+  /* Action / primary (JobRad lime green) */
+  --pui-action-primary-bg:     #9DDE4C;
+  --pui-action-primary-hover:  #66B216;
+  --pui-action-primary-border: #66B216;
+  --pui-action-primary-text:   #29363C;
+
+  /* Action / secondary */
+  --pui-action-secondary-bg:     transparent;
+  --pui-action-secondary-hover:  #F2F4F5;
+  --pui-action-secondary-border: #93A8B2;
+  --pui-action-secondary-text:   #29363C;
+
+  /* Action / supplementary */
+  --pui-action-supplementary-bg:    transparent;
+  --pui-action-supplementary-hover: #D0DADE;
+  --pui-action-supplementary-text:  #29363C;
+
+  /* Action / neutral (dark inverse) */
+  --pui-action-neutral-bg:     #29363C;
+  --pui-action-neutral-hover:  #182024;
+  --pui-action-neutral-border: #29363C;
+  --pui-action-neutral-text:   #F2F4F5;
+
+  /* Action / danger */
+  --pui-action-danger-bg:     #DB0A0A;
+  --pui-action-danger-hover:  #A80808;
+  --pui-action-danger-border: #DB0A0A;
+  --pui-action-danger-text:   #FFFFFF;
+
+  /* Marketing palette */
+  --pui-marketing-white:      #FFFFFF;
+  --pui-marketing-black:      #29363C;
+  --pui-marketing-green:      #B0E572;
+  --pui-marketing-pink:       #FFBCDF;
+
+  /* Spacing / padding */
+  --pui-padding-xxsmall: 4px;
+  --pui-padding-xsmall:  8px;
+  --pui-padding-small:   12px;
+  --pui-padding-medium:  16px;
+  --pui-padding-large:   20px;
+  --pui-padding-xlarge:  24px;
+  --pui-padding-xxlarge: 32px;
+  --pui-padding-3xlarge: 40px;
+  --pui-padding-4xlarge: 48px;
+  --pui-padding-5xlarge: 56px;
+  --pui-padding-6xlarge: 64px;
+
+  /* Spacing / gap */
+  --pui-gap-xxsmall: 4px;
+  --pui-gap-xsmall:  8px;
+  --pui-gap-small:   16px;
+  --pui-gap-medium:  24px;
+  --pui-gap-large:   32px;
+  --pui-gap-xlarge:  40px;
+  --pui-gap-xxlarge: 48px;
+  --pui-gap-3xlarge: 64px;
+  --pui-gap-4xlarge: 80px;
+
+  /* Border radius */
+  --pui-radius-small:  2px;
+  --pui-radius-medium: 4px;
+  --pui-radius-large:  8px;
+  --pui-radius-full:   128px;
+
+  /* Sizing */
+  --pui-size-xxsmall: 16px;
+  --pui-size-xsmall:  24px;
+  --pui-size-small:   32px;
+  --pui-size-medium:  40px;
+  --pui-size-large:   48px;
+  --pui-size-xlarge:  64px;
+  --pui-size-xxlarge: 98px;
+
+  /* Breakpoints */
+  --pui-breakpoint-small:  320px;
+  --pui-breakpoint-medium: 768px;
+  --pui-breakpoint-large:  992px;
+  --pui-breakpoint-xlarge: 1440px;
+}
+
+/* ─────────────────────────────────────────────────────────
+   shadcn/ui semantic tokens — mapped to PUI values
+   ───────────────────────────────────────────────────────── */
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
+  /* shadcn semantic → Tailwind utilities */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
+  --color-primary:            var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
+  --color-secondary:          var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-destructive:        var(--destructive);
+  --color-border:             var(--border);
+  --color-input:              var(--input);
+  --color-ring:               var(--ring);
+
+  /* Radius scale (PUI-based, shadcn-compatible) */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* PUI color utilities — bg-pui-*, text-pui-*, border-pui-* */
+  --color-pui-surface-bg-default:   var(--pui-surface-bg-default);
+  --color-pui-surface-bg-dark:      var(--pui-surface-bg-dark);
+  --color-pui-surface-bg-darker:    var(--pui-surface-bg-darker);
+  --color-pui-surface-bg-warning:   var(--pui-surface-bg-warning);
+  --color-pui-surface-bg-danger:    var(--pui-surface-bg-danger);
+  --color-pui-surface-bg-success:   var(--pui-surface-bg-success);
+  --color-pui-surface-text-dark:    var(--pui-surface-text-dark);
+  --color-pui-surface-text-default: var(--pui-surface-text-default);
+  --color-pui-surface-text-light:   var(--pui-surface-text-light);
+  --color-pui-surface-text-lighter: var(--pui-surface-text-lighter);
+  --color-pui-surface-text-error:   var(--pui-surface-text-error);
+  --color-pui-surface-text-warning: var(--pui-surface-text-warning);
+  --color-pui-surface-text-success: var(--pui-surface-text-success);
+  --color-pui-primary:              var(--pui-action-primary-bg);
+  --color-pui-primary-hover:        var(--pui-action-primary-hover);
+  --color-pui-primary-text:         var(--pui-action-primary-text);
+  --color-pui-neutral-bg:           var(--pui-action-neutral-bg);
+  --color-pui-neutral-text:         var(--pui-action-neutral-text);
+  --color-pui-danger:               var(--pui-action-danger-bg);
+  --color-pui-marketing-green:      var(--pui-marketing-green);
+  --color-pui-marketing-pink:       var(--pui-marketing-pink);
 }
 
 @layer base {
@@ -33,73 +178,90 @@
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif
   }
+
   :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0)
+    /* ── shadcn tokens → PUI values ── */
+    --background:         var(--pui-surface-bg-default);
+    --foreground:         var(--pui-surface-text-default);
+    --card:               var(--pui-surface-bg-default);
+    --card-foreground:    var(--pui-surface-text-default);
+    --popover:            var(--pui-surface-bg-default);
+    --popover-foreground: var(--pui-surface-text-default);
+
+    /* Primary = JobRad lime green (#9DDE4C) */
+    --primary:            var(--pui-action-primary-bg);
+    --primary-foreground: var(--pui-action-primary-text);
+
+    --secondary:              var(--pui-surface-bg-dark);
+    --secondary-foreground:   var(--pui-surface-text-default);
+
+    --muted:              var(--pui-surface-bg-dark);
+    --muted-foreground:   var(--pui-surface-text-light);
+
+    --accent:             var(--pui-surface-bg-darker);
+    --accent-foreground:  var(--pui-surface-text-default);
+
+    --destructive:        var(--pui-action-danger-bg);
+
+    --border:             var(--pui-surface-border-default);
+    --input:              var(--pui-surface-border-default);
+    --ring:               var(--pui-surface-border-focus);
+
+    /* Border radius — PUI large (8px) as base */
+    --radius: 0.5rem;
+
+    /* Chart palette (PUI greens + neutrals) */
+    --chart-1: #9DDE4C;
+    --chart-2: #66B216;
+    --chart-3: #4F9C0D;
+    --chart-4: #267B00;
+    --chart-5: #B0E572;
+
+    /* Sidebar */
+    --sidebar:               var(--pui-surface-bg-dark);
+    --sidebar-foreground:    var(--pui-surface-text-default);
+    --sidebar-primary:       var(--pui-action-primary-bg);
+    --sidebar-primary-foreground: var(--pui-action-primary-text);
+    --sidebar-accent:        var(--pui-surface-bg-darker);
+    --sidebar-accent-foreground: var(--pui-surface-text-default);
+    --sidebar-border:        var(--pui-surface-border-default);
+    --sidebar-ring:          var(--pui-surface-border-focus)
   }
+
   .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0)
+    --background:         var(--pui-action-neutral-bg);
+    --foreground:         var(--pui-action-neutral-text);
+    --card:               #1A2228;
+    --card-foreground:    var(--pui-action-neutral-text);
+    --popover:            #1A2228;
+    --popover-foreground: var(--pui-action-neutral-text);
+    --primary:            var(--pui-action-primary-bg);
+    --primary-foreground: var(--pui-action-primary-text);
+    --secondary:          #1E2B31;
+    --secondary-foreground: var(--pui-action-neutral-text);
+    --muted:              #1E2B31;
+    --muted-foreground:   var(--pui-surface-border-default);
+    --accent:             #243038;
+    --accent-foreground:  var(--pui-action-neutral-text);
+    --destructive:        var(--pui-action-danger-bg);
+    --border:             #2A3940;
+    --input:              #2A3940;
+    --ring:               var(--pui-surface-border-focus);
+    --chart-1: #9DDE4C;
+    --chart-2: #66B216;
+    --chart-3: #4F9C0D;
+    --chart-4: #267B00;
+    --chart-5: #B0E572;
+    --sidebar:               #1A2228;
+    --sidebar-foreground:    var(--pui-action-neutral-text);
+    --sidebar-primary:       var(--pui-action-primary-bg);
+    --sidebar-primary-foreground: var(--pui-action-primary-text);
+    --sidebar-accent:        #243038;
+    --sidebar-accent-foreground: var(--pui-action-neutral-text);
+    --sidebar-border:        #2A3940;
+    --sidebar-ring:          var(--pui-surface-border-focus)
   }
+
   * {
     @apply border-border outline-ring/50;
   }
