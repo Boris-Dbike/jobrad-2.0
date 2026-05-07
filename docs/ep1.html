@@ -478,45 +478,51 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
 .s8-rv{font-size:12px;font-weight:500;color:var(--t1)}
 .s8-rv.green{color:var(--green-dark)}
 
-/* ══ Bike Pass v2 — full destination screen ══ */
-.bp2-wrap{background:var(--bg2);flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.bp2-nav{background:var(--white);height:52px;display:flex;align-items:center;padding:0 18px;border-bottom:1px solid var(--border);position:sticky;top:110px;z-index:50}
-.bp2-nav-icon{width:24px;height:24px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#29363C;font-family:'DM Mono',monospace;margin-right:10px}
-.bp2-nav-name{font-size:13px;font-weight:600;color:var(--t1)}
-.bp2-nav-sep{width:1px;height:18px;background:var(--border);margin:0 12px}
-.bp2-nav-section{font-size:12px;color:var(--t3);font-weight:500}
-.bp2-hero{position:relative;background:#0b0b0b;color:#fff;padding:32px 18px 50px;overflow:hidden}
-.bp2-hero-top{text-align:center;position:relative;z-index:2;margin-bottom:8px}
-.bp2-trek-logo{height:38px;color:#fff;display:block;margin:0 auto}
-.bp2-hero-model{font-size:11px;font-weight:600;letter-spacing:.16em;color:rgba(255,255,255,.78);text-transform:uppercase;margin-top:14px}
-.bp2-hero-sub{font-size:11px;color:rgba(255,255,255,.42);margin-top:5px;letter-spacing:.02em}
-.bp2-hero-photo{position:relative;margin:6px -18px 0;display:flex;justify-content:center;align-items:center;height:240px}
-.bp2-hero-photo img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;object-fit:contain}
-.bp2-hero-card{background:var(--white);border-radius:var(--r-lg);box-shadow:0 8px 28px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.08);margin:-30px 12px 0;position:relative;z-index:3}
-.bp2-hero-card-head{padding:8px 14px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
-.bp2-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px}
-.bp2-spec{background:var(--bg);border-radius:var(--r);padding:10px 12px}
-.bp2-spec-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
-.bp2-spec-value{font-size:13px;font-weight:500;color:var(--t1);margin-top:3px}
-.bp2-body{padding:22px 16px 0}
-.bp2-card{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
-.bp2-card-head{padding:9px 14px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;justify-content:space-between}
-.bp2-card-body{padding:14px}
-.bp2-runtime-row{display:flex;align-items:flex-end;gap:14px;margin-bottom:14px}
-.bp2-runtime-km{font-size:46px;font-weight:700;color:var(--t1);line-height:.95;letter-spacing:-.02em}
-.bp2-runtime-unit{font-size:14px;color:var(--t3);margin-bottom:8px;font-weight:500}
-.bp2-runtime-status{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green-deep);background:var(--green-light);padding:4px 10px;border-radius:99px;font-weight:600;margin-bottom:6px}
+/* ══ Bike Pass v2 — single dark hero card + supporting cards ══ */
+/* HERO CARD: dark, photo-bg, specs overlay, runtime collapsible at bottom */
+.bp2-hero-card{background:#000;border-radius:var(--r-lg);overflow:hidden;margin-bottom:14px;box-shadow:0 4px 20px rgba(0,0,0,.18);color:#fff;position:relative}
+.bp2-hero-top{position:relative;min-height:440px;padding:22px 18px 16px;overflow:hidden}
+.bp2-hero-bg{position:absolute;top:0;right:-30px;width:100%;height:100%;object-fit:cover;object-position:right center;z-index:1;pointer-events:none}
+.bp2-hero-content{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;min-height:400px}
+.bp2-hero-trek-block{margin-bottom:22px}
+.bp2-trek-logo{height:24px;color:#fff;display:block}
+.bp2-hero-model{font-size:13px;font-weight:600;letter-spacing:.06em;color:#fff;text-transform:uppercase;margin-top:6px;line-height:1.2}
+.bp2-hero-specs{display:flex;flex-direction:column;gap:13px;flex:1;max-width:50%}
+.bp2-spec-row{}
+.bp2-spec-label{font-size:11px;color:rgba(255,255,255,.42);font-weight:500;line-height:1.2}
+.bp2-spec-value{font-size:13px;color:rgba(255,255,255,.92);font-weight:500;margin-top:2px;line-height:1.3}
+.bp2-color-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#E8442B;margin-right:6px;vertical-align:-1px;border:.5px solid rgba(255,255,255,.25)}
+.bp2-hero-id{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:18px}
+.bp2-frame-label{font-size:10px;color:rgba(255,255,255,.42);font-weight:500;line-height:1.2}
+.bp2-frame-value{font-size:11px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.92);margin-top:2px;letter-spacing:.02em}
+.bp2-qr-tile{width:48px;height:48px;background:#fff;border-radius:6px;padding:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.bp2-qr-tile img{width:100%;height:100%;display:block}
+/* Runtime — collapsible at bottom of hero card */
+.bp2-runtime{background:transparent;border-top:.5px solid rgba(255,255,255,.08)}
+.bp2-runtime-summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;gap:10px}
+.bp2-runtime-summary::-webkit-details-marker{display:none}
+.bp2-runtime-label{font-size:13px;font-weight:500;color:rgba(255,255,255,.92);flex:1}
+.bp2-runtime-meta{display:flex;align-items:center;gap:12px}
+.bp2-runtime-status{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:rgba(157,222,76,.14);padding:4px 10px;border-radius:99px;font-weight:500}
 .bp2-runtime-dot{width:6px;height:6px;background:var(--green);border-radius:50%}
-.bp2-progress{margin-top:4px}
-.bp2-progress-track{height:6px;background:var(--bg2);border-radius:99px;overflow:hidden}
-.bp2-progress-fill{height:100%;background:var(--green);border-radius:99px;transition:width .8s ease}
-.bp2-progress-labels{display:flex;justify-content:space-between;margin-top:7px;font-size:10px;color:var(--t3);font-family:'DM Mono',monospace}
-.bp2-monate{font-size:11px;color:var(--t2);margin-top:10px}
+.bp2-runtime-chevron{width:10px;height:10px;color:rgba(255,255,255,.4);transition:transform .2s;flex-shrink:0}
+.bp2-runtime[open] .bp2-runtime-chevron{transform:rotate(180deg)}
+.bp2-runtime-body{padding:0 18px 18px}
+.bp2-runtime-row{display:flex;align-items:flex-end;gap:6px;margin-bottom:14px}
+.bp2-runtime-km{font-size:52px;font-weight:700;color:#fff;line-height:.95;letter-spacing:-.02em}
+.bp2-runtime-unit{font-size:14px;color:rgba(255,255,255,.55);font-weight:500;margin-bottom:8px}
+.bp2-progress-dark{}
+.bp2-progress-track-dark{height:6px;background:rgba(255,255,255,.10);border-radius:99px;overflow:hidden}
+.bp2-progress-fill-dark{height:100%;background:var(--green);border-radius:99px;transition:width .8s ease}
+.bp2-progress-labels-dark{display:flex;justify-content:space-between;margin-top:7px;font-size:10px;color:rgba(255,255,255,.42);font-family:'DM Mono',monospace}
+.bp2-monate-dark{font-size:11px;color:rgba(255,255,255,.55);margin-top:12px;line-height:1.4}
+/* Inspection alert (lime) */
 .bp2-alert{display:flex;gap:12px;padding:14px;background:var(--green-light);border:.5px solid var(--green-mid);border-radius:var(--r-lg);margin-bottom:14px}
 .bp2-alert-icon{flex-shrink:0;color:var(--green-deep);margin-top:1px;display:flex}
 .bp2-alert-body{flex:1}
 .bp2-alert-title{font-size:13px;font-weight:600;color:var(--green-deep)}
 .bp2-alert-sub{font-size:12px;color:var(--green-deep);margin-top:3px;opacity:.78;line-height:1.5}
+/* Sections (collapsible cards) */
 .bp2-section{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
 .bp2-section-head{list-style:none;padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;background:var(--bg);user-select:none}
 .bp2-section-head::-webkit-details-marker{display:none}
@@ -551,19 +557,20 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
 .bp2-acc-empty{padding:8px 0;color:var(--t3);font-size:12px;font-style:italic}
 .bp2-acc-group{margin-bottom:14px}
 .bp2-acc-group:last-child{margin-bottom:0}
-.bp2-acc-group-label{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.bp2-eol{background:linear-gradient(135deg,var(--green-deep),#1b2a30);color:#fff;border-radius:var(--r-lg);padding:18px 16px;margin-bottom:14px}
-.bp2-eol-pill{display:inline-block;background:rgba(157,222,76,.16);color:var(--green);font-size:10px;font-weight:600;padding:4px 11px;border-radius:99px;margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase}
-.bp2-eol-title{font-size:15px;font-weight:600;line-height:1.35;color:#fff}
-.bp2-eol-sub{font-size:12px;color:rgba(255,255,255,.62);margin-top:6px;line-height:1.5}
-.bp2-eol-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-.bp2-eol-opt{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:var(--r);padding:12px 6px 10px;text-align:center;color:rgba(255,255,255,.72);cursor:default;font-size:11px;font-weight:500}
-.bp2-eol-opt-icon{display:block;margin:0 auto 5px;color:rgba(255,255,255,.55);width:18px;height:18px}
-.bp2-eol-opt-sub{font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;letter-spacing:.04em;text-transform:uppercase}
-.bp2-footer{position:fixed;left:0;right:0;bottom:0;background:var(--white);border-top:.5px solid var(--border);padding:10px 16px;display:flex;gap:8px;z-index:90;max-width:100%}
-.bp2-fa-btn{flex:1;font-family:'DM Sans';font-size:13px;font-weight:500;padding:11px 12px;border-radius:var(--r);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--border2);background:var(--white);color:var(--t1)}
-.bp2-fa-btn.primary{background:var(--green);border-color:var(--green);color:#29363C;font-weight:600}
-.bp2-fa-btn svg{width:15px;height:15px;flex-shrink:0}
+.bp2-acc-group-label{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.bp2-acc-group-pill{font-size:9px;font-weight:500;padding:2px 8px;border-radius:99px;background:var(--bg2);color:var(--t3);text-transform:none;letter-spacing:0}
+/* EOL banner — lime, slightly more saturated than alert */
+.bp2-eol{background:linear-gradient(135deg,var(--green-light) 0%,var(--green-mid) 100%);border:.5px solid var(--green-dark);border-radius:var(--r-lg);padding:18px 16px 22px;margin-bottom:14px;color:var(--green-deep);position:relative}
+.bp2-eol-pill{display:inline-block;background:var(--white);color:var(--green-deep);font-size:10px;font-weight:600;padding:4px 11px;border-radius:99px;margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase}
+.bp2-eol-title{font-size:15px;font-weight:600;line-height:1.35;color:var(--green-deep)}
+.bp2-eol-sub{font-size:12px;color:var(--green-deep);opacity:.78;margin-top:6px;line-height:1.5}
+.bp2-eol-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.bp2-eol-opt{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.85);border-radius:var(--r);padding:14px 6px 10px;text-align:center;color:var(--green-deep);cursor:default;font-size:11px;font-weight:500;position:relative}
+.bp2-eol-opt.recommended{background:#fff;border:1px solid var(--green)}
+.bp2-eol-opt-icon{display:block;margin:0 auto 6px;color:var(--green-deep);width:20px;height:20px;opacity:.85}
+.bp2-eol-opt-title{font-size:12px;font-weight:600;color:var(--green-deep)}
+.bp2-eol-opt-sub{font-size:10px;color:var(--green-deep);opacity:.62;margin-top:2px}
+.bp2-eol-empfohlen{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--green);color:#29363C;font-size:9px;font-weight:700;padding:3px 9px;border-radius:99px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 
 /* ── Sub-nav bar ── */
 .sub-nav-bar{background:var(--white);border-bottom:1px solid var(--border);height:64px;padding:0 40px;display:flex;align-items:center;justify-content:center;position:sticky;top:46px;z-index:99;gap:0}
@@ -1931,52 +1938,84 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
      SCENE 7 — Bike Pass 0 km (device shell)
 ══════════════════════════════════════ -->
 <div class="scene" id="scene7">
-  <div class="mobile-scene"><div class="mobile-ui"><div class="m-nav"><div class="m-logo"><img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad"></div><div class="m-hamburger"><span></span><span></span><span></span></div></div>
-    <div class="bp2-wrap">
-    <!-- Hero: full-bleed dark · TREK + photo + Raddetails card -->
-    <div class="bp2-hero">
-      <div class="bp2-hero-top">
-        <img src="trek-logo.svg" class="bp2-trek-logo" alt="Trek">
-        <div class="bp2-hero-model">FX 2 Midstep Disc · Gen 4</div>
-        <div class="bp2-hero-sub">Rot · Größe S · Leasingstart 8. Mai 2026</div>
-      </div>
-      <div class="bp2-hero-photo">
-        <img src="trek-fx2-midstep-red-5.jpg" alt="Trek FX 2 Midstep">
-      </div>
+  <div class="mobile-scene"><div class="mobile-ui">
+    <div class="m-nav"><div class="m-logo"><img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad"></div><div class="m-hamburger"><span></span><span></span><span></span></div></div>
+    <div class="m-content">
+      <p class="m-title">Dein JobRad Bike Pass, Emily</p>
+      <p class="m-sub">Dein Rad, dein Service, dein Vertrag — alles auf einen Blick.</p>
+
+      <!-- HERO CARD: dark, photo bg, specs overlay, runtime at bottom -->
       <div class="bp2-hero-card">
-        <div class="bp2-hero-card-head">Fahrraddaten · Rad-Details</div>
-        <div class="bp2-hero-grid">
-          <div class="bp2-spec"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value">Rot · glänzend</div></div>
-          <div class="bp2-spec"><div class="bp2-spec-label">Größe / Rahmen</div><div class="bp2-spec-value">S / 48 cm</div></div>
-          <div class="bp2-spec"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
-          <div class="bp2-spec"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
+        <div class="bp2-hero-top">
+          <img class="bp2-hero-bg" src="trek-fx2-midstep-red-5.jpg" alt="">
+          <div class="bp2-hero-content">
+            <div class="bp2-hero-trek-block">
+              <img src="trek-logo.svg" class="bp2-trek-logo" alt="Trek">
+              <div class="bp2-hero-model">FX 2 Midstep Disc · Gen 4</div>
+            </div>
+            <div class="bp2-hero-specs">
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value"><span class="bp2-color-dot"></span>Rot · glänzend</div></div>
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Größe</div><div class="bp2-spec-value">S / 48 cm</div></div>
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
+            </div>
+            <div class="bp2-hero-id">
+              <div>
+                <div class="bp2-frame-label">Rahmen-Nr.</div>
+                <div class="bp2-frame-value">WTU240508427</div>
+              </div>
+              <div class="bp2-qr-tile"><img src="qr-code.svg" alt="QR"></div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Body sections -->
-    <div class="bp2-body">
-
-      <!-- Runtime card (always open) -->
-      <div class="bp2-card">
-        <div class="bp2-card-head">Bike Pass · Laufleistung</div>
-        <div class="bp2-card-body">
-          <div class="bp2-runtime-row">
-            <div style="display:flex;align-items:flex-end;gap:6px">
+        <details class="bp2-runtime" open>
+          <summary class="bp2-runtime-summary">
+            <span class="bp2-runtime-label">Bike Pass · Laufleistung</span>
+            <div class="bp2-runtime-meta">
+              <span class="bp2-runtime-status"><span class="bp2-runtime-dot"></span>Aktiv</span>
+              <svg class="bp2-runtime-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg>
+            </div>
+          </summary>
+          <div class="bp2-runtime-body">
+            <div class="bp2-runtime-row">
               <div class="bp2-runtime-km" id="s7-km">0</div>
               <div class="bp2-runtime-unit">km</div>
             </div>
-            <div class="bp2-runtime-status"><div class="bp2-runtime-dot"></div>Aktiv</div>
+            <div class="bp2-progress-dark">
+              <div class="bp2-progress-track-dark"><div class="bp2-progress-fill-dark" style="width:0%"></div></div>
+              <div class="bp2-progress-labels-dark"><span>8. Mai 2026</span><span>7. Mai 2029</span></div>
+            </div>
+            <div class="bp2-monate-dark">Vertragsstart: 8. Mai 2026 · 36 Monate · Unlimited-Paket</div>
           </div>
-          <div class="bp2-progress">
-            <div class="bp2-progress-track"><div class="bp2-progress-fill" style="width:0%"></div></div>
-            <div class="bp2-progress-labels"><span>8. Mai 2026</span><span>7. Mai 2029</span></div>
+        </details>
+      </div>
+
+      <!-- EOL banner — moved here, lime tinted, calm preview -->
+      <div class="bp2-eol">
+        <div class="bp2-eol-pill">Laufzeitende · 36 Monate</div>
+        <div class="bp2-eol-title">Dein Vertrag endet am 7. Mai 2029.</div>
+        <div class="bp2-eol-sub">Wähle jetzt, wie es weitergeht – damit du ohne Unterbrechung weiterfahren kannst.</div>
+        <div class="bp2-eol-options">
+          <div class="bp2-eol-opt recommended">
+            <div class="bp2-eol-empfohlen">Empfohlen</div>
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/><path d="M16 16h2"/></svg>
+            <div class="bp2-eol-opt-title">Rad kaufen</div>
+            <div class="bp2-eol-opt-sub">Angebot anfragen</div>
           </div>
-          <div class="bp2-monate">Vertrag startet heute · 36 Monate · Unlimited-Paket</div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <div class="bp2-eol-opt-title">Neu leasen</div>
+            <div class="bp2-eol-opt-sub">Folgeleasing</div>
+          </div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 4 4v6"/></svg>
+            <div class="bp2-eol-opt-title">Zurückgeben</div>
+            <div class="bp2-eol-opt-sub">Termin buchen</div>
+          </div>
         </div>
       </div>
 
-      <!-- Inspection reminder (always open) -->
+      <!-- Inspection reminder -->
       <div class="bp2-alert">
         <div class="bp2-alert-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
@@ -1987,7 +2026,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         </div>
       </div>
 
-      <!-- Service-Historie (collapsible, default OPEN) -->
+      <!-- Service-Historie -->
       <details class="bp2-section" open>
         <summary class="bp2-section-head">Service-Historie<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
         <div class="bp2-section-body">
@@ -2010,7 +2049,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         </div>
       </details>
 
-      <!-- Antrieb & Technik (collapsible, default closed) -->
+      <!-- Antrieb & Technik -->
       <details class="bp2-section">
         <summary class="bp2-section-head">Antrieb &amp; Technik<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
         <div class="bp2-section-body">
@@ -2023,12 +2062,12 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         </div>
       </details>
 
-      <!-- Zubehör (collapsible, default closed) -->
+      <!-- Zubehör (with private info pill) -->
       <details class="bp2-section">
         <summary class="bp2-section-head">Zubehör<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
         <div class="bp2-section-body">
           <div class="bp2-acc-group">
-            <div class="bp2-acc-group-label">Leasingfähig · im Vertrag</div>
+            <div class="bp2-acc-group-label"><span>Leasingfähig · im Vertrag</span></div>
             <div class="bp2-acc-item">
               <div class="bp2-acc-info">
                 <div class="bp2-acc-name">Abus Bordo Granit X 6500</div>
@@ -2045,47 +2084,24 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
             </div>
           </div>
           <div class="bp2-acc-group">
-            <div class="bp2-acc-group-label">Privates Zubehör</div>
+            <div class="bp2-acc-group-label"><span>Privates Zubehör</span><span class="bp2-acc-group-pill">Info</span></div>
             <div class="bp2-acc-empty">Noch nichts hinzugefügt — du kannst hier später private Anbauteile dokumentieren.</div>
           </div>
         </div>
       </details>
 
-      <!-- Versicherung (collapsible, default closed) -->
+      <!-- Versicherung (with Versicherer) -->
       <details class="bp2-section">
         <summary class="bp2-section-head">Versicherung<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
         <div class="bp2-section-body">
           <div class="bp2-row"><span class="bp2-rl">Diebstahlschutz</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
           <div class="bp2-row"><span class="bp2-rl">Vollkaskoversicherung</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
           <div class="bp2-row"><span class="bp2-rl">Pannenhilfe</span><span class="bp2-pill bp2-pill-green">Inklusive</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Versicherer</span><span class="bp2-rv">assona / ERGO</span></div>
         </div>
       </details>
 
-      <!-- EOL banner (always visible, calm preview) -->
-      <div class="bp2-eol">
-        <div class="bp2-eol-pill">Dein Weg nach 36 Monaten</div>
-        <div class="bp2-eol-title">Schon jetzt weißt du, was am Ende möglich ist.</div>
-        <div class="bp2-eol-sub">Kein Druck, keine Überraschungen — wir melden uns rechtzeitig.</div>
-        <div class="bp2-eol-options">
-          <div class="bp2-eol-opt">
-            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
-            Rad kaufen
-            <div class="bp2-eol-opt-sub">in 36 Mo.</div>
-          </div>
-          <div class="bp2-eol-opt">
-            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            Neu leasen
-            <div class="bp2-eol-opt-sub">in 36 Mo.</div>
-          </div>
-          <div class="bp2-eol-opt">
-            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 4 4v6"/></svg>
-            Zurückgeben
-            <div class="bp2-eol-opt-sub">in 36 Mo.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Vertragsdaten (collapsible, default closed) -->
+      <!-- Vertragsdaten -->
       <details class="bp2-section">
         <summary class="bp2-section-head">Vertragsdaten<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
         <div class="bp2-section-body">
@@ -2099,53 +2115,85 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
       </details>
 
     </div>
-
-  </div></div></div>
+  </div></div>
 </div>
 
 <!-- ══════════════════════════════════════
      SCENE 8 — Bike Pass 387 km (flat)
 ══════════════════════════════════════ -->
 <div class="scene" id="scene8">
-  <div class="mobile-scene"><div class="mobile-ui"><div class="m-nav"><div class="m-logo"><img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad"></div><div class="m-hamburger"><span></span><span></span><span></span></div></div>
-    <div class="bp2-wrap">
-    <div class="bp2-hero">
-      <div class="bp2-hero-top">
-        <img src="trek-logo.svg" class="bp2-trek-logo" alt="Trek">
-        <div class="bp2-hero-model">FX 2 Midstep Disc · Gen 4</div>
-        <div class="bp2-hero-sub">Rot · Größe S · Aktiv seit 8. Mai 2026</div>
-      </div>
-      <div class="bp2-hero-photo">
-        <img src="trek-fx2-midstep-red-5.jpg" alt="Trek FX 2 Midstep">
-      </div>
+  <div class="mobile-scene"><div class="mobile-ui">
+    <div class="m-nav"><div class="m-logo"><img src="jobrad-wordmark-anthrazit.svg" class="nav-wordmark" alt="JobRad"></div><div class="m-hamburger"><span></span><span></span><span></span></div></div>
+    <div class="m-content">
+      <p class="m-title">Dein JobRad Bike Pass, Emily</p>
+      <p class="m-sub">Dein Rad, dein Service, dein Vertrag — alles auf einen Blick.</p>
+
       <div class="bp2-hero-card">
-        <div class="bp2-hero-card-head">Fahrraddaten · Rad-Details</div>
-        <div class="bp2-hero-grid">
-          <div class="bp2-spec"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value">Rot · glänzend</div></div>
-          <div class="bp2-spec"><div class="bp2-spec-label">Größe / Rahmen</div><div class="bp2-spec-value">S / 48 cm</div></div>
-          <div class="bp2-spec"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
-          <div class="bp2-spec"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
+        <div class="bp2-hero-top">
+          <img class="bp2-hero-bg" src="trek-fx2-midstep-red-5.jpg" alt="">
+          <div class="bp2-hero-content">
+            <div class="bp2-hero-trek-block">
+              <img src="trek-logo.svg" class="bp2-trek-logo" alt="Trek">
+              <div class="bp2-hero-model">FX 2 Midstep Disc · Gen 4</div>
+            </div>
+            <div class="bp2-hero-specs">
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value"><span class="bp2-color-dot"></span>Rot · glänzend</div></div>
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Größe</div><div class="bp2-spec-value">S / 48 cm</div></div>
+              <div class="bp2-spec-row"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
+            </div>
+            <div class="bp2-hero-id">
+              <div>
+                <div class="bp2-frame-label">Rahmen-Nr.</div>
+                <div class="bp2-frame-value">WTU240508427</div>
+              </div>
+              <div class="bp2-qr-tile"><img src="qr-code.svg" alt="QR"></div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="bp2-body">
-
-      <div class="bp2-card">
-        <div class="bp2-card-head">Bike Pass · Laufleistung</div>
-        <div class="bp2-card-body">
-          <div class="bp2-runtime-row">
-            <div style="display:flex;align-items:flex-end;gap:6px">
+        <details class="bp2-runtime" open>
+          <summary class="bp2-runtime-summary">
+            <span class="bp2-runtime-label">Bike Pass · Laufleistung</span>
+            <div class="bp2-runtime-meta">
+              <span class="bp2-runtime-status"><span class="bp2-runtime-dot"></span>Aktiv</span>
+              <svg class="bp2-runtime-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg>
+            </div>
+          </summary>
+          <div class="bp2-runtime-body">
+            <div class="bp2-runtime-row">
               <div class="bp2-runtime-km">387</div>
               <div class="bp2-runtime-unit">km</div>
             </div>
-            <div class="bp2-runtime-status"><div class="bp2-runtime-dot"></div>Aktiv</div>
+            <div class="bp2-progress-dark">
+              <div class="bp2-progress-track-dark"><div class="bp2-progress-fill-dark" style="width:8.3%"></div></div>
+              <div class="bp2-progress-labels-dark"><span>8. Mai 2026</span><span>7. Mai 2029</span></div>
+            </div>
+            <div class="bp2-monate-dark">3 Monate aktiv · noch 33 Monate · Unlimited-Paket</div>
           </div>
-          <div class="bp2-progress">
-            <div class="bp2-progress-track"><div class="bp2-progress-fill" style="width:8.3%"></div></div>
-            <div class="bp2-progress-labels"><span>8. Mai 2026</span><span>7. Mai 2029</span></div>
+        </details>
+      </div>
+
+      <div class="bp2-eol">
+        <div class="bp2-eol-pill">Laufzeitende · 33 Monate</div>
+        <div class="bp2-eol-title">Dein Vertrag endet am 7. Mai 2029.</div>
+        <div class="bp2-eol-sub">Wähle jetzt, wie es weitergeht – damit du ohne Unterbrechung weiterfahren kannst.</div>
+        <div class="bp2-eol-options">
+          <div class="bp2-eol-opt recommended">
+            <div class="bp2-eol-empfohlen">Empfohlen</div>
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/><path d="M16 16h2"/></svg>
+            <div class="bp2-eol-opt-title">Rad kaufen</div>
+            <div class="bp2-eol-opt-sub">Angebot anfragen</div>
           </div>
-          <div class="bp2-monate">3 Monate aktiv · noch 33 Monate · Unlimited-Paket</div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <div class="bp2-eol-opt-title">Neu leasen</div>
+            <div class="bp2-eol-opt-sub">Folgeleasing</div>
+          </div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 4 4v6"/></svg>
+            <div class="bp2-eol-opt-title">Zurückgeben</div>
+            <div class="bp2-eol-opt-sub">Termin buchen</div>
+          </div>
         </div>
       </div>
 
@@ -2197,7 +2245,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         <summary class="bp2-section-head">Zubehör<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
         <div class="bp2-section-body">
           <div class="bp2-acc-group">
-            <div class="bp2-acc-group-label">Leasingfähig · im Vertrag</div>
+            <div class="bp2-acc-group-label"><span>Leasingfähig · im Vertrag</span></div>
             <div class="bp2-acc-item">
               <div class="bp2-acc-info">
                 <div class="bp2-acc-name">Abus Bordo Granit X 6500</div>
@@ -2214,7 +2262,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
             </div>
           </div>
           <div class="bp2-acc-group">
-            <div class="bp2-acc-group-label">Privates Zubehör</div>
+            <div class="bp2-acc-group-label"><span>Privates Zubehör</span><span class="bp2-acc-group-pill">Info</span></div>
             <div class="bp2-acc-empty">Noch nichts hinzugefügt — du kannst hier später private Anbauteile dokumentieren.</div>
           </div>
         </div>
@@ -2226,31 +2274,9 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
           <div class="bp2-row"><span class="bp2-rl">Diebstahlschutz</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
           <div class="bp2-row"><span class="bp2-rl">Vollkaskoversicherung</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
           <div class="bp2-row"><span class="bp2-rl">Pannenhilfe</span><span class="bp2-pill bp2-pill-green">Inklusive</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Versicherer</span><span class="bp2-rv">assona / ERGO</span></div>
         </div>
       </details>
-
-      <div class="bp2-eol">
-        <div class="bp2-eol-pill">Dein Weg nach 36 Monaten</div>
-        <div class="bp2-eol-title">Schon jetzt weißt du, was am Ende möglich ist.</div>
-        <div class="bp2-eol-sub">Kein Druck, keine Überraschungen — wir melden uns rechtzeitig.</div>
-        <div class="bp2-eol-options">
-          <div class="bp2-eol-opt">
-            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
-            Rad kaufen
-            <div class="bp2-eol-opt-sub">in 33 Mo.</div>
-          </div>
-          <div class="bp2-eol-opt">
-            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            Neu leasen
-            <div class="bp2-eol-opt-sub">in 33 Mo.</div>
-          </div>
-          <div class="bp2-eol-opt">
-            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 4 4v6"/></svg>
-            Zurückgeben
-            <div class="bp2-eol-opt-sub">in 33 Mo.</div>
-          </div>
-        </div>
-      </div>
 
       <details class="bp2-section">
         <summary class="bp2-section-head">Vertragsdaten<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
@@ -2265,8 +2291,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
       </details>
 
     </div>
-
-  </div></div></div>
+  </div></div>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -2376,7 +2401,7 @@ document.addEventListener('click', function(e) {
   if (currentScene == 1) return; // scene 1 is keyboard-only
   // Scene 6 phone shell background = dead zone; only nuv-notif fires go6B
   if (currentScene == 6 && t.closest('.bp-scene, .nuv-phone, .nuv-screen, .nuv-time-area')) return;
-  if (t.closest('button, a, input, select, textarea, .screen-bar, .sub-nav-bar, .nuv-overlay, .commitment-overlay, .inbox-overlay, .bike-card, #s3a-email-field, .pkg, .dealer-row, .appt-slot, #sA-note-field')) return;
+  if (t.closest('button, a, input, select, textarea, summary, details, .screen-bar, .sub-nav-bar, .nuv-overlay, .commitment-overlay, .inbox-overlay, .bike-card, #s3a-email-field, .pkg, .dealer-row, .appt-slot, #sA-note-field')) return;
   advance();
 });
 
@@ -2404,10 +2429,9 @@ function advance() {
     if (document.getElementById('s6b').classList.contains('active')) { go6C(); return; }
     if (document.getElementById('s6c').classList.contains('active')) { showScene(7, document.getElementById('btn7')); return; }
   }
-  if (n == 7) {
-    // Bike Pass = destination screen; advance goes directly to Scene 8
-    // (Cinematic 0→387 km transition will be added later as a between-scenes moment)
-    showScene(8, document.getElementById('btn8'));
+  if (n == 7 || n == 8) {
+    // Bike Pass = destination screen; no auto-advance from background clicks.
+    // Cinematic 0→387 transition is reserved for a dedicated trigger.
     return;
   }
 
