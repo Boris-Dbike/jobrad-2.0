@@ -484,27 +484,28 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
 .bp2-hero-zone{position:relative;min-height:540px;overflow:hidden}
 .bp2-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;z-index:1;pointer-events:none}
 .bp2-hero-content{position:relative;z-index:2;display:flex;flex-direction:column;min-height:540px;padding:20px 18px;box-sizing:border-box}
-.bp2-hero-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.bp2-hero-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .bp2-hero-trek-block{flex:1;max-width:60%}
-.bp2-trek-logo{height:22px;color:#fff;display:block}
+.bp2-trek-logo{height:20px;display:block;filter:brightness(0) invert(1)}
 .bp2-hero-model{font-size:13px;font-weight:600;letter-spacing:.06em;color:#fff;text-transform:uppercase;margin-top:8px;line-height:1.2}
-.bp2-hero-aktiv{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:rgba(157,222,76,.14);padding:5px 11px;border-radius:99px;font-weight:500;flex-shrink:0;margin-top:2px}
+.bp2-hero-aktiv{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green);background:rgba(157,222,76,.14);padding:5px 11px;border-radius:99px;font-weight:500;flex-shrink:0;align-self:flex-start;margin-top:0}
 .bp2-hero-aktiv-dot{width:6px;height:6px;background:var(--green);border-radius:50%}
-.bp2-hero-specs{display:flex;flex-direction:column;gap:13px;margin-top:24px;max-width:48%}
+.bp2-hero-bottom{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding-top:24px}
+.bp2-hero-specs{display:flex;flex-direction:column;gap:13px;max-width:48%}
 .bp2-spec-label{font-size:11px;color:rgba(255,255,255,.42);font-weight:500;line-height:1.2}
 .bp2-spec-value{font-size:13px;color:rgba(255,255,255,.92);font-weight:500;margin-top:4px;line-height:1.3}
 .bp2-color-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#E8442B;margin-right:6px;vertical-align:-1px;border:.5px solid rgba(255,255,255,.25)}
-.bp2-hero-id{margin-top:auto;padding-top:18px;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:0}
+.bp2-hero-id{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:0}
 .bp2-frame-label{font-size:11px;color:rgba(255,255,255,.42);font-weight:500;line-height:1.2}
 .bp2-frame-value{font-size:13px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.92);margin-top:4px;letter-spacing:.02em}
 .bp2-qr-tile{width:52px;height:52px;background:#fff;border-radius:6px;padding:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:10px}
 .bp2-qr-tile img{width:100%;height:100%;display:block}
 /* Runtime — collapsible at bottom of hero card */
-.bp2-runtime{background:transparent;border-top:.5px solid rgba(255,255,255,.04)}
+.bp2-runtime{background:transparent;border-top:.5px solid rgba(255,255,255,.22)}
 .bp2-runtime-summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:13px 18px;cursor:pointer;user-select:none;gap:10px}
 .bp2-runtime-summary::-webkit-details-marker{display:none}
-.bp2-runtime-label{font-size:13px;font-weight:500;color:rgba(255,255,255,.92);flex:1}
-.bp2-runtime-chevron{width:10px;height:10px;color:rgba(255,255,255,.4);transition:transform .2s;flex-shrink:0}
+.bp2-runtime-label{font-size:13px;font-weight:500;color:#fff;flex:1}
+.bp2-runtime-chevron{width:11px;height:11px;color:#fff;transition:transform .2s;flex-shrink:0}
 .bp2-runtime[open] .bp2-runtime-chevron{transform:rotate(180deg)}
 .bp2-runtime-body{padding:0 18px 18px}
 .bp2-runtime-row{display:flex;align-items:flex-end;gap:6px;margin-bottom:14px}
@@ -1952,16 +1953,18 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
               </div>
               <span class="bp2-hero-aktiv"><span class="bp2-hero-aktiv-dot"></span>Aktiv</span>
             </div>
-            <div class="bp2-hero-specs">
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value"><span class="bp2-color-dot"></span>Rot glänzend</div></div>
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Größe</div><div class="bp2-spec-value">S / 48 cm</div></div>
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
-            </div>
-            <div class="bp2-hero-id">
-              <div class="bp2-frame-label">Rahmen-Nr.</div>
-              <div class="bp2-frame-value">WTU240508427</div>
-              <div class="bp2-qr-tile"><img src="qr-code.svg" alt="QR"></div>
+            <div class="bp2-hero-bottom">
+              <div class="bp2-hero-specs">
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value"><span class="bp2-color-dot"></span>Rot glänzend</div></div>
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Größe</div><div class="bp2-spec-value">S / 48 cm</div></div>
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
+              </div>
+              <div class="bp2-hero-id">
+                <div class="bp2-frame-label">Rahmen-Nr.</div>
+                <div class="bp2-frame-value">WTU240508427</div>
+                <div class="bp2-qr-tile"><img src="qr-code.svg" alt="QR"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -2132,16 +2135,18 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
               </div>
               <span class="bp2-hero-aktiv"><span class="bp2-hero-aktiv-dot"></span>Aktiv</span>
             </div>
-            <div class="bp2-hero-specs">
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value"><span class="bp2-color-dot"></span>Rot glänzend</div></div>
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Größe</div><div class="bp2-spec-value">S / 48 cm</div></div>
-              <div class="bp2-spec-row"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
-            </div>
-            <div class="bp2-hero-id">
-              <div class="bp2-frame-label">Rahmen-Nr.</div>
-              <div class="bp2-frame-value">WTU240508427</div>
-              <div class="bp2-qr-tile"><img src="qr-code.svg" alt="QR"></div>
+            <div class="bp2-hero-bottom">
+              <div class="bp2-hero-specs">
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value"><span class="bp2-color-dot"></span>Rot glänzend</div></div>
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Größe</div><div class="bp2-spec-value">S / 48 cm</div></div>
+                <div class="bp2-spec-row"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
+              </div>
+              <div class="bp2-hero-id">
+                <div class="bp2-frame-label">Rahmen-Nr.</div>
+                <div class="bp2-frame-value">WTU240508427</div>
+                <div class="bp2-qr-tile"><img src="qr-code.svg" alt="QR"></div>
+              </div>
             </div>
           </div>
         </div>
