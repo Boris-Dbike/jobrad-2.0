@@ -288,7 +288,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
 .service-card:hover{background:var(--white);border-color:var(--border2)}
 .service-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:13.5px}
 .service-card.recommended::before{content:'Empfehlung';position:absolute;top:-8px;left:14px;background:var(--green);color:#29363C;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.02em}
-.service-card.selected::after{content:'✓';position:absolute;top:10px;right:10px;width:18px;height:18px;background:var(--green);color:#29363C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+.service-card.selected::after{content:none}
 .service-name{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:4px}
 .service-tagline{font-size:11px;color:var(--t2);margin-bottom:10px;flex:1;line-height:1.5}
 .service-features{font-size:11px;color:var(--t2);line-height:1.7;border-top:.5px solid var(--border);padding-top:8px}
@@ -299,7 +299,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
 .mode-row{display:flex;gap:8px;margin-bottom:12px}
 .mode-card{flex:1;background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;cursor:pointer;transition:all .15s}
 .mode-card:hover{background:var(--white)}
-.mode-card.selected{background:var(--green-xlight);border-color:var(--green);border-width:1.5px;padding:9.5px 11.5px}
+.mode-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:9.5px 11.5px}
 .mode-title{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:2px}
 .mode-desc{font-size:10px;color:var(--t2);line-height:1.4}
 
@@ -1436,15 +1436,24 @@ function selectPath(which) {
 // Service card selection
 document.querySelectorAll('.service-card').forEach(card => {
   card.addEventListener('click', () => {
+    // Only Komfort (the recommended one) is selectable; others pulse the correct choice
+    if (!card.classList.contains('recommended')) {
+      pulseHint(document.querySelector('.service-card.recommended'));
+      return;
+    }
     document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     checkS4Complete();
   });
 });
 
-// Mode card selection
-document.querySelectorAll('.mode-card').forEach(card => {
+// Mode card selection — only "Verpflichtend" (first mode-card) is selectable
+document.querySelectorAll('.mode-card').forEach((card, i) => {
   card.addEventListener('click', () => {
+    if (i !== 0) {
+      pulseHint(document.querySelectorAll('.mode-card')[0]);
+      return;
+    }
     document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     checkS4Complete();
