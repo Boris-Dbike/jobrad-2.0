@@ -478,6 +478,93 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
 .s8-rv{font-size:12px;font-weight:500;color:var(--t1)}
 .s8-rv.green{color:var(--green-dark)}
 
+/* ══ Bike Pass v2 — full destination screen ══ */
+.bp2-wrap{background:var(--bg2);min-height:calc(100vh - 110px);padding-bottom:80px}
+.bp2-nav{background:var(--white);height:52px;display:flex;align-items:center;padding:0 18px;border-bottom:1px solid var(--border);position:sticky;top:110px;z-index:50}
+.bp2-nav-icon{width:24px;height:24px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#29363C;font-family:'DM Mono',monospace;margin-right:10px}
+.bp2-nav-name{font-size:13px;font-weight:600;color:var(--t1)}
+.bp2-nav-sep{width:1px;height:18px;background:var(--border);margin:0 12px}
+.bp2-nav-section{font-size:12px;color:var(--t3);font-weight:500}
+.bp2-hero{position:relative;background:#0b0b0b;color:#fff;padding:40px 18px 60px;overflow:hidden;min-height:520px}
+.bp2-hero-top{text-align:center;position:relative;z-index:2;margin-bottom:8px}
+.bp2-trek-logo{height:38px;color:#fff;display:block;margin:0 auto}
+.bp2-hero-model{font-size:11px;font-weight:600;letter-spacing:.16em;color:rgba(255,255,255,.78);text-transform:uppercase;margin-top:14px}
+.bp2-hero-sub{font-size:11px;color:rgba(255,255,255,.42);margin-top:5px;letter-spacing:.02em}
+.bp2-hero-photo{position:relative;margin:6px -18px 0;display:flex;justify-content:center;align-items:center;height:340px}
+.bp2-hero-photo img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;object-fit:contain}
+.bp2-hero-card{background:var(--white);border-radius:var(--r-lg);box-shadow:0 8px 28px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.08);margin:-30px 12px 0;position:relative;z-index:3}
+.bp2-hero-card-head{padding:8px 14px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.bp2-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px}
+.bp2-spec{background:var(--bg);border-radius:var(--r);padding:10px 12px}
+.bp2-spec-label{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em}
+.bp2-spec-value{font-size:13px;font-weight:500;color:var(--t1);margin-top:3px}
+.bp2-body{padding:22px 16px 0}
+.bp2-card{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
+.bp2-card-head{padding:9px 14px;background:var(--bg);border-bottom:.5px solid var(--border);font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;justify-content:space-between}
+.bp2-card-body{padding:14px}
+.bp2-runtime-row{display:flex;align-items:flex-end;gap:14px;margin-bottom:14px}
+.bp2-runtime-km{font-size:46px;font-weight:700;color:var(--t1);line-height:.95;letter-spacing:-.02em}
+.bp2-runtime-unit{font-size:14px;color:var(--t3);margin-bottom:8px;font-weight:500}
+.bp2-runtime-status{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green-deep);background:var(--green-light);padding:4px 10px;border-radius:99px;font-weight:600;margin-bottom:6px}
+.bp2-runtime-dot{width:6px;height:6px;background:var(--green);border-radius:50%}
+.bp2-progress{margin-top:4px}
+.bp2-progress-track{height:6px;background:var(--bg2);border-radius:99px;overflow:hidden}
+.bp2-progress-fill{height:100%;background:var(--green);border-radius:99px;transition:width .8s ease}
+.bp2-progress-labels{display:flex;justify-content:space-between;margin-top:7px;font-size:10px;color:var(--t3);font-family:'DM Mono',monospace}
+.bp2-monate{font-size:11px;color:var(--t2);margin-top:10px}
+.bp2-alert{display:flex;gap:12px;padding:14px;background:var(--green-light);border:.5px solid var(--green-mid);border-radius:var(--r-lg);margin-bottom:14px}
+.bp2-alert-icon{flex-shrink:0;color:var(--green-deep);margin-top:1px;display:flex}
+.bp2-alert-body{flex:1}
+.bp2-alert-title{font-size:13px;font-weight:600;color:var(--green-deep)}
+.bp2-alert-sub{font-size:12px;color:var(--green-deep);margin-top:3px;opacity:.78;line-height:1.5}
+.bp2-section{background:var(--white);border:.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
+.bp2-section-head{list-style:none;padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:9px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;background:var(--bg);user-select:none}
+.bp2-section-head::-webkit-details-marker{display:none}
+.bp2-chevron{width:10px;height:10px;color:var(--t3);transition:transform .2s;flex-shrink:0}
+.bp2-section[open] .bp2-chevron{transform:rotate(180deg)}
+.bp2-section[open] .bp2-section-head{border-bottom:.5px solid var(--border)}
+.bp2-section-body{padding:14px}
+.bp2-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:.5px solid var(--border);gap:12px}
+.bp2-row:first-child{padding-top:0}
+.bp2-row:last-child{border-bottom:none;padding-bottom:0}
+.bp2-rl{font-size:12px;color:var(--t2)}
+.bp2-rv{font-size:12px;font-weight:500;color:var(--t1);text-align:right}
+.bp2-rv.green{color:var(--green-dark)}
+.bp2-svc{display:flex;gap:12px;padding:11px 0;border-bottom:.5px solid var(--border)}
+.bp2-svc:first-child{padding-top:0}
+.bp2-svc:last-child{border-bottom:none;padding-bottom:0}
+.bp2-svc-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;background:var(--green)}
+.bp2-svc-dot.upcoming{background:transparent;border:1.5px solid var(--green);width:7px;height:7px}
+.bp2-svc-info{flex:1;min-width:0}
+.bp2-svc-title{font-size:13px;font-weight:500;color:var(--t1)}
+.bp2-svc-meta{font-size:11px;color:var(--t3);margin-top:2px}
+.bp2-svc-detail{font-size:12px;color:var(--t2);margin-top:4px;line-height:1.4}
+.bp2-pill{display:inline-flex;align-items:center;font-size:10px;font-weight:500;padding:3px 9px;border-radius:99px}
+.bp2-pill-green{background:var(--green-light);color:var(--green-deep)}
+.bp2-pill-gray{background:var(--bg2);color:var(--t2)}
+.bp2-acc-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:.5px solid var(--border)}
+.bp2-acc-item:first-child{padding-top:0}
+.bp2-acc-item:last-child{border-bottom:none;padding-bottom:0}
+.bp2-acc-info{flex:1;min-width:0}
+.bp2-acc-name{font-size:13px;font-weight:500;color:var(--t1)}
+.bp2-acc-price{font-size:11px;color:var(--t3);margin-top:2px}
+.bp2-acc-empty{padding:8px 0;color:var(--t3);font-size:12px;font-style:italic}
+.bp2-acc-group{margin-bottom:14px}
+.bp2-acc-group:last-child{margin-bottom:0}
+.bp2-acc-group-label{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.bp2-eol{background:linear-gradient(135deg,var(--green-deep),#1b2a30);color:#fff;border-radius:var(--r-lg);padding:18px 16px;margin-bottom:14px}
+.bp2-eol-pill{display:inline-block;background:rgba(157,222,76,.16);color:var(--green);font-size:10px;font-weight:600;padding:4px 11px;border-radius:99px;margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase}
+.bp2-eol-title{font-size:15px;font-weight:600;line-height:1.35;color:#fff}
+.bp2-eol-sub{font-size:12px;color:rgba(255,255,255,.62);margin-top:6px;line-height:1.5}
+.bp2-eol-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.bp2-eol-opt{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:var(--r);padding:12px 6px 10px;text-align:center;color:rgba(255,255,255,.72);cursor:default;font-size:11px;font-weight:500}
+.bp2-eol-opt-icon{display:block;margin:0 auto 5px;color:rgba(255,255,255,.55);width:18px;height:18px}
+.bp2-eol-opt-sub{font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;letter-spacing:.04em;text-transform:uppercase}
+.bp2-footer{position:fixed;left:0;right:0;bottom:0;background:var(--white);border-top:.5px solid var(--border);padding:10px 16px;display:flex;gap:8px;z-index:90;max-width:100%}
+.bp2-fa-btn{flex:1;font-family:'DM Sans';font-size:13px;font-weight:500;padding:11px 12px;border-radius:var(--r);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--border2);background:var(--white);color:var(--t1)}
+.bp2-fa-btn.primary{background:var(--green);border-color:var(--green);color:#29363C;font-weight:600}
+.bp2-fa-btn svg{width:15px;height:15px;flex-shrink:0}
+
 /* ── Sub-nav bar ── */
 .sub-nav-bar{background:var(--white);border-bottom:1px solid var(--border);height:64px;padding:0 40px;display:flex;align-items:center;justify-content:center;position:sticky;top:46px;z-index:99;gap:0}
 .sub-nav-bar.hidden{height:0;overflow:hidden;border-bottom:none!important;pointer-events:none}
@@ -1844,54 +1931,192 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
      SCENE 7 — Bike Pass 0 km (device shell)
 ══════════════════════════════════════ -->
 <div class="scene" id="scene7">
-  <div class="bp-scene">
-    <div class="bp-phone" id="bp-phone">
-      <div class="bp-screen">
-        <!-- Mini nav -->
-        <div class="bps-nav">
-          <div class="bps-icon">JR</div>
-          <span class="bps-name">JobRad</span>
-          <span class="bps-sep"></span>
-          <span class="bps-status">Bike Pass · Aktiv</span>
-        </div>
-        <!-- Bike Pass hero -->
-        <div class="bps-hero">
-          <div class="bph-bp-label">JobRad Bike Pass</div>
-          <div class="bph-name">Trek FX 2 Midstep Gen 4</div>
-          <div class="bph-sub">Rot · Größe S · Leasingstart 8.05.2026</div>
-          <div class="bph-km-row">
-            <div class="bph-km-wrap">
-              <div class="bph-km" id="s7-km">0</div>
-              <div class="bph-km-unit">km</div>
-            </div>
-            <div class="bph-status-pill">
-              <div class="bph-status-dot"></div>
-              Aktiv
-            </div>
-          </div>
-        </div>
-        <!-- Detail rows -->
-        <div class="bps-body">
-          <div class="bps-row">
-            <span class="bps-label">Leasingstart</span>
-            <span class="bps-value">8. Mai 2026</span>
-          </div>
-          <div class="bps-row">
-            <span class="bps-label">Leasingende</span>
-            <span class="bps-value">7. Mai 2029</span>
-          </div>
-          <div class="bps-row">
-            <span class="bps-label">Servicepaket</span>
-            <span class="bps-value" style="color:var(--green-dark)">Unlimited</span>
-          </div>
-          <div class="bps-row">
-            <span class="bps-label">Arbeitgeber</span>
-            <span class="bps-value">TechCraft GmbH</span>
-          </div>
+  <div class="bp2-wrap">
+    <div class="bp2-nav">
+      <div class="bp2-nav-icon">JR</div>
+      <span class="bp2-nav-name">JobRad</span>
+      <div class="bp2-nav-sep"></div>
+      <span class="bp2-nav-section">Bike Pass</span>
+    </div>
+
+    <!-- Hero: full-bleed dark · TREK + photo + Raddetails card -->
+    <div class="bp2-hero">
+      <div class="bp2-hero-top">
+        <img src="trek-logo.svg" class="bp2-trek-logo" alt="Trek">
+        <div class="bp2-hero-model">FX 2 Midstep Disc · Gen 4</div>
+        <div class="bp2-hero-sub">Rot · Größe S · Leasingstart 8. Mai 2026</div>
+      </div>
+      <div class="bp2-hero-photo">
+        <img src="trek-fx2-midstep-red-6.jpg" alt="Trek FX 2 Midstep">
+      </div>
+      <div class="bp2-hero-card">
+        <div class="bp2-hero-card-head">Fahrraddaten · Rad-Details</div>
+        <div class="bp2-hero-grid">
+          <div class="bp2-spec"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value">Rot · glänzend</div></div>
+          <div class="bp2-spec"><div class="bp2-spec-label">Größe / Rahmen</div><div class="bp2-spec-value">S / 48 cm</div></div>
+          <div class="bp2-spec"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
+          <div class="bp2-spec"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
         </div>
       </div>
     </div>
-    <div class="bp-caption" id="bp-caption">Bike Pass aktiviert · 0 km · Das Rad gehört jetzt zur Identität von Emily</div>
+
+    <!-- Body sections -->
+    <div class="bp2-body">
+
+      <!-- Runtime card (always open) -->
+      <div class="bp2-card">
+        <div class="bp2-card-head">Bike Pass · Laufleistung</div>
+        <div class="bp2-card-body">
+          <div class="bp2-runtime-row">
+            <div style="display:flex;align-items:flex-end;gap:6px">
+              <div class="bp2-runtime-km" id="s7-km">0</div>
+              <div class="bp2-runtime-unit">km</div>
+            </div>
+            <div class="bp2-runtime-status"><div class="bp2-runtime-dot"></div>Aktiv</div>
+          </div>
+          <div class="bp2-progress">
+            <div class="bp2-progress-track"><div class="bp2-progress-fill" style="width:0%"></div></div>
+            <div class="bp2-progress-labels"><span>8. Mai 2026</span><span>7. Mai 2029</span></div>
+          </div>
+          <div class="bp2-monate">Vertrag startet heute · 36 Monate · Unlimited-Paket</div>
+        </div>
+      </div>
+
+      <!-- Inspection reminder (always open) -->
+      <div class="bp2-alert">
+        <div class="bp2-alert-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="bp2-alert-body">
+          <div class="bp2-alert-title">Erste Jahresinspektion in ca. 12 Monaten</div>
+          <div class="bp2-alert-sub">Mit Unlimited übernimmt JobRad die Kosten. Wir erinnern dich rechtzeitig.</div>
+        </div>
+      </div>
+
+      <!-- Service-Historie (collapsible, default OPEN) -->
+      <details class="bp2-section" open>
+        <summary class="bp2-section-head">Service-Historie<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-svc">
+            <div class="bp2-svc-dot"></div>
+            <div class="bp2-svc-info">
+              <div class="bp2-svc-title">Übergabe abgeschlossen</div>
+              <div class="bp2-svc-meta">8. Mai 2026 · Fahrrad Meisenheimer, Freiburg</div>
+              <div class="bp2-svc-detail">Probefahrt durchgeführt, Einweisung abgeschlossen.</div>
+            </div>
+          </div>
+          <div class="bp2-svc">
+            <div class="bp2-svc-dot upcoming"></div>
+            <div class="bp2-svc-info">
+              <div class="bp2-svc-title">Erste Jahresinspektion</div>
+              <div class="bp2-svc-meta">geplant Mai 2027</div>
+              <div class="bp2-svc-detail">Mit Unlimited übernimmt JobRad die Kosten.</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Antrieb & Technik (collapsible, default closed) -->
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Antrieb &amp; Technik<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-row"><span class="bp2-rl">Rahmen</span><span class="bp2-rv">Alpha Gold Aluminium</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Gabel</span><span class="bp2-rv">FX Alloy</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Schaltung</span><span class="bp2-rv">Shimano Acera · 2×9</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Bremsen</span><span class="bp2-rv">Tektro HD-R280 hydraulisch</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Reifen</span><span class="bp2-rv">Bontrager H2 Hard-Case Lite</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Sattel</span><span class="bp2-rv">Bontrager Commuter Comp</span></div>
+        </div>
+      </details>
+
+      <!-- Zubehör (collapsible, default closed) -->
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Zubehör<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-acc-group">
+            <div class="bp2-acc-group-label">Leasingfähig · im Vertrag</div>
+            <div class="bp2-acc-item">
+              <div class="bp2-acc-info">
+                <div class="bp2-acc-name">Abus Bordo Granit X 6500</div>
+                <div class="bp2-acc-price">119,90 €</div>
+              </div>
+              <span class="bp2-pill bp2-pill-green">Aktiv</span>
+            </div>
+            <div class="bp2-acc-item">
+              <div class="bp2-acc-info">
+                <div class="bp2-acc-name">Giro Fixture MIPS Helm</div>
+                <div class="bp2-acc-price">79,95 €</div>
+              </div>
+              <span class="bp2-pill bp2-pill-green">Aktiv</span>
+            </div>
+          </div>
+          <div class="bp2-acc-group">
+            <div class="bp2-acc-group-label">Privates Zubehör</div>
+            <div class="bp2-acc-empty">Noch nichts hinzugefügt — du kannst hier später private Anbauteile dokumentieren.</div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Versicherung (collapsible, default closed) -->
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Versicherung<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-row"><span class="bp2-rl">Diebstahlschutz</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Vollkaskoversicherung</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Pannenhilfe</span><span class="bp2-pill bp2-pill-green">Inklusive</span></div>
+        </div>
+      </details>
+
+      <!-- EOL banner (always visible, calm preview) -->
+      <div class="bp2-eol">
+        <div class="bp2-eol-pill">Dein Weg nach 36 Monaten</div>
+        <div class="bp2-eol-title">Schon jetzt weißt du, was am Ende möglich ist.</div>
+        <div class="bp2-eol-sub">Kein Druck, keine Überraschungen — wir melden uns rechtzeitig.</div>
+        <div class="bp2-eol-options">
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
+            Rad kaufen
+            <div class="bp2-eol-opt-sub">in 36 Mo.</div>
+          </div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Neu leasen
+            <div class="bp2-eol-opt-sub">in 36 Mo.</div>
+          </div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 4 4v6"/></svg>
+            Zurückgeben
+            <div class="bp2-eol-opt-sub">in 36 Mo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vertragsdaten (collapsible, default closed) -->
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Vertragsdaten<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-row"><span class="bp2-rl">Vertragsbeginn</span><span class="bp2-rv">8. Mai 2026</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Laufzeit</span><span class="bp2-rv">36 Monate</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Vertragsende</span><span class="bp2-rv">7. Mai 2029</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Netto-Rate</span><span class="bp2-rv green">67,20 €/Mo.</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Servicepaket</span><span class="bp2-rv green">Unlimited</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Arbeitgeber</span><span class="bp2-rv">TechCraft GmbH</span></div>
+        </div>
+      </details>
+
+    </div>
+
+    <!-- Sticky footer -->
+    <div class="bp2-footer">
+      <button class="bp2-fa-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Werkstatt finden
+      </button>
+      <button class="bp2-fa-btn primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Schaden melden
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1899,69 +2124,180 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
      SCENE 8 — Bike Pass 387 km (flat)
 ══════════════════════════════════════ -->
 <div class="scene" id="scene8">
-  <div class="s8-wrap">
-    <div class="s8-inner">
-      <div class="s8-nav">
-        <div class="s8-nav-icon">JR</div>
-        <span class="s8-nav-name">JobRad</span>
-        <div class="s8-nav-sep"></div>
-        <span class="s8-nav-section">Bike Pass</span>
+  <div class="bp2-wrap">
+    <div class="bp2-nav">
+      <div class="bp2-nav-icon">JR</div>
+      <span class="bp2-nav-name">JobRad</span>
+      <div class="bp2-nav-sep"></div>
+      <span class="bp2-nav-section">Bike Pass</span>
+    </div>
+
+    <div class="bp2-hero">
+      <div class="bp2-hero-top">
+        <img src="trek-logo.svg" class="bp2-trek-logo" alt="Trek">
+        <div class="bp2-hero-model">FX 2 Midstep Disc · Gen 4</div>
+        <div class="bp2-hero-sub">Rot · Größe S · Aktiv seit 8. Mai 2026</div>
       </div>
-      <div class="s8-hero">
-        <div class="s8h-top">
-          <div class="s8h-img">
-            <img src="trek-fx2-midstep-red.png" alt="Trek FX 2" onerror="this.style.display='none'"/>
+      <div class="bp2-hero-photo">
+        <img src="trek-fx2-midstep-red-6.jpg" alt="Trek FX 2 Midstep">
+      </div>
+      <div class="bp2-hero-card">
+        <div class="bp2-hero-card-head">Fahrraddaten · Rad-Details</div>
+        <div class="bp2-hero-grid">
+          <div class="bp2-spec"><div class="bp2-spec-label">Farbe</div><div class="bp2-spec-value">Rot · glänzend</div></div>
+          <div class="bp2-spec"><div class="bp2-spec-label">Größe / Rahmen</div><div class="bp2-spec-value">S / 48 cm</div></div>
+          <div class="bp2-spec"><div class="bp2-spec-label">Gewicht</div><div class="bp2-spec-value">12,5 kg</div></div>
+          <div class="bp2-spec"><div class="bp2-spec-label">Reifengröße</div><div class="bp2-spec-value">700 × 35c</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bp2-body">
+
+      <div class="bp2-card">
+        <div class="bp2-card-head">Bike Pass · Laufleistung</div>
+        <div class="bp2-card-body">
+          <div class="bp2-runtime-row">
+            <div style="display:flex;align-items:flex-end;gap:6px">
+              <div class="bp2-runtime-km">387</div>
+              <div class="bp2-runtime-unit">km</div>
+            </div>
+            <div class="bp2-runtime-status"><div class="bp2-runtime-dot"></div>Aktiv</div>
           </div>
-          <div class="s8h-info">
-            <div class="s8h-bplabel">JobRad Bike Pass</div>
-            <div class="s8h-name">Trek FX 2 Midstep Gen 4</div>
-            <div class="s8h-sub">Rot · Größe S · 2026</div>
-            <div class="s8h-pills">
-              <span class="s8h-pill">Trekking</span>
-              <span class="s8h-pill">Unlimited</span>
+          <div class="bp2-progress">
+            <div class="bp2-progress-track"><div class="bp2-progress-fill" style="width:8.3%"></div></div>
+            <div class="bp2-progress-labels"><span>8. Mai 2026</span><span>7. Mai 2029</span></div>
+          </div>
+          <div class="bp2-monate">3 Monate aktiv · noch 33 Monate · Unlimited-Paket</div>
+        </div>
+      </div>
+
+      <div class="bp2-alert">
+        <div class="bp2-alert-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="bp2-alert-body">
+          <div class="bp2-alert-title">Erste Jahresinspektion in ca. 9 Monaten</div>
+          <div class="bp2-alert-sub">Mit Unlimited übernimmt JobRad die Kosten. Wir erinnern dich rechtzeitig.</div>
+        </div>
+      </div>
+
+      <details class="bp2-section" open>
+        <summary class="bp2-section-head">Service-Historie<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-svc">
+            <div class="bp2-svc-dot"></div>
+            <div class="bp2-svc-info">
+              <div class="bp2-svc-title">Übergabe abgeschlossen</div>
+              <div class="bp2-svc-meta">8. Mai 2026 · Fahrrad Meisenheimer, Freiburg</div>
+              <div class="bp2-svc-detail">Probefahrt durchgeführt, Einweisung abgeschlossen.</div>
+            </div>
+          </div>
+          <div class="bp2-svc">
+            <div class="bp2-svc-dot upcoming"></div>
+            <div class="bp2-svc-info">
+              <div class="bp2-svc-title">Erste Jahresinspektion</div>
+              <div class="bp2-svc-meta">geplant Mai 2027</div>
+              <div class="bp2-svc-detail">Mit Unlimited übernimmt JobRad die Kosten.</div>
             </div>
           </div>
         </div>
-        <div class="s8h-km-row">
-          <div class="s8h-km-group">
-            <div class="s8h-km">387</div>
-            <div class="s8h-km-unit">km</div>
+      </details>
+
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Antrieb &amp; Technik<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-row"><span class="bp2-rl">Rahmen</span><span class="bp2-rv">Alpha Gold Aluminium</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Gabel</span><span class="bp2-rv">FX Alloy</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Schaltung</span><span class="bp2-rv">Shimano Acera · 2×9</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Bremsen</span><span class="bp2-rv">Tektro HD-R280 hydraulisch</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Reifen</span><span class="bp2-rv">Bontrager H2 Hard-Case Lite</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Sattel</span><span class="bp2-rv">Bontrager Commuter Comp</span></div>
+        </div>
+      </details>
+
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Zubehör<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-acc-group">
+            <div class="bp2-acc-group-label">Leasingfähig · im Vertrag</div>
+            <div class="bp2-acc-item">
+              <div class="bp2-acc-info">
+                <div class="bp2-acc-name">Abus Bordo Granit X 6500</div>
+                <div class="bp2-acc-price">119,90 €</div>
+              </div>
+              <span class="bp2-pill bp2-pill-green">Aktiv</span>
+            </div>
+            <div class="bp2-acc-item">
+              <div class="bp2-acc-info">
+                <div class="bp2-acc-name">Giro Fixture MIPS Helm</div>
+                <div class="bp2-acc-price">79,95 €</div>
+              </div>
+              <span class="bp2-pill bp2-pill-green">Aktiv</span>
+            </div>
           </div>
-          <div class="s8h-active">
-            <div class="s8h-active-dot"></div>
-            3 Monate aktiv
+          <div class="bp2-acc-group">
+            <div class="bp2-acc-group-label">Privates Zubehör</div>
+            <div class="bp2-acc-empty">Noch nichts hinzugefügt — du kannst hier später private Anbauteile dokumentieren.</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Versicherung<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-row"><span class="bp2-rl">Diebstahlschutz</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Vollkaskoversicherung</span><span class="bp2-pill bp2-pill-green">Aktiv</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Pannenhilfe</span><span class="bp2-pill bp2-pill-green">Inklusive</span></div>
+        </div>
+      </details>
+
+      <div class="bp2-eol">
+        <div class="bp2-eol-pill">Dein Weg nach 36 Monaten</div>
+        <div class="bp2-eol-title">Schon jetzt weißt du, was am Ende möglich ist.</div>
+        <div class="bp2-eol-sub">Kein Druck, keine Überraschungen — wir melden uns rechtzeitig.</div>
+        <div class="bp2-eol-options">
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
+            Rad kaufen
+            <div class="bp2-eol-opt-sub">in 33 Mo.</div>
+          </div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Neu leasen
+            <div class="bp2-eol-opt-sub">in 33 Mo.</div>
+          </div>
+          <div class="bp2-eol-opt">
+            <svg class="bp2-eol-opt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 4 4v6"/></svg>
+            Zurückgeben
+            <div class="bp2-eol-opt-sub">in 33 Mo.</div>
           </div>
         </div>
       </div>
-      <div class="s8-content">
-        <div class="s8-card">
-          <div class="s8-card-head">Vertragsdaten</div>
-          <div class="s8-card-body">
-            <div class="s8-row"><span class="s8-rl">Leasingstart</span><span class="s8-rv">8. Mai 2026</span></div>
-            <div class="s8-row"><span class="s8-rl">Leasingende</span><span class="s8-rv">7. Mai 2029</span></div>
-            <div class="s8-row"><span class="s8-rl">Netto-Rate</span><span class="s8-rv green">67,20 €/Mo.</span></div>
-            <div class="s8-row"><span class="s8-rl">Servicepaket</span><span class="s8-rv green">Unlimited</span></div>
-            <div class="s8-row"><span class="s8-rl">Arbeitgeber</span><span class="s8-rv">TechCraft GmbH</span></div>
-          </div>
+
+      <details class="bp2-section">
+        <summary class="bp2-section-head">Vertragsdaten<svg class="bp2-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3,4.5 6,7.5 9,4.5"/></svg></summary>
+        <div class="bp2-section-body">
+          <div class="bp2-row"><span class="bp2-rl">Vertragsbeginn</span><span class="bp2-rv">8. Mai 2026</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Laufzeit</span><span class="bp2-rv">36 Monate</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Vertragsende</span><span class="bp2-rv">7. Mai 2029</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Netto-Rate</span><span class="bp2-rv green">67,20 €/Mo.</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Servicepaket</span><span class="bp2-rv green">Unlimited</span></div>
+          <div class="bp2-row"><span class="bp2-rl">Arbeitgeber</span><span class="bp2-rv">TechCraft GmbH</span></div>
         </div>
-        <div class="s8-card">
-          <div class="s8-card-head">Dein Servicepaket</div>
-          <div class="s8-card-body">
-            <div class="s8-row"><span class="s8-rl">Jahresinspektion</span><span class="s8-rv green">Inklusive</span></div>
-            <div class="s8-row"><span class="s8-rl">Verschleißteile</span><span class="s8-rv green">Inklusive</span></div>
-            <div class="s8-row"><span class="s8-rl">Reparaturen</span><span class="s8-rv green">Unbegrenzt</span></div>
-            <div class="s8-row"><span class="s8-rl">Pannenhilfe</span><span class="s8-rv green">Inklusive</span></div>
-            <div class="s8-row"><span class="s8-rl">Nächste Inspektion</span><span class="s8-rv">April 2027</span></div>
-          </div>
-        </div>
-        <div class="s8-card">
-          <div class="s8-card-head">Zubehör</div>
-          <div class="s8-card-body">
-            <div class="s8-row"><span class="s8-rl">Abus Bordo Granit X 6500</span><span class="pill pill-green">Aktiv</span></div>
-            <div class="s8-row"><span class="s8-rl">Giro Fixture MIPS Helm</span><span class="pill pill-green">Aktiv</span></div>
-          </div>
-        </div>
-      </div>
+      </details>
+
+    </div>
+
+    <div class="bp2-footer">
+      <button class="bp2-fa-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Werkstatt finden
+      </button>
+      <button class="bp2-fa-btn primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Schaden melden
+      </button>
     </div>
   </div>
 </div>
@@ -2006,16 +2342,10 @@ function showScene(id, btn) {
   if (id == 1) setTimeout(() => runS1Counter(), 120);
   if (id == 6) { setSubState('s6a', ['s6a','s6b','s6c']); enter6A(); }
   if (id == 7) {
+    // Reset km display + counter flag (cinematic 0→387 transition reserved for later)
     s7CounterDone = false;
-    const phone = document.getElementById('bp-phone');
-    const caption = document.getElementById('bp-caption');
-    caption.classList.remove('visible');
-    phone.classList.remove('fade-out');
-    phone.classList.add('hidden');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => { phone.classList.remove('hidden'); });
-    });
-    setTimeout(() => caption.classList.add('visible'), 900);
+    const kmEl = document.getElementById('s7-km');
+    if (kmEl) kmEl.textContent = '0';
   }
 
   updateSubNav(id);
@@ -2108,7 +2438,10 @@ function advance() {
     if (document.getElementById('s6c').classList.contains('active')) { showScene(7, document.getElementById('btn7')); return; }
   }
   if (n == 7) {
-    if (!s7CounterDone) { runKmCounter(); return; }
+    // Bike Pass = destination screen; advance goes directly to Scene 8
+    // (Cinematic 0→387 km transition will be added later as a between-scenes moment)
+    showScene(8, document.getElementById('btn8'));
+    return;
   }
 
   // Scene 1: cinematic — dissolve through black into Bike Finder
@@ -2649,7 +2982,7 @@ function fireHint() {
     else if (document.getElementById('s6b').classList.contains('active')) target = document.getElementById('s6b-jl-btn');
     else target = document.getElementById('s6c-bp-btn');
   }
-  else if (n == 7) target = document.getElementById('bp-phone');
+  else if (n == 7) target = document.querySelector('#scene7 .bp2-hero');
   pulseHint(target);
 }
 
