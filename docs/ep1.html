@@ -1636,7 +1636,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
           <div class="card">
             <div class="card-header">Nachricht an den Kunden</div>
             <div class="card-body">
-              <textarea id="s5b-comment" class="m-note" readonly onclick="typeComment5B()" style="min-height:88px;font-size:13px;resize:vertical"></textarea>
+              <textarea id="s5b-comment" class="m-note" data-locked="true" readonly onclick="typeComment5B()" style="min-height:88px;font-size:13px;resize:vertical"></textarea>
               <button class="d-btn d-btn-primary" id="s5b-send-btn" style="margin-top:12px;width:100%;opacity:.45;cursor:default" disabled onclick="send5BUpdate()">Empfehlung an Emily senden</button>
             </div>
           </div>
@@ -2567,6 +2567,7 @@ function go5B() { setSubState('s5b', ['s5a','s5b']); }
 function typeComment5B() {
   var el = document.getElementById('s5b-comment');
   if (el.value || el.dataset.typing) return;
+  if (el.dataset.locked) { pulseHint(document.getElementById('s5b-unlimited')); return; }
   el.dataset.typing = '1';
   el.blur();
   var msg = 'Bei 18 km Pendelstrecke täglich — auch im Regen — empfehle ich das Unlimited-Paket. Unbegrenzte Reparaturen, Reifenwechsel inklusive. Das gibt dir die komplette Sorglosigkeit.';
@@ -2755,6 +2756,9 @@ function selectDealerPkg(name) {
                      cell('Differenz','+7,00 €/Mo.') +
                      cell('Brutto-Rate','126,30 €') +
                      cell('AG-Zuschuss','−20,00 €');
+    // Unlimited selected → unlock the note field + hint cascade moves on
+    var note = document.getElementById('s5b-comment');
+    if (note && note.dataset.locked) { delete note.dataset.locked; pulseHint(note); }
   } else {
     num.textContent = '60,34';
     num.classList.add('rate-flash'); setTimeout(function(){ num.classList.remove('rate-flash'); }, 400);
@@ -2995,7 +2999,7 @@ function selectBike(card, name) {
   card.classList.add('highlight');
   const btn = document.getElementById('scene2-btn');
   btn.disabled = false;
-  btn.textContent = name + ' wählen →';
+  btn.textContent = name + ' wählen';
   const sizeM = document.getElementById('size-m');
   if (sizeM) sizeM.classList.add('selected');
 }
@@ -3049,14 +3053,15 @@ function fireHint() {
       else if (!helmDone && serial && serial.value)    target = document.getElementById('helm-alt-btn');
       else                                             target = serial;
     } else {
-      var pkgSel = document.querySelector('#s5b .service-opt.selected');
+      var unlimitedEl = document.getElementById('s5b-unlimited');
+      var unlimitedSel = unlimitedEl && unlimitedEl.classList.contains('selected');
       var c5b    = document.getElementById('s5b-comment');
       var snd5b  = document.getElementById('s5b-send-btn');
       var nxt5b  = document.getElementById('s5b-next-btn');
-      if (!pkgSel)                                 target = document.getElementById('s5b-unlimited');
+      if (!unlimitedSel)                                target = unlimitedEl;
       else if (nxt5b && nxt5b.style.display !== 'none') target = nxt5b;
-      else if (!snd5b.disabled)                    target = snd5b;
-      else                                         target = c5b;
+      else if (!snd5b.disabled)                         target = snd5b;
+      else                                              target = c5b;
     }
   }
   else if (n == 6) {
