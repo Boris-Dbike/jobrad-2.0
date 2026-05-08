@@ -2818,7 +2818,7 @@ function goToDealer() {
   }, 200);
 }
 
-// NUV → Scene 5 Überblendung — anthracite, 2-line, ~7.5s total
+// NUV → Scene 5 Überblendung — anthracite, 2-line, matches s78-text convention (.72 opacity, .8s fade)
 async function runUebergabeUberblendung() {
   const overlay = document.getElementById('uebergabe-cinematic');
   const headline = document.getElementById('uebergabe-headline');
@@ -2830,12 +2830,14 @@ async function runUebergabeUberblendung() {
   overlay.style.opacity = '1';
   overlay.style.pointerEvents = 'all';
   await new Promise(r => setTimeout(r, 700));
-  // beat 2 — line 1 appears
-  headline.style.opacity = '1';
-  await new Promise(r => setTimeout(r, 1400));
+  // beat 2 — line 1 appears (matches s78-text.visible opacity)
+  headline.style.opacity = '.72';
+  // short hold before line 2 (per Boris: "really like only a short period of time")
+  await new Promise(r => setTimeout(r, 800));
   // beat 3 — line 2 appears
-  sub.style.opacity = '1';
-  await new Promise(r => setTimeout(r, 3800));
+  sub.style.opacity = '.72';
+  // longer hold so the audience can read both lines
+  await new Promise(r => setTimeout(r, 4600));
   // beat 4 — fade text out
   headline.style.opacity = '0';
   sub.style.opacity = '0';
@@ -3263,10 +3265,10 @@ function fadeNavigate(url) {
   </div>
 </div>
 
-<!-- NUV → Scene 5 Überblendung (anthracite, 2-line, uniform typography) -->
+<!-- NUV → Scene 5 Überblendung (anthracite, 2-line, matches s78-text convention) -->
 <div id="uebergabe-cinematic" style="position:fixed;inset:0;z-index:9000;background:#29363C;opacity:0;pointer-events:none;transition:opacity 600ms ease-in-out;display:flex;align-items:center;justify-content:center;padding:40px;flex-direction:column;text-align:center">
-  <div id="uebergabe-headline" style="font-size:clamp(14px,1.8vw,20px);color:#fff;line-height:1.65;max-width:760px;margin-bottom:18px;opacity:0;transition:opacity 1s ease">Der Tag der Übergabe.</div>
-  <div id="uebergabe-sub" style="font-size:clamp(14px,1.8vw,20px);color:#fff;line-height:1.65;max-width:760px;opacity:0;transition:opacity 1s ease">Emily ist gerade bei Fahrrad Meisenheimer und nutzt die Gelegenheit für eine Probefahrt während der Fachhändler noch einige letzte Anpassungen vornimmt.</div>
+  <div id="uebergabe-headline" style="font-size:clamp(14px,1.8vw,20px);color:#fff;line-height:1.65;max-width:760px;margin-bottom:18px;opacity:0;transition:opacity .8s ease">Der Tag der Übergabe.</div>
+  <div id="uebergabe-sub" style="font-size:clamp(14px,1.8vw,20px);color:#fff;line-height:1.65;max-width:760px;opacity:0;transition:opacity .8s ease">Emily ist gerade bei Fahrrad Meisenheimer und nutzt die Gelegenheit für eine Probefahrt während der Fachhändler noch einige letzte Anpassungen vornimmt.</div>
 </div>
 </body>
 </html>
