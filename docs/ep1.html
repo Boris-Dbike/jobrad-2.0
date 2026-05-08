@@ -198,7 +198,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
 .acc-check{width:20px;height:20px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green-deep);font-weight:700;flex-shrink:0}
 .acc-cb{width:18px;height:18px;border:1.5px solid var(--border2);border-radius:3px;flex-shrink:0}
 .acc-cb.checked{background:var(--green);border-color:var(--green);display:flex;align-items:center;justify-content:center}
-.acc-cb.checked::after{content:'✓';font-size:10px;color:#29363C;font-weight:700}
+.acc-cb.checked::after{content:'';width:60%;height:60%;background-color:#29363C;-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 13l5 5L19 7'/></svg>") center/contain no-repeat;mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 13l5 5L19 7'/></svg>") center/contain no-repeat}
 
 /* ── Rate mini ── */
 .rate-mini{background:var(--green-deep);border-radius:var(--r);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
@@ -784,7 +784,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         <p class="finder-note">Netto-Rate nach Gehaltsumwandlung · abhängig von Bruttolohn und Arbeitgeber</p>
       </div>
       <div class="m-bottom">
-        <button class="btn-primary" id="scene2-btn" disabled onclick="showScene(3,document.getElementById('btn3'))">Fahrrad wählen →</button>
+        <button class="btn-primary" id="scene2-btn" disabled onclick="showScene(3,document.getElementById('btn3'))">Fahrrad wählen</button>
       </div>
     </div>
   </div>
@@ -831,7 +831,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
                   <!-- Recognition: Variant B — pill chip -->
                   <div id="recognition-b" class="recognition-el recognition-b">
                     <div class="recognition-b-inner">
-                      <div class="recognition-b-check">✓</div>
+                      <div class="recognition-b-check"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
                       <span class="recognition-b-text">TechCraft GmbH · Dienstradleasing aktiv</span>
                     </div>
                   </div>
@@ -879,7 +879,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         <p class="m-title" style="margin-bottom:40px">Willkommen, Emily!</p>
         <div class="card" style="margin-bottom:12px">
           <div class="berechtigt-head">
-            <div class="berechtigt-badge">✓</div>
+            <div class="berechtigt-badge"><svg viewBox="0 0 24 24" width="55%" height="55%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
             <div>
               <div class="berechtigt-title">Deine persönliche Rate</div>
               <div style="font-size:11px;color:var(--green-deep);opacity:.7;margin-top:1px">TechCraft GmbH · Dienstradleasing aktiv</div>
@@ -904,12 +904,12 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
           <div style="height:.5px;background:var(--border);margin:0 14px"></div>
           <div class="berechtigt-body">
             <div class="berechtigt-row">
-              <div class="berechtigt-check">✓</div>
+              <div class="berechtigt-check"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
               <div class="berechtigt-text">Maximaler Radwert</div>
               <div class="berechtigt-value">11.900 €</div>
             </div>
             <div class="berechtigt-row">
-              <div class="berechtigt-check">✓</div>
+              <div class="berechtigt-check"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
               <div class="berechtigt-text">Arbeitgeberzuschuss</div>
               <div class="berechtigt-value" style="color:var(--green-dark)">20 € / Monat</div>
             </div>
@@ -918,7 +918,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         <p style="font-size:11px;color:var(--t3);line-height:1.5;text-align:center;margin-bottom:8px">Berechnet mit deinen TechCraft-Konditionen · Exakter Wert nach Händlerbestätigung</p>
       </div>
       <div class="m-bottom">
-        <button class="btn-primary" onclick="showScene(4,document.getElementById('btn4'))">Zum Warenkorb →</button>
+        <button class="btn-primary" onclick="showScene(4,document.getElementById('btn4'))">Zum Warenkorb</button>
       </div>
     </div>
   </div>
@@ -2396,7 +2396,7 @@ function updateSubNav(id) {
     const isActive = i === activeIdx;
     const isDone = i < activeIdx;
     const cls = isActive ? 'active' : (isDone ? 'done' : '');
-    const num = isDone ? '✓' : (i + 1);
+    const num = isDone ? `<svg viewBox="0 0 24 24" width="55%" height="55%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg>` : (i + 1);
     const connector = i < cfg.length - 1
       ? `<div class="nav-step-connector${isDone ? ' done' : ''}"></div>`
       : '';
