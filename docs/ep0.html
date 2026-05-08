@@ -275,7 +275,8 @@ html.fading-in #scene-fade-overlay{opacity:1}
 .path-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .15s;position:relative}
 .path-card:hover{background:var(--white);border-color:var(--border2)}
 .path-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:13.5px}
-.path-card.selected::after{content:'✓';position:absolute;top:10px;right:10px;width:18px;height:18px;background:var(--green);color:#29363C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600}
+.path-card.selected::before{content:'';position:absolute;top:10px;right:10px;width:18px;height:18px;background:var(--green);border-radius:50%}
+.path-card.selected::after{content:'';position:absolute;top:10px;right:10px;width:18px;height:18px;background-color:#29363C;-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 13l5 5L19 7'/></svg>") center/55% no-repeat;mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 13l5 5L19 7'/></svg>") center/55% no-repeat;pointer-events:none}
 .path-card-icon{width:32px;height:32px;border-radius:var(--r-sm);background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
 .path-card-title{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:3px}
 .path-card-desc{font-size:11px;color:var(--t2);line-height:1.5}
@@ -658,7 +659,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
       <div class="nav-logo-name">JobRad</div>
     </div>
     <div class="nav-steps">
-      <div class="nav-step done"><div class="nav-step-num">✓</div>Unternehmen</div>
+      <div class="nav-step done"><div class="nav-step-num"><svg viewBox="0 0 24 24" width="55%" height="55%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>Unternehmen</div>
       <div class="nav-step-connector done"></div>
       <div class="nav-step active"><div class="nav-step-num">2</div>Vertrag</div>
       <div class="nav-step-connector"></div>
@@ -769,14 +770,14 @@ html.fading-in #scene-fade-overlay{opacity:1}
                 <div class="wb-name">Maximilian Bauer</div>
                 <div class="wb-meta">Geschäftsführer · 60 % Anteil</div>
               </div>
-              <span class="wb-confirm">✓ bestätigt</span>
+              <span class="wb-confirm" style="display:inline-flex;align-items:center;gap:4px"><svg viewBox="0 0 24 24" width="0.85em" height="0.85em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg>bestätigt</span>
             </div>
             <div class="wb-row">
               <div>
                 <div class="wb-name">Sophie Reinhardt</div>
                 <div class="wb-meta">Geschäftsführerin · 40 % Anteil</div>
               </div>
-              <span class="wb-confirm">✓ bestätigt</span>
+              <span class="wb-confirm" style="display:inline-flex;align-items:center;gap:4px"><svg viewBox="0 0 24 24" width="0.85em" height="0.85em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg>bestätigt</span>
             </div>
             <div style="font-size:10px;color:var(--t3);margin-top:6px"><a href="#" style="color:var(--blue);text-decoration:none">Person hinzufügen / korrigieren</a></div>
           </div>
@@ -827,9 +828,9 @@ html.fading-in #scene-fade-overlay{opacity:1}
   <nav class="navbar">
     <div class="nav-logo"><div class="nav-logo-mark">JR</div><div class="nav-logo-name">JobRad</div></div>
     <div class="nav-steps">
-      <div class="nav-step done"><div class="nav-step-num">✓</div>Unternehmen</div>
+      <div class="nav-step done"><div class="nav-step-num"><svg viewBox="0 0 24 24" width="55%" height="55%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>Unternehmen</div>
       <div class="nav-step-connector done"></div>
-      <div class="nav-step done"><div class="nav-step-num">✓</div>Vertrag</div>
+      <div class="nav-step done"><div class="nav-step-num"><svg viewBox="0 0 24 24" width="55%" height="55%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>Vertrag</div>
       <div class="nav-step-connector done"></div>
       <div class="nav-step active"><div class="nav-step-num">3</div>Unterzeichnung</div>
       <div class="nav-step-connector"></div>
@@ -942,8 +943,8 @@ html.fading-in #scene-fade-overlay{opacity:1}
             <div style="padding:0 24px 20px">
               <div style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:10px">Status</div>
               <div class="timeline">
-                <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Vertrag generiert · Bonität freigegeben</div><div class="timeline-time">12:04</div></div>
-                <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Magic Link an m.bauer@techcraft.de versendet</div><div class="timeline-time">12:07</div></div>
+                <div class="timeline-item done"><div class="timeline-dot"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div><div class="timeline-text">Vertrag generiert · Bonität freigegeben</div><div class="timeline-time">12:04</div></div>
+                <div class="timeline-item done"><div class="timeline-dot"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div><div class="timeline-text">Magic Link an m.bauer@techcraft.de versendet</div><div class="timeline-time">12:07</div></div>
                 <div class="timeline-item active"><div class="timeline-dot"></div><div class="timeline-text">Warten auf Identifikation & Unterschrift</div><div class="timeline-time">…</div></div>
                 <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-text">Vertrag aktiviert</div><div class="timeline-time"></div></div>
               </div>
@@ -1002,7 +1003,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
 
         <!-- Activation hero -->
         <div class="activation-hero" id="activation-hero">
-          <div class="activation-hero-ring">✓</div>
+          <div class="activation-hero-ring"><svg viewBox="0 0 24 24" width="50%" height="50%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
           <div class="activation-hero-title">TechCraft GmbH ist jetzt aktiv</div>
           <div class="activation-hero-sub">Vertrag aktiviert. Ihr TechCraft Unternehmensprofil ist jetzt aktiv.</div>
           <div class="activation-hero-trigger">E-Signatur eingegangen · Maximilian Bauer · heute, 14:28 Uhr</div>
@@ -1013,10 +1014,10 @@ html.fading-in #scene-fade-overlay{opacity:1}
           <div class="card-head">System-Status</div>
           <div style="padding:18px 24px">
             <div class="timeline">
-              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Vertrag generiert · Bonität freigegeben</div><div class="timeline-time">12:04</div></div>
-              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Magic Link 1 an m.bauer@techcraft.de versendet</div><div class="timeline-time">12:07</div></div>
-              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Identifikation (IDnow) & Signatur (QES) durch M. Bauer</div><div class="timeline-time">14:28</div></div>
-              <div class="timeline-item done"><div class="timeline-dot">✓</div><div class="timeline-text">Vertrag aktiviert · Magic Link 2 an sara.meier@techcraft.de versendet</div><div class="timeline-time">14:32</div></div>
+              <div class="timeline-item done"><div class="timeline-dot"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div><div class="timeline-text">Vertrag generiert · Bonität freigegeben</div><div class="timeline-time">12:04</div></div>
+              <div class="timeline-item done"><div class="timeline-dot"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div><div class="timeline-text">Magic Link 1 an m.bauer@techcraft.de versendet</div><div class="timeline-time">12:07</div></div>
+              <div class="timeline-item done"><div class="timeline-dot"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div><div class="timeline-text">Identifikation (IDnow) & Signatur (QES) durch M. Bauer</div><div class="timeline-time">14:28</div></div>
+              <div class="timeline-item done"><div class="timeline-dot"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div><div class="timeline-text">Vertrag aktiviert · Magic Link 2 an sara.meier@techcraft.de versendet</div><div class="timeline-time">14:32</div></div>
             </div>
           </div>
         </div>
@@ -1095,7 +1096,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
   <!-- Magic-Link-Bestätigungs-Banner — nur beim ersten Portal-Eintritt -->
   <div class="portal-banner" id="magic-link-banner">
     <div class="portal-banner-left">
-      <div class="portal-banner-icon">✓</div>
+      <div class="portal-banner-icon"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
       <span><strong>Rahmenvertrag unterzeichnet</strong> · Maximilian Bauer · per Magic Link <span class="portal-banner-time">· 14:28</span></span>
     </div>
     <button class="portal-banner-close" onclick="document.getElementById('magic-link-banner').style.display='none'" title="Hinweis schließen">×</button>
@@ -1290,20 +1291,20 @@ html.fading-in #scene-fade-overlay{opacity:1}
       <div class="portal-nav-item">Hilfe</div>
     </div>
     <div class="portal-nav-right">
-      <span class="setup-pill done"><span class="setup-pill-dot"></span>Setup abgeschlossen ✓</span>
+      <span class="setup-pill done" style="display:inline-flex;align-items:center;gap:6px"><span class="setup-pill-dot"></span>Setup abgeschlossen<svg viewBox="0 0 24 24" width="0.85em" height="0.85em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></span>
       <div class="user-avatar">SM</div>
     </div>
   </nav>
 
   <div class="success-hero">
-    <div class="success-ring">✓</div>
+    <div class="success-ring"><svg viewBox="0 0 24 24" width="50%" height="50%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
     <div class="success-title">TechCraft GmbH ist jetzt aktiv</div>
     <div class="success-sub">Bevollmächtigte können Mitarbeitende einladen · Mitarbeitende können Räder bestellen</div>
   </div>
 
   <div class="page">
     <div class="tiles-grid">
-      <div class="tile"><div class="tile-label">Vertrag</div><div class="tile-value" style="font-size:16px;color:var(--green-dark)">aktiv ✓</div><div class="tile-sub">unterzeichnet von M. Bauer</div></div>
+      <div class="tile"><div class="tile-label">Vertrag</div><div class="tile-value" style="font-size:16px;color:var(--green-dark);display:inline-flex;align-items:center;gap:5px">aktiv<svg viewBox="0 0 24 24" width="0.85em" height="0.85em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div><div class="tile-sub">unterzeichnet von M. Bauer</div></div>
       <div class="tile"><div class="tile-label">Mitarbeitende</div><div class="tile-value">650</div><div class="tile-sub" id="ma-source-tile">verbunden via SAP SuccessFactors</div></div>
       <div class="tile"><div class="tile-label">Servicepaket</div><div class="tile-value" style="font-size:16px;color:var(--green-dark)">Komfort</div><div class="tile-sub">verpflichtend</div></div>
       <div class="tile"><div class="tile-label">Bevollmächtigte</div><div class="tile-value">1</div><div class="tile-sub">S. Meier · Magic Link versendet</div></div>
@@ -1325,7 +1326,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
           <button class="btn btn-ghost">Zu „Verträge"</button>
         </div>
         <div class="next-item">
-          <div class="next-icon">✓</div>
+          <div class="next-icon"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l5 5L19 7"/></svg></div>
           <div class="next-title">Status verfolgen</div>
           <div class="next-desc">Anträge, Aktivierungen und Störfälle in einer einzigen Übersicht – ohne Filtern.</div>
           <button class="btn btn-ghost">Zur Übersicht</button>
@@ -1647,7 +1648,7 @@ async function runHRAnimation() {
   // found
   hint.classList.remove('searching');
   hint.classList.add('found');
-  hintTxt.textContent = '✓ Unternehmen gefunden';
+  hintTxt.innerHTML = '<svg viewBox="0 0 24 24" width="0.85em" height="0.85em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.15em;margin-right:4px"><path d="M5 13l5 5L19 7"/></svg>Unternehmen gefunden';
   await sleep(1500);
 
   // populate behind overlay (invisible transition)
