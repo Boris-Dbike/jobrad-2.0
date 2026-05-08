@@ -2814,8 +2814,36 @@ function goToDealer() {
     const inbox = document.getElementById('nuv-inbox-screen');
     lock.style.display = ''; lock.style.opacity = ''; lock.style.transition = '';
     inbox.classList.remove('visible'); inbox.style.display = 'none';
-    showScene(5, document.getElementById('btn5'));
+    runUebergabeUberblendung();
   }, 200);
+}
+
+// NUV → Scene 5 Überblendung — anthracite, 2-line, ~4.3s total
+async function runUebergabeUberblendung() {
+  const overlay = document.getElementById('uebergabe-cinematic');
+  const headline = document.getElementById('uebergabe-headline');
+  const sub = document.getElementById('uebergabe-sub');
+  // reset
+  headline.style.opacity = '0';
+  sub.style.opacity = '0';
+  // beat 1 — anthracite fade in
+  overlay.style.opacity = '1';
+  overlay.style.pointerEvents = 'all';
+  await new Promise(r => setTimeout(r, 280));
+  // beat 2 — headline appears
+  headline.style.opacity = '1';
+  await new Promise(r => setTimeout(r, 720));
+  // beat 3 — sub appears
+  sub.style.opacity = '.85';
+  await new Promise(r => setTimeout(r, 2400));
+  // beat 4 — fade everything out
+  headline.style.opacity = '0';
+  sub.style.opacity = '0';
+  await new Promise(r => setTimeout(r, 500));
+  overlay.style.opacity = '0';
+  overlay.style.pointerEvents = 'none';
+  // beat 5 — land on Scene 5
+  showScene(5, document.getElementById('btn5'));
 }
 
 // ── Commitment overlay ──
@@ -3232,6 +3260,12 @@ function fadeNavigate(url) {
       <div class="s78-text bold" id="s78-beat3">Emily genießt ihre Sorglosigkeit als Jobradlerin.<br>Der Bike Pass ist aktiv und sie hat alles jederzeit im Blick.</div>
     </div>
   </div>
+</div>
+
+<!-- NUV → Scene 5 Überblendung (anthracite, 2-line) -->
+<div id="uebergabe-cinematic" style="position:fixed;inset:0;z-index:9000;background:#29363C;opacity:0;pointer-events:none;transition:opacity 425ms ease-in-out;display:flex;align-items:center;justify-content:center;padding:40px;flex-direction:column;text-align:center">
+  <div id="uebergabe-headline" style="font-size:clamp(28px,4.5vw,48px);font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:22px;opacity:0;transition:opacity .8s ease;font-family:'DM Sans',sans-serif;max-width:820px">Der Tag der Übergabe.</div>
+  <div id="uebergabe-sub" style="font-size:clamp(14px,1.8vw,20px);color:#fff;opacity:0;line-height:1.65;max-width:760px;transition:opacity .8s ease">Emily ist gerade bei Fahrrad Meisenheimer und nutzt die Gelegenheit für eine Probefahrt während der Fachhändler noch einige letzte Anpassungen vornimmt.</div>
 </div>
 </body>
 </html>
