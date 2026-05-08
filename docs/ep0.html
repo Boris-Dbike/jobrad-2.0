@@ -285,22 +285,25 @@ html.fading-in #scene-fade-overlay{opacity:1}
 
 /* ── Service paket cards (Daniel Δ1) ── */
 .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
-.service-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .15s;position:relative;display:flex;flex-direction:column}
+.service-card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .15s;position:relative;display:flex;flex-direction:column}
 .service-card:hover{background:var(--white);border-color:var(--border2)}
-.service-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:13.5px}
+.service-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:15.5px}
 .service-card.recommended::before{content:'Empfehlung';position:absolute;top:-8px;left:14px;background:var(--green);color:#29363C;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.02em}
 .service-card.selected::after{content:none}
+.card-check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border2);background:var(--white);display:flex;align-items:center;justify-content:center;color:transparent;transition:all .15s;pointer-events:none;z-index:2}
+.card-check svg{width:55%;height:55%;display:block}
+.service-card.selected .card-check{border-color:var(--green);background:var(--green);color:#29363C}
 .service-name{font-size:14px;font-weight:600;color:var(--t1);margin-bottom:4px}
 .service-tagline{font-size:11px;color:var(--t2);margin-bottom:10px;flex:1;line-height:1.5}
-.service-features{font-size:11px;color:var(--t2);line-height:1.7;border-top:.5px solid var(--border);padding-top:8px}
+.service-features{font-size:11px;color:var(--t2);line-height:1.7;border-top:.5px solid var(--border);padding-top:8px;min-height:65px}
 .service-features li{list-style:none;margin-left:0}
 .service-features li::before{content:'·';color:var(--green);margin-right:6px;font-weight:600}
 
 /* ── Modus-Auswahl Radio ── */
 .mode-row{display:flex;gap:8px;margin-bottom:12px}
-.mode-card{flex:1;background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;cursor:pointer;transition:all .15s}
+.mode-card{flex:1;background:var(--bg);border:.5px solid var(--border);border-radius:var(--r-sm);padding:14px;cursor:pointer;transition:all .15s}
 .mode-card:hover{background:var(--white)}
-.mode-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:9.5px 11.5px}
+.mode-card.selected{background:var(--white);border-color:var(--green);border-width:1.5px;padding:13.5px}
 .mode-title{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:2px}
 .mode-desc{font-size:10px;color:var(--t2);line-height:1.4}
 
@@ -1116,13 +1119,20 @@ html.fading-in #scene-fade-overlay{opacity:1}
             <span>Services für Ihre Mitarbeitenden</span>
           </div>
           <div class="card-body">
-            <div style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:18px">
-              Wählen Sie, welche Servicepakete Ihre Mitarbeitenden buchen können – und ob diese verpflichtend, bezuschusst oder selbst gezahlt sind.
+            <div style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:14px">
+              Wählen Sie, welche Servicepakete Ihre Mitarbeitenden buchen können – und ob diese bezuschusst oder selbst gezahlt werden sollen.
+            </div>
+
+            <div class="hint-box" style="margin-top:0;margin-bottom:18px">
+              <strong>Tipp:</strong> Wählen Sie ein oder mehrere Pakete – Ihre Mitarbeitenden entscheiden später individuell bei der Bestellung, welches Paket sie buchen möchten.
             </div>
 
             <div class="form-section-head" style="margin-top:0;border-top:none;padding-top:0">Verfügbare Pakete</div>
             <div class="service-grid">
-              <div class="service-card">
+              <div class="service-card selected" id="svc-basis">
+                <span class="card-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L19 7"/></svg>
+                </span>
                 <div class="service-name">Basis</div>
                 <div class="service-tagline">Jährliche Inspektion · Standard für mechanische Räder</div>
                 <ul class="service-features">
@@ -1130,7 +1140,10 @@ html.fading-in #scene-fade-overlay{opacity:1}
                   <li>Mobilitätsgarantie</li>
                 </ul>
               </div>
-              <div class="service-card recommended">
+              <div class="service-card selected" id="svc-komfort">
+                <span class="card-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L19 7"/></svg>
+                </span>
                 <div class="service-name">Komfort</div>
                 <div class="service-tagline">Inspektion + Verschleißreparaturen · die meistgewählte Variante</div>
                 <ul class="service-features">
@@ -1139,7 +1152,10 @@ html.fading-in #scene-fade-overlay{opacity:1}
                   <li>Pannenhilfe 24/7</li>
                 </ul>
               </div>
-              <div class="service-card">
+              <div class="service-card selected" id="svc-unlimited">
+                <span class="card-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L19 7"/></svg>
+                </span>
                 <div class="service-name">Unlimited</div>
                 <div class="service-tagline">Volle Werkstattabdeckung · für anspruchsvolle Pendler</div>
                 <ul class="service-features">
@@ -1152,22 +1168,14 @@ html.fading-in #scene-fade-overlay{opacity:1}
 
             <div class="form-section-head">Modus für Mitarbeitende</div>
             <div class="mode-row">
-              <div class="mode-card">
-                <div class="mode-title">Verpflichtend</div>
-                <div class="mode-desc">Komfort wird bei jeder Bestellung mitgebucht. Höchste Mitarbeiterzufriedenheit.</div>
-              </div>
-              <div class="mode-card">
+              <div class="mode-card" id="mode-zuschuss">
                 <div class="mode-title">Zuschuss</div>
                 <div class="mode-desc">Sie übernehmen einen Anteil. Mitarbeitende zahlen den Rest.</div>
               </div>
-              <div class="mode-card">
+              <div class="mode-card" id="mode-selbst">
                 <div class="mode-title">Selbstzahlung</div>
                 <div class="mode-desc">Mitarbeitende wählen frei und zahlen selbst.</div>
               </div>
-            </div>
-
-            <div class="hint-box" style="margin-top:0">
-              <strong>Empfehlung:</strong> „Komfort verpflichtend" – Bike-Service-Team-Empfehlung. Pakete sind Teil des Einzelleasingvertrags und können später nicht mehr pro Vertrag umgestellt werden.
             </div>
           </div>
         </div>
@@ -1434,27 +1442,25 @@ function selectPath(which) {
   }
 }
 
-// Service card selection
+// Service card selection — multi-select. All 3 pre-selected on load (markup).
+// Sara's narrative path: deselect Basis → deselect Unlimited → only Komfort remains.
+// Komfort is the narrative anchor and cannot be deselected — clicking it while
+// selected pulses the card instead of toggling.
 document.querySelectorAll('.service-card').forEach(card => {
   card.addEventListener('click', () => {
-    // Only Komfort (the recommended one) is selectable; others pulse the correct choice
-    if (!card.classList.contains('recommended')) {
-      pulseHint(document.querySelector('.service-card.recommended'));
+    if (card.id === 'svc-komfort' && card.classList.contains('selected')) {
+      pulseHint(card);
       return;
     }
-    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
+    card.classList.toggle('selected');
     checkS4Complete();
   });
 });
 
-// Mode card selection — only "Verpflichtend" (first mode-card) is selectable
-document.querySelectorAll('.mode-card').forEach((card, i) => {
+// Mode card selection — single-select among Zuschuss + Selbstzahlung.
+// Sara picks Zuschuss (ties to Ep. 1 Emily's 20€ AG-Zuschuss von TechCraft).
+document.querySelectorAll('.mode-card').forEach(card => {
   card.addEventListener('click', () => {
-    if (i !== 0) {
-      pulseHint(document.querySelectorAll('.mode-card')[0]);
-      return;
-    }
     document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
     checkS4Complete();
@@ -1729,11 +1735,26 @@ function pulseHint(el) {
 }
 
 function getScreen4HintTarget() {
-  const serviceOk = !!document.querySelector('#screen4 .service-card.selected');
-  const modusOk   = !!document.querySelector('#screen4 .mode-card.selected');
-  if (!serviceOk) return document.querySelector('#screen4 .service-card.recommended');
-  if (!modusOk)   return document.querySelector('#screen4 .mode-card');
+  // Narrative target: only Komfort selected, Zuschuss picked, HRIS done.
+  const basis     = document.getElementById('svc-basis');
+  const komfort   = document.getElementById('svc-komfort');
+  const unlimited = document.getElementById('svc-unlimited');
+  const basisSel     = basis     && basis.classList.contains('selected');
+  const komfortSel   = komfort   && komfort.classList.contains('selected');
+  const unlimitedSel = unlimited && unlimited.classList.contains('selected');
+  const selectedCount = [basisSel, komfortSel, unlimitedSel].filter(Boolean).length;
+
+  // 1. If extras still selected alongside Komfort, nudge to deselect them (Basis first, then Unlimited).
+  if (komfortSel && basisSel)     return basis;
+  if (komfortSel && unlimitedSel) return unlimited;
+  // 2. If Komfort got deselected, pulse Komfort to (re-)select it.
+  if (!komfortSel) return komfort;
+  // 3. Komfort is the only service selected. Move on to Modus.
+  const modusOk = !!document.querySelector('#screen4 .mode-card.selected');
+  if (!modusOk) return document.getElementById('mode-zuschuss');
+  // 4. HRIS path needs to be triggered.
   if (!hrisAnimDone) return document.getElementById('path-hris');
+  // 5. Everything done — pulse the CTA.
   const cta = document.getElementById('s4-cta');
   return (cta && !cta.disabled) ? cta : null;
 }
