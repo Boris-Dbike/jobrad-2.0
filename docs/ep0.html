@@ -1129,7 +1129,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
 
             <div class="form-section-head" style="margin-top:0;border-top:none;padding-top:0">Verfügbare Pakete</div>
             <div class="service-grid">
-              <div class="service-card selected" id="svc-basis">
+              <div class="service-card" id="svc-basis">
                 <span class="card-check" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L19 7"/></svg>
                 </span>
@@ -1140,7 +1140,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
                   <li>Mobilitätsgarantie</li>
                 </ul>
               </div>
-              <div class="service-card selected" id="svc-komfort">
+              <div class="service-card" id="svc-komfort">
                 <span class="card-check" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L19 7"/></svg>
                 </span>
@@ -1152,7 +1152,7 @@ html.fading-in #scene-fade-overlay{opacity:1}
                   <li>Pannenhilfe 24/7</li>
                 </ul>
               </div>
-              <div class="service-card selected" id="svc-unlimited">
+              <div class="service-card" id="svc-unlimited">
                 <span class="card-check" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l5 5L19 7"/></svg>
                 </span>
@@ -1442,16 +1442,11 @@ function selectPath(which) {
   }
 }
 
-// Service card selection — multi-select. All 3 pre-selected on load (markup).
-// Sara's narrative path: deselect Basis → deselect Unlimited → only Komfort remains.
-// Komfort is the narrative anchor and cannot be deselected — clicking it while
-// selected pulses the card instead of toggling.
+// Service card selection — positive multi-select. Nothing pre-selected on load.
+// Sara's narrative path: actively select Komfort → actively select Unlimited.
+// All cards toggle freely on click — no locks. Hint cascade walks Andi through it.
 document.querySelectorAll('.service-card').forEach(card => {
   card.addEventListener('click', () => {
-    if (card.id === 'svc-komfort' && card.classList.contains('selected')) {
-      pulseHint(card);
-      return;
-    }
     card.classList.toggle('selected');
     checkS4Complete();
   });
@@ -1735,26 +1730,27 @@ function pulseHint(el) {
 }
 
 function getScreen4HintTarget() {
-  // Narrative target: only Komfort selected, Zuschuss picked, HRIS done.
+  // Narrative target: Komfort + Unlimited selected (Basis stays unselected),
+  // Zuschuss picked, HRIS done. Positive multi-select.
   const basis     = document.getElementById('svc-basis');
   const komfort   = document.getElementById('svc-komfort');
   const unlimited = document.getElementById('svc-unlimited');
   const basisSel     = basis     && basis.classList.contains('selected');
   const komfortSel   = komfort   && komfort.classList.contains('selected');
   const unlimitedSel = unlimited && unlimited.classList.contains('selected');
-  const selectedCount = [basisSel, komfortSel, unlimitedSel].filter(Boolean).length;
 
-  // 1. If extras still selected alongside Komfort, nudge to deselect them (Basis first, then Unlimited).
-  if (komfortSel && basisSel)     return basis;
-  if (komfortSel && unlimitedSel) return unlimited;
-  // 2. If Komfort got deselected, pulse Komfort to (re-)select it.
+  // 1. Defensive: if Basis got selected accidentally, invite deselect.
+  if (basisSel) return basis;
+  // 2. Komfort is the first narrative click.
   if (!komfortSel) return komfort;
-  // 3. Komfort is the only service selected. Move on to Modus.
+  // 3. Unlimited is the second narrative click.
+  if (!unlimitedSel) return unlimited;
+  // 4. Modus picked next.
   const modusOk = !!document.querySelector('#screen4 .mode-card.selected');
   if (!modusOk) return document.getElementById('mode-zuschuss');
-  // 4. HRIS path needs to be triggered.
+  // 5. HRIS path needs to be triggered.
   if (!hrisAnimDone) return document.getElementById('path-hris');
-  // 5. Everything done — pulse the CTA.
+  // 6. Everything done — pulse the CTA.
   const cta = document.getElementById('s4-cta');
   return (cta && !cta.disabled) ? cta : null;
 }
