@@ -1901,19 +1901,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
         <div class="inbox-edit">Bearbeiten</div>
       </div>
 
-      <!-- Row 1 — muted -->
-      <div class="inbox-row inbox-row-muted">
-        <div class="inbox-empty-dot"></div>
-        <div class="inbox-app-icon" style="background:#e8e8ed;color:#8e8e93">Li</div>
-        <div class="inbox-meta">
-          <div class="inbox-from-muted">LinkedIn</div>
-          <div class="inbox-subject" style="color:#8e8e93">Du wirst in 3 Beiträgen erwähnt</div>
-          <div class="inbox-preview">Sieh, was deine Kontakte teilen...</div>
-        </div>
-        <div class="inbox-time">Gestern</div>
-      </div>
-
-      <!-- Row 2 — JobRad (highlighted, unread) -->
+      <!-- Row 1 — JobRad (highlighted, unread, newest) -->
       <div class="inbox-row inbox-row-tappable" onclick="closeInboxAndProceed()">
         <div class="inbox-unread-dot"></div>
         <img src="jobrad-icon.png" width="34" height="34" style="flex-shrink:0;margin-top:1px;display:block" alt="JobRad">
@@ -1923,6 +1911,18 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
           <div class="inbox-preview">Klicke auf den Link, um dich anzumelden...</div>
         </div>
         <div class="inbox-time" style="color:#29363C;font-weight:600">Jetzt</div>
+      </div>
+
+      <!-- Row 2 — muted -->
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-empty-dot"></div>
+        <div class="inbox-app-icon" style="background:#e8e8ed;color:#8e8e93">Li</div>
+        <div class="inbox-meta">
+          <div class="inbox-from-muted">LinkedIn</div>
+          <div class="inbox-subject" style="color:#8e8e93">Du wirst in 3 Beiträgen erwähnt</div>
+          <div class="inbox-preview">Sieh, was deine Kontakte teilen...</div>
+        </div>
+        <div class="inbox-time">Gestern</div>
       </div>
 
       <!-- Row 3 — muted -->
