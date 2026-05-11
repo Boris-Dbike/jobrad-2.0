@@ -60,24 +60,76 @@ html.fading-in #scene-fade-overlay{opacity:1}
 .phone-frame{width:300px;border-radius:46px;background:#161616;padding:11px;box-shadow:0 0 0 1px #252525,0 60px 120px rgba(0,0,0,.85),0 0 60px rgba(157,222,76,.06);transform:translateY(50px);opacity:0;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .5s}
 .phone-frame.visible{transform:translateY(0);opacity:1}
 .phone-frame.buzz{animation:phoneBuzz .5s ease-out}
-.phone-screen{border-radius:37px;overflow:hidden;background:linear-gradient(160deg,#1C2820 0%,#0D1410 100%);min-height:540px;position:relative}
-.phone-time-area{text-align:center;padding:52px 0 28px}
-.phone-time-num{font-size:66px;font-weight:200;letter-spacing:-.02em;color:rgba(255,255,255,.9);font-family:'DM Sans',sans-serif;line-height:1}
-.phone-time-date{font-size:12px;color:rgba(255,255,255,.32);margin-top:6px}
-.phone-notif{margin:0 10px;background:rgba(255,255,255,.10);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:14px;padding:11px 13px;cursor:pointer;transform:translateY(-80px);opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1) .35s,opacity .4s ease .35s}
-.phone-notif.visible{transform:translateY(0);opacity:1}
-.phone-notif:hover{background:rgba(255,255,255,.16)}
-.phone-notif:active{transform:scale(.97)}
-.phone-notif-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.phone-notif-icon{width:24px;height:24px;background:var(--green);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#29363C;font-family:'DM Mono',monospace;flex-shrink:0}
-.phone-notif-app{font-size:11px;font-weight:500;color:rgba(255,255,255,.55)}
-.phone-notif-ts{font-size:10px;color:rgba(255,255,255,.28);margin-left:auto}
-.phone-notif-msg{font-size:13px;color:#fff;font-weight:500;line-height:1.4}
-.phone-notif-sub{font-size:11px;color:rgba(255,255,255,.42);margin-top:3px}
+.phone-screen{border-radius:37px;overflow:hidden;background:#f2f2f7;min-height:540px;position:relative}
+
+/* ── Beat 1: Mail-app inbox (replaces previous lock-screen / push-notif).
+   Animation pattern matches the NUV bridge inbox in ep1.html exactly —
+   inbox content appears as one block with the phone shell, no per-row stagger.
+   Buzz pattern is on the phone shell, identical to NUV bridge (.5s phoneBuzz,
+   3.5s loop until tap). ── */
+.inbox-statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 6px;font-size:11px;font-weight:600;color:#000;letter-spacing:.01em}
+.inbox-header{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 10px;border-bottom:.5px solid #c8c8cc;background:#f2f2f7}
+.inbox-back{font-size:13px;color:#007AFF}
+.inbox-title{font-size:16px;font-weight:700;color:#000}
+.inbox-edit{font-size:13px;color:#007AFF}
+.inbox-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px 11px 16px;border-bottom:.5px solid #c8c8cc;background:#fff;cursor:default}
+.inbox-row-tappable{cursor:pointer}
+.inbox-row-tappable:active{background:#e8e8ed}
+.inbox-row-muted{opacity:.4}
+.inbox-row-body{flex:1;min-width:0}
+.inbox-dot{width:8px;height:8px;border-radius:50%;background:#007AFF;margin-top:6px;flex-shrink:0}
+.inbox-dot-spacer{width:8px;flex-shrink:0}
+.inbox-from{font-size:13px;font-weight:700;color:#000;line-height:1.3}
+.inbox-from-muted{font-size:13px;font-weight:400;color:#000;line-height:1.3}
+.inbox-subject{font-size:12px;color:#3c3c43;line-height:1.35;margin-top:1px}
+.inbox-preview{font-size:11px;color:#8e8e93;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.inbox-time{font-size:10px;color:#8e8e93;flex-shrink:0;white-space:nowrap;margin-top:2px}
+
+/* ── Beat 2: Landing page in device shell ── */
+.landing-overlay{display:none;position:fixed;inset:0;background:rgba(10,16,12,.93);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+.landing-overlay.active{display:flex}
+.landing-phone{width:300px;border-radius:46px;background:#161616;padding:11px;box-shadow:0 0 0 1px #252525,0 60px 120px rgba(0,0,0,.85),0 0 60px rgba(157,222,76,.06);transform:translateY(50px);opacity:0;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .5s}
+.landing-phone.visible{transform:translateY(0);opacity:1}
+.landing-screen{border-radius:37px;overflow:hidden;background:#fff;height:560px;max-height:80vh;display:flex;flex-direction:column}
+.landing-label{font-size:12px;color:#fff;letter-spacing:.10em;text-transform:uppercase;text-align:center;opacity:0;transition:opacity .5s .2s}
+.landing-label.visible{opacity:.50}
+.landing-caption{font-size:11px;color:#fff;letter-spacing:.04em;text-align:center;opacity:0;transition:opacity .6s .8s}
+.landing-caption.visible{opacity:.38}
+/* Landing-page header — clone of Emily's .m-nav from ep1 */
+.lp-nav{background:#fff;border-bottom:.5px solid #e6e6e6;padding:18px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.lp-logo{display:flex;align-items:center}
+.lp-wordmark{height:20px;width:auto;display:block}
+.lp-hamburger{display:flex;flex-direction:column;gap:5px;padding:2px 0}
+.lp-hamburger span{display:block;width:20px;height:2px;background:var(--t2);border-radius:1px}
+/* Landing-page scrollable body */
+.lp-body{flex:1;overflow-y:auto;padding:0;background:#fff;-webkit-overflow-scrolling:touch}
+.lp-section{padding:18px 18px}
+.lp-section + .lp-section{border-top:.5px solid #ececec}
+.lp-hero{height:120px;background:repeating-linear-gradient(135deg,#ececec 0,#ececec 8px,#f5f5f5 8px,#f5f5f5 16px);border-radius:8px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.lp-h1{font-size:18px;font-weight:700;color:#29363C;line-height:1.2;letter-spacing:-.01em;margin-bottom:8px}
+.lp-h2{font-size:15px;font-weight:700;color:#29363C;line-height:1.25;margin-bottom:2px}
+.lp-sub{font-size:12px;color:#8e8e93;line-height:1.4;margin-bottom:14px}
+.lp-p{font-size:12px;color:#3c3c43;line-height:1.5}
+.lp-step-grid{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.lp-step{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#f7f7f8;border-radius:10px}
+.lp-step-num{width:24px;height:24px;border-radius:50%;background:#fff;border:1px solid #e6e6e6;color:#29363C;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lp-step-label{font-size:13px;color:#29363C;font-weight:500}
+.lp-banner{background:#f4faea;border:1px solid #c9e89a;border-radius:12px;padding:16px 16px 14px;text-align:center;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.lp-banner:hover{box-shadow:0 4px 12px rgba(157,222,76,.25)}
+.lp-banner:active{transform:scale(.98)}
+.lp-banner-text{font-size:13px;color:#29363C;line-height:1.4;font-weight:500;margin-bottom:14px}
+.lp-banner-btn{display:inline-block;background:var(--green);color:#29363C;border:none;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .15s;pointer-events:none}
+.lp-footer{padding:18px 18px 28px;background:#fafafa;text-align:center;color:#bbb;font-size:10px;letter-spacing:.05em}
+.lp-footer-row{height:8px;background:#ececec;border-radius:4px;margin-bottom:6px}
+.lp-footer-row.short{width:60%;margin:0 auto 6px}
+
+/* ── Beat 3: Typographical ep0→ep1 cinematic (anthracite, single-line, matches s78-text convention) ── */
+#ep01-cinematic{position:fixed;inset:0;z-index:10000;background:#29363C;opacity:0;pointer-events:none;transition:opacity 600ms ease-in-out;display:flex;align-items:center;justify-content:center;padding:40px;text-align:center}
+#ep01-cinematic-text{font-size:clamp(14px,1.8vw,20px);color:#fff;line-height:1.65;max-width:760px;opacity:0;transition:opacity .8s ease}
 .phone-label{font-size:12px;color:#fff;letter-spacing:.10em;text-transform:uppercase;text-align:center;opacity:0;transition:opacity .5s .2s}
 .phone-label.visible{opacity:.50}
 .phone-caption{font-size:11px;color:#fff;letter-spacing:.04em;text-align:center;opacity:0;transition:opacity .6s 1s}
-.phone-caption.visible{opacity:.55}
+.phone-caption.visible{opacity:.38}
 
 /* ── Screen ── */
 .screen{display:none;min-height:100vh}
@@ -1379,6 +1431,38 @@ function showScreen(n, btn) {
 setTimeout(function() {
   const n = parseInt(location.hash.slice(1));
   if (n >= 1 && n <= 5) showScreen(n, document.querySelectorAll('.screen-btn')[n - 1]);
+
+  // Testing shortcuts for Ep. 0 → Ep. 1 transition beats
+  const h = location.hash;
+  if (h === '#transition' || h === '#beat1') {
+    // Land on Screen 5, then auto-trigger phone overlay
+    showScreen(5, document.querySelectorAll('.screen-btn')[4]);
+    setTimeout(() => triggerPhoneOverlay(), 200);
+  } else if (h === '#beat2') {
+    // Jump directly to landing page
+    showScreen(5, document.querySelectorAll('.screen-btn')[4]);
+    document.getElementById('phone-overlay').classList.add('active');
+    setTimeout(() => {
+      const lo = document.getElementById('landing-overlay');
+      const lp = document.getElementById('landing-phone');
+      const lc = document.getElementById('landing-caption');
+      lo.classList.add('active');
+      bindLandingHint();
+      requestAnimationFrame(() => requestAnimationFrame(() => lp.classList.add('visible')));
+      setTimeout(() => { lc.classList.add('visible'); }, 100);
+      document.getElementById('phone-overlay').classList.remove('active');
+    }, 100);
+  } else if (h === '#beat3') {
+    // Jump directly to typographical cinematic (testing only — won't navigate to ep1)
+    showScreen(5, document.querySelectorAll('.screen-btn')[4]);
+    setTimeout(() => {
+      const cinematic = document.getElementById('ep01-cinematic');
+      const text      = document.getElementById('ep01-cinematic-text');
+      cinematic.style.opacity = '1';
+      cinematic.style.pointerEvents = 'all';
+      setTimeout(() => { text.style.opacity = '.72'; }, 700);
+    }, 200);
+  }
 }, 0);
 
 // Screen 3 — toggle to pending state
@@ -1695,24 +1779,21 @@ let buzzInterval = null;
 function triggerPhoneOverlay() {
   const overlay = document.getElementById('phone-overlay');
   const frame   = document.getElementById('phone-frame');
-  const notif   = document.getElementById('phone-notif');
   const caption = document.getElementById('phone-caption');
   const label   = document.getElementById('phone-label');
   if (!overlay) return;
 
+  // Matches NUV bridge pattern in ep1.html — phone shell slides up with full
+  // inbox visible inside, then buzz fires once phone settled + loops every 3.5s.
   overlay.classList.add('active');
-  // Phone slides up
   requestAnimationFrame(() => {
     requestAnimationFrame(() => { frame.classList.add('visible'); });
   });
-  // Notification drops in (handled by CSS transition delay .35s)
-  setTimeout(() => { notif.classList.add('visible'); }, 50);
-  // Initial buzz after notification lands
+  // Initial buzz once phone has settled (matches NUV bridge timing)
   setTimeout(() => {
     doBuzz(frame);
-    // Recurring buzz every 3.5s until Andi taps
     buzzInterval = setInterval(() => doBuzz(frame), 3500);
-  }, 850);
+  }, 900);
   // Label + caption fade in
   setTimeout(() => { label.classList.add('visible'); caption.classList.add('visible'); }, 100);
 }
@@ -1793,15 +1874,83 @@ document.addEventListener('click', function(e) {
   }
 });
 
-function goToEp1() {
+// Beat 2 hint system — click outside the device shell pulses the banner.
+// Mirrors the off-content fireHint pattern in Ep. 0 screens 1-4.
+function bindLandingHint() {
+  const overlay = document.getElementById('landing-overlay');
+  if (!overlay || overlay.dataset.hintBound) return;
+  overlay.dataset.hintBound = '1';
+  overlay.addEventListener('click', function(e) {
+    // Only fire when the click is on the overlay background or the caption,
+    // never when it's on the phone shell content (which has its own interactions).
+    if (e.target === overlay
+        || e.target.classList.contains('landing-caption')) {
+      pulseHint(document.getElementById('lp-banner'));
+    }
+  });
+}
+
+// Beat 1 → Beat 2: Andi taps JobRad inbox row → close phone overlay, open landing overlay
+function goToLanding() {
   if (buzzInterval) { clearInterval(buzzInterval); buzzInterval = null; }
-  const notif = document.getElementById('phone-notif');
-  if (notif) { notif.style.transform = 'scale(.95)'; notif.style.opacity = '.7'; }
-  // Trigger anthracite fade-out, then navigate (matches ep1 Scene 1 → Scene 2 dissolve pattern)
+  const phoneOverlay = document.getElementById('phone-overlay');
+  const phoneFrame   = document.getElementById('phone-frame');
+  const phoneLabel   = document.getElementById('phone-label');
+  const phoneCaption = document.getElementById('phone-caption');
+  const landingOverlay = document.getElementById('landing-overlay');
+  const landingPhone   = document.getElementById('landing-phone');
+  const landingCaption = document.getElementById('landing-caption');
+
+  // Cross-fade between overlays: landing-overlay slides in while phone-overlay fades out
+  landingOverlay.classList.add('active');
+  bindLandingHint();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { landingPhone.classList.add('visible'); });
+  });
+  setTimeout(() => { landingCaption.classList.add('visible'); }, 100);
+  // Briefly delay then remove the old phone-overlay (the anthracite is shared so this is invisible)
   setTimeout(() => {
+    phoneOverlay.classList.remove('active');
+    phoneFrame.classList.remove('visible');
+    phoneLabel.classList.remove('visible');
+    phoneCaption.classList.remove('visible');
+  }, 700);
+}
+
+// Beat 2 → Beat 3: Andi taps the banner → fire typographical transition → ep1
+function goToBeat3() {
+  const cinematic = document.getElementById('ep01-cinematic');
+  const text      = document.getElementById('ep01-cinematic-text');
+  const landingOverlay = document.getElementById('landing-overlay');
+  const landingPhone   = document.getElementById('landing-phone');
+  const landingCaption = document.getElementById('landing-caption');
+
+  // reset text
+  text.style.opacity = '0';
+  // beat 1: anthracite cinematic fades in (over the landing overlay)
+  cinematic.style.opacity = '1';
+  cinematic.style.pointerEvents = 'all';
+  // Remove landing phone shell as cinematic takes over
+  setTimeout(() => {
+    landingPhone.classList.remove('visible');
+    landingCaption.classList.remove('visible');
+  }, 50);
+  // beat 2: line appears (matches s78-text convention)
+  setTimeout(() => { text.style.opacity = '.72'; }, 700);
+  // beat 3: hold so the audience reads it
+  setTimeout(() => { text.style.opacity = '0'; }, 700 + 800 + 3200); // 3200ms hold after settled
+  // beat 4: fade everything and navigate
+  setTimeout(() => {
+    landingOverlay.classList.remove('active');
+    // Trigger ep1 navigation (existing pattern — fades to anthracite then loads ep1)
     document.documentElement.classList.add('fading-in');
     setTimeout(() => { window.location.href = 'ep1.html?from=ep0'; }, 425);
-  }, 180);
+  }, 700 + 800 + 3200 + 800);
+}
+
+// Legacy alias — if anything still calls goToEp1 directly, route through the new flow
+function goToEp1() {
+  goToLanding();
 }
 
 // ── Page-transition fade-out (when arriving from another page) ──
@@ -1901,28 +2050,103 @@ function fadeNavigate(url) {
   <div class="phone-frame" id="phone-frame">
     <div class="phone-screen">
       <!-- Status bar -->
-      <div style="padding:13px 22px 0;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace">
+      <div class="inbox-statusbar" id="inbox-statusbar">
         <span>9:41</span>
         <span>●●● 5G</span>
       </div>
-      <!-- Clock -->
-      <div class="phone-time-area">
-        <div class="phone-time-num">9:41</div>
-        <div class="phone-time-date">Montag, 4. Mai</div>
+      <!-- Mail app header -->
+      <div class="inbox-header" id="inbox-header">
+        <span class="inbox-back">‹</span>
+        <span class="inbox-title">Posteingang</span>
+        <span class="inbox-edit">Edit</span>
       </div>
-      <!-- Push notification — tap to enter Ep. 1 -->
-      <div class="phone-notif" id="phone-notif" onclick="goToEp1()">
-        <div class="phone-notif-head">
-          <img src="jobrad-icon.png" width="24" height="24" style="border-radius:6px;display:block;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(157,222,76,.45)" alt="JobRad">
-          <span class="phone-notif-app">JobRad</span>
-          <span class="phone-notif-ts">jetzt</span>
+      <!-- Inbox rows: JobRad (unread, tappable) + 2 muted TechCraft. All 3 visible from start. -->
+      <div class="inbox-row inbox-row-tappable" id="inbox-row-jobrad" onclick="goToLanding()">
+        <div class="inbox-dot"></div>
+        <div class="inbox-row-body">
+          <div class="inbox-from">JobRad</div>
+          <div class="inbox-subject" style="font-weight:600;color:#000">Willkommen bei JobRad, Emily!</div>
+          <div class="inbox-preview">Hallo Emily, dein Arbeitgeber TechCraft bietet ab sofort Dienstradleasing über JobRad an. Finde dein Wunsch...</div>
         </div>
-        <div class="phone-notif-msg">Dein Unternehmen <strong>TechCraft</strong> bietet jetzt JobRad an.</div>
-        <div class="phone-notif-sub">Entdecke Dienstrad-Leasing für dich →</div>
+        <div class="inbox-time" style="color:#29363C;font-weight:600">Jetzt</div>
+      </div>
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-dot-spacer"></div>
+        <div class="inbox-row-body">
+          <div class="inbox-from-muted">TechCraft GmbH</div>
+          <div class="inbox-subject" style="color:#8e8e93">Ab sofort bei TechCraft: Dienstradleasing über JobRad.</div>
+          <div class="inbox-preview">Liebes Team, ein neues Benefit für euch: ihr könnt ab heute euer Dienstrad über JobRad leasen. Die wichtigsten Infos...</div>
+        </div>
+        <div class="inbox-time">Heute</div>
+      </div>
+      <div class="inbox-row inbox-row-muted">
+        <div class="inbox-dot-spacer"></div>
+        <div class="inbox-row-body">
+          <div class="inbox-from-muted">TechCraft GmbH</div>
+          <div class="inbox-subject" style="color:#8e8e93">Daily Update · KW 19 im Überblick</div>
+          <div class="inbox-preview">Hi Team, die wichtigsten Updates der Woche: neue Hires, Q2-Zahlen, Office Hours…</div>
+        </div>
+        <div class="inbox-time">Gestern</div>
       </div>
     </div>
   </div>
   <div class="phone-caption" id="phone-caption">649 weitere Mitarbeiter:innen wurden benachrichtigt</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     BEAT 2 — Landing page in device shell
+══════════════════════════════════════ -->
+<div class="landing-overlay" id="landing-overlay">
+  <div class="landing-phone" id="landing-phone">
+    <div class="landing-screen">
+      <!-- Header: JobRad wordmark + hamburger (matches Emily's zone in ep1) -->
+      <div class="lp-nav">
+        <div class="lp-logo">
+          <img src="jobrad-wordmark-anthrazit.svg" class="lp-wordmark" alt="JobRad">
+        </div>
+        <div class="lp-hamburger"><span></span><span></span><span></span></div>
+      </div>
+      <!-- Scrollable body -->
+      <div class="lp-body">
+        <!-- Intro / hero section -->
+        <div class="lp-section">
+          <div class="lp-hero">Hero-Bild</div>
+          <div class="lp-h1">Dienstradleasing: einfach gedacht.</div>
+          <div class="lp-p">Mit JobRad findest du dein nächstes Fahrrad, sparst über deine Gehaltsumwandlung und profitierst von einem Komplettservice — alles aus einer Hand.</div>
+        </div>
+        <!-- 3-step section -->
+        <div class="lp-section">
+          <div class="lp-h2">Und so einfach geht's:</div>
+          <div class="lp-step-grid">
+            <div class="lp-step"><span class="lp-step-num">1</span><span class="lp-step-label">Fahrrad aussuchen</span></div>
+            <div class="lp-step"><span class="lp-step-num">2</span><span class="lp-step-label">Händlertermin vereinbaren</span></div>
+            <div class="lp-step"><span class="lp-step-num">3</span><span class="lp-step-label">Losfahren</span></div>
+          </div>
+        </div>
+        <!-- Banner block (Layout B) — entire block clickable -->
+        <div class="lp-section">
+          <div class="lp-banner" id="lp-banner" onclick="goToBeat3()">
+            <div class="lp-banner-text">Das alles und noch viel mehr bietet dir die JobRad-App.</div>
+            <button class="lp-banner-btn" id="lp-banner-btn" tabindex="-1">Jetzt ausprobieren!</button>
+          </div>
+        </div>
+        <!-- Footer placeholder -->
+        <div class="lp-footer">
+          <div class="lp-footer-row"></div>
+          <div class="lp-footer-row short"></div>
+          <div style="margin-top:14px">© JobRad · jobrad.org</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="landing-caption" id="landing-caption">Emily entdeckt die JobRad-Landingpage → Scrolle zum Banner und tippe darauf.</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     BEAT 3 — Typographical Ep. 0 → Ep. 1 cinematic
+══════════════════════════════════════ -->
+<div id="ep01-cinematic">
+  <div id="ep01-cinematic-text">Emily lädt die JobRad-App und öffnet den Bike Finder.</div>
 </div>
 
 </body>
