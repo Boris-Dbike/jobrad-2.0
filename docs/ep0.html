@@ -1444,9 +1444,14 @@ function selectPath(which) {
 
 // Service card selection — positive multi-select. Nothing pre-selected on load.
 // Sara's narrative path: actively select Komfort → actively select Unlimited.
-// All cards toggle freely on click — no locks. Hint cascade walks Andi through it.
+// Basis is non-selectable (TechCraft doesn't offer it) — clicking it pulses the
+// next narrative target instead of toggling. Komfort + Unlimited toggle freely.
 document.querySelectorAll('.service-card').forEach(card => {
   card.addEventListener('click', () => {
+    if (card.id === 'svc-basis') {
+      pulseHint(getScreen4HintTarget());
+      return;
+    }
     card.classList.toggle('selected');
     checkS4Complete();
   });
