@@ -1951,6 +1951,7 @@ textarea.m-note[data-locked]{opacity:.42;cursor:default}
 
     </div><!-- /inbox-screen -->
   </div><!-- /inbox-frame -->
+  <div class="nuv-caption" id="inbox-caption">Emily erhält ihren Anmeldelink → Tippe auf die JobRad-Mail</div>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -2958,11 +2959,13 @@ function showInboxOverlay() {
   const overlay = document.getElementById('inbox-overlay');
   const frame   = document.getElementById('inbox-frame');
   const label   = document.getElementById('inbox-label');
+  const caption = document.getElementById('inbox-caption');
   overlay.classList.add('active');
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       frame.classList.add('visible');
       label.classList.add('visible');
+      if (caption) caption.classList.add('visible');
     });
   });
 }
@@ -2971,9 +2974,11 @@ function closeInboxAndProceed() {
   const overlay = document.getElementById('inbox-overlay');
   const frame   = document.getElementById('inbox-frame');
   const label   = document.getElementById('inbox-label');
+  const caption = document.getElementById('inbox-caption');
   overlay.classList.remove('active');
   frame.classList.remove('visible');
   label.classList.remove('visible');
+  if (caption) caption.classList.remove('visible');
   showScene('R', document.getElementById('btnR'));
 }
 
@@ -3187,7 +3192,7 @@ function goNuvInbox() {
     caption.style.opacity = '0';
     caption.style.transition = 'opacity .2s';
     setTimeout(() => {
-      caption.textContent = 'Emily sieht den Vertragsentwurf in ihrem Postfach. → Tippe auf die E-Mail';
+      caption.textContent = 'Emily sieht den Vertragsentwurf in ihrem Postfach. → Tippe auf die JobRad-Mail';
       caption.style.opacity = '.38';
     }, 250);
   }, 260);
