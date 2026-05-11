@@ -2801,20 +2801,28 @@ function goToDealer() {
   const notif = document.getElementById('nuv-notif');
   if (notif) { notif.style.transform = 'scale(.96)'; notif.style.opacity = '.7'; }
   setTimeout(() => {
-    document.getElementById('nuv-overlay').classList.remove('active');
+    // 1. Fade out the phone shell (NUV overlay's anthracite background stays visible).
     document.getElementById('nuv-phone').classList.remove('visible');
     document.getElementById('nuv-notif').classList.remove('visible');
     document.getElementById('nuv-caption').classList.remove('visible');
-    document.getElementById('nuv-phone').style.transform = '';
-    document.getElementById('nuv-phone').style.opacity = '';
-    document.getElementById('nuv-notif').style.transform = '';
-    document.getElementById('nuv-notif').style.opacity = '';
-    // reset inbox state for re-entry
-    const lock = document.getElementById('nuv-lockscreen');
-    const inbox = document.getElementById('nuv-inbox-screen');
-    lock.style.display = ''; lock.style.opacity = ''; lock.style.transition = '';
-    inbox.classList.remove('visible'); inbox.style.display = 'none';
+    // 2. Start Übergabe fading in. It's at z 9000, behind nuv-overlay's z 9999 — so the
+    //    audience sees the NUV anthracite the whole time. Übergabe is invisibly fading
+    //    in underneath.
     runUebergabeUberblendung();
+    // 3. After Übergabe reaches full anthracite (CSS transition is 600ms; add a small
+    //    buffer), remove nuv-overlay. No flash because Übergabe is now full anthracite.
+    setTimeout(() => {
+      document.getElementById('nuv-overlay').classList.remove('active');
+      document.getElementById('nuv-phone').style.transform = '';
+      document.getElementById('nuv-phone').style.opacity = '';
+      document.getElementById('nuv-notif').style.transform = '';
+      document.getElementById('nuv-notif').style.opacity = '';
+      // reset inbox state for re-entry
+      const lock = document.getElementById('nuv-lockscreen');
+      const inbox = document.getElementById('nuv-inbox-screen');
+      lock.style.display = ''; lock.style.opacity = ''; lock.style.transition = '';
+      inbox.classList.remove('visible'); inbox.style.display = 'none';
+    }, 650);
   }, 200);
 }
 
