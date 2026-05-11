@@ -1931,8 +1931,11 @@ function goToBeat3() {
   // beat 1: anthracite cinematic fades in (over the landing overlay)
   cinematic.style.opacity = '1';
   cinematic.style.pointerEvents = 'all';
-  // Remove landing phone shell as cinematic takes over
+  // Remove landing phone shell as cinematic takes over — OPACITY ONLY, no slide-down.
+  // Pin transform inline to translateY(0) so removing .visible doesn't trigger the
+  // CSS slide-back-to-translateY(50px) animation. Only opacity transitions.
   setTimeout(() => {
+    landingPhone.style.transform = 'translateY(0)';
     landingPhone.classList.remove('visible');
     landingCaption.classList.remove('visible');
   }, 50);

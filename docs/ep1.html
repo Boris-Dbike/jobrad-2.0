@@ -2801,13 +2801,18 @@ function goToDealer() {
   const notif = document.getElementById('nuv-notif');
   if (notif) { notif.style.transform = 'scale(.96)'; notif.style.opacity = '.7'; }
   setTimeout(() => {
-    // 1. Fade out the phone shell (NUV overlay's anthracite background stays visible).
-    document.getElementById('nuv-phone').classList.remove('visible');
-    document.getElementById('nuv-notif').classList.remove('visible');
+    // 1. Phone shell fades out — OPACITY ONLY, no slide-down. We pin the transform
+    //    inline to translateY(0) so removing .visible doesn't trigger the CSS
+    //    slide-back-to-translateY(50px) animation. Only opacity transitions.
+    const phone = document.getElementById('nuv-phone');
+    const notif = document.getElementById('nuv-notif');
+    phone.style.transform = 'translateY(0)';
+    notif.style.transform = 'translateY(0)';
+    phone.classList.remove('visible');
+    notif.classList.remove('visible');
     document.getElementById('nuv-caption').classList.remove('visible');
-    // 2. Start Übergabe fading in. It's at z 9000, behind nuv-overlay's z 9999 — so the
-    //    audience sees the NUV anthracite the whole time. Übergabe is invisibly fading
-    //    in underneath.
+    // 2. Start Übergabe fading in BEHIND the still-active nuv-overlay (z 9000 vs 9999).
+    //    Audience continues to see the NUV anthracite while Übergabe invisibly fills in.
     runUebergabeUberblendung();
     // 3. After Übergabe reaches full anthracite (CSS transition is 600ms; add a small
     //    buffer), remove nuv-overlay. No flash because Übergabe is now full anthracite.
